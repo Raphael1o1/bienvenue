@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<title>Bienvenue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+/* Mise en page : une colonne mobile (560 px max), onglets fixes en bas, fiches en panneau qui monte du bas */
+:root{
+  --bg:#FFFFFF; --alt:#F7F7F7; --ph:#EFEFEF; --ink:#222222; --ink2:#484848; --muted:#6A6A6A;
+  --line:#DDDDDD; --line-soft:#EBEBEB; --line-strong:#B0B0B0;
+  --accent:#D2364D; --accent-ink:#FFFFFF; --accent-text:#D2364D;
+  --on:#222222; --on-ink:#FFFFFF;
+  --ok:#1E7B4A; --ok-bg:#E8F5EE; --warn:#9A5600; --warn-bg:#FDF1E0; --warn-ink:#3D2A10; --warn-title:#7A4500;
+  --crit:#C13515; --crit-bg:#FDECEA; --sos:#B42318; --sos-bg:#FDECEA;
+  --ebike:#2E6DB4; --dot-works:#D98A1C;
+  --enamel:#1D3F72; --frame:#2C6A4D;
+  --shadow:0 6px 16px rgba(0,0,0,.08);
+  --font:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --plaque:"Barlow Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --gutter:max(20px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(20px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#141414; --alt:#1F1F21; --ph:#29292B; --ink:#F2F2F2; --ink2:#D0D0D0; --muted:#A3A3A3;
+    --line:#3A3A3C; --line-soft:#2A2A2C; --line-strong:#58585B;
+    --accent-text:#FF7A8C; --on:#F2F2F2; --on-ink:#141414;
+    --ok:#5BC98F; --ok-bg:#12291E; --warn:#F2A93B; --warn-bg:#2D2110; --warn-ink:#F3DDBA; --warn-title:#F2A93B;
+    --crit:#FF7B6B; --crit-bg:#351815; --sos:#FF8A7A; --sos-bg:#351815;
+    --ebike:#6FA8E8; --dot-works:#F2A93B;
+    --shadow:0 6px 16px rgba(0,0,0,.45);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:20}
+[hidden]{display:none!important}
+img{max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent-text);outline-offset:2px;border-radius:8px}
+h1,h2,h3{margin:0;text-wrap:balance}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+.pad{max-width:560px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.view{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.xs{font-size:13px}
+
+/* En-têtes */
+.vh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-top:max(18px, calc(env(safe-area-inset-top,0px) + 10px));padding-bottom:6px}
+.vh h1{font-size:28px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.vh p{margin:4px 0 0;color:var(--muted);font-size:15px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
+.lang button{border:0;border-radius:999px;min-width:46px;height:40px;font-weight:600;font-size:14px;background:transparent;color:var(--muted);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
+.meteo{display:flex;align-items:center;gap:10px;min-width:0}
+.meteo svg{width:30px;height:30px;flex:none}
+.meteo b{display:block;font-size:15px;font-weight:600;line-height:1.25}
+.meteo span{display:block;font-size:13px;color:var(--muted);line-height:1.25}
+
+/* Plaque de rue */
+.plaque-zone{padding-top:44px}
+.plaque{position:relative;background:var(--enamel);border:6px solid var(--frame);border-radius:14px;padding:7px;color:#FFFFFF;box-shadow:var(--shadow)}
+.plaque-tab{position:absolute;left:50%;top:-34px;transform:translateX(-50%);background:var(--enamel);border:6px solid var(--frame);border-bottom:0;border-radius:12px 12px 0 0;padding:4px 18px 2px;font-family:var(--plaque);font-weight:600;font-size:16px;letter-spacing:.04em;white-space:nowrap}
+.plaque-tab sup{font-size:.65em}
+.plaque-in{border:2px solid rgba(255,255,255,.92);border-radius:7px;padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.plaque-kicker{font-family:var(--plaque);font-weight:600;font-size:14px;letter-spacing:.2em;text-transform:uppercase}
+.plaque h1{font-family:var(--plaque);font-weight:700;font-size:clamp(52px,16vw,72px);line-height:.95;letter-spacing:.03em;text-transform:uppercase}
+
+.host{display:flex;align-items:center;gap:14px;padding-top:22px}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--on);color:var(--on-ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;flex:none}
+.host b{display:block;font-size:16px;font-weight:600}
+.host span{display:block;font-size:14px;color:var(--muted);line-height:1.4}
+
+/* Cartes et boutons */
+.stack{display:flex;flex-direction:column;gap:12px}
+.box{border:1px solid var(--line-strong);border-radius:12px;overflow:hidden}
+.box-row{padding:12px 14px;display:flex;align-items:center;gap:12px}
+.box-row + .box-row{border-top:1px solid var(--line-strong)}
+.label{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.pwd{font-size:18px;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums;user-select:all;-webkit-user-select:all}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 16px;border-radius:10px;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font-size:15px;font-weight:600;text-decoration:none;cursor:pointer}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-block{display:flex;width:100%}
+.btn-pill{border-radius:999px;border-color:var(--line);min-height:44px;font-size:14px}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.row-link{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--bg);width:100%;text-align:left;cursor:pointer}
+.row-link .t{flex:1;min-width:0}
+.row-link b{display:block;font-size:15px;font-weight:600}
+.row-link span.s{display:block;font-size:13px;color:var(--muted)}
+.chev{width:18px;height:18px;color:var(--muted);flex:none}
+.ico{width:24px;height:24px;flex:none}
+
+.sec{padding-top:28px}
+.sec + .sec{border-top:1px solid var(--line-soft);margin-top:28px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sec h2{font-size:22px;font-weight:600}
+.sec h3{font-size:17px;font-weight:600}
+.pill{display:inline-flex;align-items:center;padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:600;white-space:nowrap}
+
+/* Raccourcis */
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.shortcut{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;height:96px;padding:16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink);background:var(--bg);text-align:left;cursor:pointer}
+.shortcut svg{width:28px;height:28px}
+.shortcut span{font-size:15px;font-weight:600;line-height:1.2}
+
+/* Sous-menu collant */
+.subnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line-soft);margin-top:8px}
+.subnav .pad{display:flex;gap:24px;overflow-x:auto;scrollbar-width:none}
+.subnav a{padding:12px 0;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.subnav a[aria-current="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
+[id^="s-"]{scroll-margin-top:calc(56px + env(safe-area-inset-top,0px))}
+
+/* Liste d'équipements */
+.list{display:flex;flex-direction:column}
+.list-item{display:flex;align-items:center;gap:16px;min-height:66px;padding:6px 0;border:0;border-bottom:1px solid var(--line-soft);background:none;text-align:left;cursor:pointer;color:var(--ink);text-decoration:none;width:100%}
+.list-item:last-child{border-bottom:0}
+.list-item .t{flex:1;min-width:0}
+.list-item b{display:block;font-size:16px;font-weight:500}
+.list-item span.s{display:block;font-size:13px;color:var(--muted)}
+.list-item .ico{width:26px;height:26px}
+
+/* Étapes */
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:n}
+.steps li{display:flex;gap:14px;align-items:flex-start;counter-increment:n}
+.steps li::before{content:counter(n);width:28px;height:28px;border-radius:50%;background:var(--on);color:var(--on-ink);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex:none}
+.steps.outline li::before{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.steps li span{font-size:15px;line-height:1.45;padding-top:3px}
+.callout{padding:14px 16px;border-radius:12px;background:var(--warn-bg);color:var(--warn-ink);display:flex;flex-direction:column;gap:8px}
+.callout b{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--warn-title)}
+.callout ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
+.callout p{margin:0;font-size:14px;line-height:1.45}
+.soft{padding:16px;border-radius:16px;background:var(--alt);display:flex;flex-direction:column;gap:12px}
+
+/* Check-list */
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.check label{display:flex;align-items:center;gap:14px;min-height:54px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.check input{appearance:none;-webkit-appearance:none;margin:0;width:24px;height:24px;flex:none;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--bg);display:grid;place-items:center;cursor:pointer}
+.check input:checked{background:var(--on);border-color:var(--on)}
+.check input:checked::after{content:"";width:6px;height:11px;border:solid var(--on-ink);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+.check span{font-size:15px;line-height:1.4}
+.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{flex:1;height:6px;border-radius:99px;background:var(--line-soft);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--on);border-radius:99px;transition:width .25s}
+
+/* Lignes de transport */
+.ln{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--lc);color:var(--lt);font-size:14px;font-weight:700;flex:none;line-height:1}
+.ln.rer{border-radius:7px}
+.station{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.station b{flex:1;min-width:0;font-size:15px;font-weight:600}
+.station .lns{display:flex;gap:5px}
+.card{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.live.off::before{background:var(--muted)}
+.trow{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 12px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--alt)}
+.trow .msg{grid-column:2;font-size:14px;line-height:1.4;color:var(--muted)}
+.st{justify-self:start;display:inline-flex;padding:3px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.st.ok{background:var(--ok-bg);color:var(--ok)}
+.st.works,.st.info{background:var(--warn-bg);color:var(--warn)}
+.st.warn,.st.crit{background:var(--crit-bg);color:var(--crit)}
+.st.unknown{background:var(--alt);color:var(--muted);border:1px solid var(--line)}
+.net{display:flex;flex-wrap:wrap;gap:10px}
+.net button{position:relative;border:0;padding:0;background:none;cursor:pointer;border-radius:50%}
+.net button.rer{border-radius:9px}
+.net .ln{width:36px;height:36px;font-size:15px}
+.net .dot{position:absolute;right:-3px;top:-3px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg)}
+.net button[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:2px}
+.dot.ok{background:var(--ok)} .dot.works,.dot.info{background:var(--dot-works)} .dot.warn,.dot.crit{background:var(--crit)} .dot.unknown{background:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%}
+
+/* Vélib' */
+.vcard{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.vhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.vhead b{display:block;font-size:16px;font-weight:600}
+.vstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vstats div{display:flex;flex-direction:column;gap:2px}
+.vstats strong{display:flex;align-items:center;gap:6px;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.vstats strong svg{width:20px;height:20px}
+.vstats span{font-size:12px;color:var(--muted)}
+.vbar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:var(--line-soft)}
+.vbar i{display:block;height:100%}
+
+/* Événements */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:14px;font-weight:600;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--on);border-color:var(--on);color:var(--on-ink)}
+.events{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:22px}
+.ev{display:flex;flex-direction:column;gap:10px}
+.ev-media{position:relative;aspect-ratio:16/10;max-width:100%;border-radius:16px;overflow:hidden;background:var(--ph)}
+.ev-media img{width:100%;height:100%;object-fit:cover;display:block}
+.ev-media .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.ev-media .ph svg{width:34px;height:34px}
+.ev-free{position:absolute;left:12px;top:12px;padding:5px 10px;border-radius:999px;background:#FFFFFF;color:#222222;font-size:13px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.ev-save{position:absolute;right:6px;top:6px;width:44px;height:44px;border:0;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ev-save svg{width:26px;height:26px}
+.ev a.ev-link{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:2px}
+.ev-title{font-size:15px;font-weight:600}
+.ev-meta{font-size:15px;color:var(--muted)}
+.state{margin:0;padding:14px;border-radius:12px;border:1px dashed var(--line);color:var(--muted);font-size:15px}
+.hscroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.exp{flex:none;width:160px;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);scroll-snap-align:start}
+.exp .img{height:160px;border-radius:12px;background:var(--ph);overflow:hidden}
+.exp .img img{width:100%;height:100%;object-fit:cover}
+.exp b{font-size:14px;font-weight:600;line-height:1.3}
+.place{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.place:last-child{border-bottom:0}
+.place .t{flex:1;min-width:0}
+.place b{display:block;font-size:15px;font-weight:600}
+.place span{display:block;font-size:14px;color:var(--muted)}
+.iconbtn{width:44px;height:44px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;color:var(--ink);background:var(--bg);cursor:pointer}
+.iconbtn svg{width:20px;height:20px}
+
+/* Urgences */
+.e112{display:flex;align-items:center;gap:16px;padding:18px;border-radius:16px;background:var(--sos-bg);text-decoration:none;color:var(--ink)}
+.e112 strong{font-size:44px;font-weight:700;line-height:1;color:var(--sos)}
+.e112 .t{flex:1}
+.e112 b{display:block;font-size:16px;font-weight:600}
+.e112 span{display:block;font-size:14px;color:var(--ink2);line-height:1.35}
+.enum{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink)}
+.enum strong{font-size:28px;font-weight:700;line-height:1.1;color:var(--sos)}
+.enum span{font-size:14px;color:var(--muted);line-height:1.35}
+.erow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;text-decoration:none;color:var(--ink)}
+.erow strong{font-size:18px;font-weight:700;color:var(--sos);white-space:nowrap}
+
+/* Onglets */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--bg);border-top:1px solid var(--line-soft);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar .pad{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-top:6px;padding-bottom:8px}
+.tabbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:52px;color:var(--muted);font-size:11px;font-weight:500;cursor:pointer}
+.tabbar button svg{width:24px;height:24px}
+.tabbar button[aria-current="page"]{color:var(--accent-text);font-weight:600}
+
+/* Panneau (fiche) */
+dialog.sheet{position:fixed;inset:auto 0 0 0;margin:0 auto;width:100%;max-width:560px;max-height:92vh;max-height:92dvh;padding:0;border:0;border-radius:16px 16px 0 0;background:var(--bg);color:var(--ink);box-shadow:0 -8px 28px rgba(0,0,0,.2)}
+dialog.sheet[open]{display:flex;flex-direction:column;animation:monte .22s ease-out}
+dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
+@keyframes monte{from{transform:translateY(28px);opacity:.6}}
+.grip{width:36px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0;flex:none}
+.sheet-head{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;padding:6px 12px 10px;border-bottom:1px solid var(--line-soft);flex:none}
+.sheet-head h2{text-align:center;font-size:16px;font-weight:600}
+.close{width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.close svg{width:18px;height:18px}
+.sheet-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;display:flex;flex-direction:column;gap:22px}
+.sheet-body p{margin:0}
+.sheet-body .lead{font-size:15px;line-height:1.5;color:var(--ink2)}
+.fsec{display:flex;flex-direction:column;gap:10px}
+.fsec.sep{padding-top:18px;border-top:1px solid var(--line-soft)}
+.fsec h3{font-size:17px;font-weight:600}
+.fsec .txt{font-size:15px;line-height:1.5;color:var(--ink2)}
+.fsec ul.puces{margin:0;padding-left:18px;font-size:15px;line-height:1.5;color:var(--ink2)}
+.badge{padding:3px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-weight:600;white-space:nowrap}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:4px;border-radius:12px;background:var(--alt)}
+.seg button{height:40px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.figure img{width:100%;height:auto;display:block;border:1px solid var(--line-soft);border-radius:12px;background:#FFFFFF}
+.figure figcaption{font-size:13px;color:var(--muted)}
+.vid{width:44px;height:44px;border-radius:50%;background:var(--on);color:var(--on-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.sheet-foot{display:flex;gap:12px;padding:12px 20px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line-soft);flex:none}
+.sheet-foot .btn{flex:1}
+.qrbox{background:#FFFFFF;border-radius:16px;padding:16px;max-width:300px;width:100%;margin:0 auto}
+.qrbox svg{display:block;width:100%;height:auto}
+
+/* Écran verrouillé */
+.lock{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-top:40px;padding-bottom:40px}
+.lock p{margin:0;text-align:center;font-size:17px;line-height:1.5}
+.lock p + p{color:var(--muted);font-size:15px}
+.bye{text-align:center;padding-top:36px;font-family:var(--plaque);font-weight:700;font-size:26px;letter-spacing:.06em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div id="lock" class="pad lock" hidden>
+  <div class="plaque-zone">
+    <div class="plaque">
+      <div class="plaque-tab">Paris</div>
+      <div class="plaque-in">
+        <span class="plaque-kicker">Livret d'accueil</span>
+        <h1>Bienvenue</h1>
+      </div>
+    </div>
+  </div>
+  <p id="lockMsg">Ce livret s'ouvre avec le QR code du présentoir, dans le studio.</p>
+  <p id="lockMsgEn">This guide opens with the QR code on the stand, inside the studio.</p>
+</div>
+
+<div id="app" hidden>
+  <section class="view" id="v-accueil" aria-label="Accueil"></section>
+  <section class="view" id="v-studio" aria-label="Studio" hidden></section>
+  <section class="view" id="v-transports" aria-label="Transports" hidden></section>
+  <section class="view" id="v-sorties" aria-label="Sorties" hidden></section>
+  <section class="view" id="v-aide" aria-label="Aide" hidden></section>
+  <nav class="tabbar" aria-label="Navigation principale"><div class="pad" id="tabbar"></div></nav>
+</div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetTitle">
+  <div class="grip" aria-hidden="true"></div>
+  <div class="sheet-head">
+    <button class="close" type="button" id="sheetClose" aria-label="Fermer"></button>
+    <h2 id="sheetTitle"></h2>
+    <span></span>
+  </div>
+  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-foot" id="sheetFoot"></div>
+</dialog>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ───────── Textes de l'interface ───────── */
+  const UI = {
+    fr: {
+      tab_accueil: "Accueil", tab_studio: "Studio", tab_transports: "Transports", tab_sorties: "Sorties", tab_aide: "Aide",
+      welcome: "Bienvenue", kicker: "Livret d'accueil", parisTime: "à Paris", hostLine: (p) => `Votre hôte : ${p}`,
+      wifiNet: "Réseau Wi-Fi", wifiPwd: "Mot de passe", copyPwd: "Copier", copied: "Copié", qrBtn: "QR code",
+      wifiHint: "Le plus simple : scannez le QR au dos du présentoir, votre téléphone se connecte tout seul.",
+      departRow: (h) => `Départ avant ${h}`, departSub: "La check-list avant de partir",
+      allStay: "Tout votre séjour",
+      sc_guide: "Mode d'emploi", sc_depart: "Départ", sc_metro: "Métro", sc_velib: "Vélib'", sc_sorties: "Sorties",
+      sc_exp: "Expériences", sc_voir: "À voir", sc_urgences: "Urgences", sc_contact: (p) => `Écrire à ${p}`,
+      studioTitle: "Le studio", studioSub: "Mode d'emploi et départ", guide: "Mode d'emploi", depart: "Départ",
+      guideHint: "Touchez un équipement pour afficher les étapes.", before: (h) => `Avant ${h}`,
+      progress: (n, t) => `${n} sur ${t} fait${n > 1 ? "s" : ""}`, important: "Important",
+      transTitle: "Se déplacer", transSub: "Métro et Vélib' en direct", metro: "Métro", velib: "Vélib'", trajet: "Itinéraire",
+      stationsNear: "Stations à proximité", walkMin: (n) => `≈ ${n} min`, traffic: "Info trafic", live: "en direct",
+      updatedAt: (t) => `mis à jour à ${t}`, refresh: "Actualiser", nearLines: "Lignes proches du studio",
+      allNet: "Tout le réseau métro et RER", tapLine: "Touchez une ligne pour voir son état.",
+      st_ok: "Trafic normal", st_works: "Travaux", st_warn: "Perturbé", st_crit: "Interrompu", st_info: "Information", st_unknown: "Non disponible",
+      noKey: "Consultez l'état des lignes en direct sur le site de la RATP.", trafficErr: "L'info trafic ne répond pas pour le moment. Consultez le site de la RATP.",
+      lg_ok: "Normal", lg_works: "Travaux", lg_warn: "Perturbé", ratpLive: "Info trafic RATP en direct",
+      rentTitle: "Louer un Vélib'", rent1: "Téléchargez l'appli Vélib' ou passez par la borne de la station.",
+      rent2: "Choisissez un trajet simple ou un pass de plusieurs jours.", rent3: "Déverrouillez un vélo, puis reposez-le dans n'importe quelle station.",
+      velibSite: "Site et appli Vélib'", mech: "Mécaniques", elec: "Électriques", docks: "Places libres",
+      vWalk: (m, n) => `${m} m · ${n} min à pied`, vOk: "Vélos dispo", vLow: "Peu de vélos", vNone: "Aucun vélo", vFull: "Presque pleine", vOff: "Hors service",
+      velibErr: "Les disponibilités Vélib' ne répondent pas pour le moment.", velibLoading: "Chargement des stations…",
+      velibSource: "Source : Vélib' Métropole, via Paris Data.",
+      trajetTitle: "Préparer un trajet", ratp: "Info trafic RATP", citymapper: "Citymapper", bonjour: "Appli Bonjour RATP", fromStudio: "Itinéraire depuis le studio",
+      sortiesTitle: "Sorties", sortiesSub: "Cette semaine à Paris", events: "Événements", exp: "Expériences", voir: "À voir",
+      f_near: "Près d'ici", f_all: "Tout Paris", f_today: "Aujourd'hui", f_free: "Gratuit",
+      evLoading: "Chargement des événements…", evEmpty: "Aucun événement avec ces filtres cette semaine.", evErr: "Les événements ne peuvent pas être chargés pour le moment.",
+      evMore: "Voir plus d'événements", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
+      until: (d) => `Jusqu'au ${d}`, today: "Aujourd'hui", tomorrow: "Demain", save: "Enregistrer cet événement", unsave: "Retirer des favoris",
+      expTitle: "Expériences à réserver", expSub: (p) => `La sélection de ${p}`, map: "Voir sur la carte",
+      aideTitle: "Aide et urgences", aideSub: "Numéros gratuits, 24 h/24",
+      e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
+      e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde",
+      sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "114 : urgences par SMS pour les personnes sourdes ou malentendantes.",
+      hostTitle: "Votre hôte", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Messagerie Airbnb", airbnbSub: "Appli Airbnb, onglet Messages",
+      whatsapp: "WhatsApp", nearby: "À proximité",
+      close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
+      qrHint: "Scannez ce code avec l'appareil photo d'un autre téléphone pour le connecter au Wi-Fi.",
+      bye: "Bon séjour !",
+      w: { 0: "Ciel dégagé", 1: "Éclaircies", 2: "Éclaircies", 3: "Couvert", 45: "Brouillard", 48: "Brouillard", 51: "Bruine", 53: "Bruine", 55: "Bruine", 56: "Bruine verglaçante", 57: "Bruine verglaçante", 61: "Pluie faible", 63: "Pluie", 65: "Forte pluie", 66: "Pluie verglaçante", 67: "Pluie verglaçante", 71: "Neige faible", 73: "Neige", 75: "Forte neige", 77: "Neige", 80: "Averses", 81: "Averses", 82: "Fortes averses", 85: "Averses de neige", 86: "Averses de neige", 95: "Orage", 96: "Orage", 99: "Orage" },
+      metroName: (n) => `Métro ${n}`,
+    },
+    en: {
+      tab_accueil: "Home", tab_studio: "Studio", tab_transports: "Transport", tab_sorties: "Going out", tab_aide: "Help",
+      welcome: "Welcome", kicker: "Guest guide", parisTime: "in Paris", hostLine: (p) => `Your host: ${p}`,
+      wifiNet: "Wi-Fi network", wifiPwd: "Password", copyPwd: "Copy", copied: "Copied", qrBtn: "QR code",
+      wifiHint: "Easiest: scan the QR code on the back of the stand and your phone joins automatically.",
+      departRow: (h) => `Check-out before ${h}`, departSub: "Your checklist before leaving",
+      allStay: "Everything for your stay",
+      sc_guide: "How things work", sc_depart: "Check-out", sc_metro: "Metro", sc_velib: "Vélib' bikes", sc_sorties: "What's on",
+      sc_exp: "Experiences", sc_voir: "Sights", sc_urgences: "Emergency", sc_contact: (p) => `Message ${p}`,
+      studioTitle: "The studio", studioSub: "How things work and check-out", guide: "How things work", depart: "Check-out",
+      guideHint: "Tap an appliance to see the steps.", before: (h) => `Before ${h}`,
+      progress: (n, t) => `${n} of ${t} done`, important: "Important",
+      transTitle: "Getting around", transSub: "Live metro and Vélib' info", metro: "Metro", velib: "Vélib'", trajet: "Journeys",
+      stationsNear: "Nearby stations", walkMin: (n) => `≈ ${n} min`, traffic: "Live traffic", live: "live",
+      updatedAt: (t) => `updated at ${t}`, refresh: "Refresh", nearLines: "Lines near the studio",
+      allNet: "Whole metro and RER network", tapLine: "Tap a line to see its status.",
+      st_ok: "Good service", st_works: "Engineering works", st_warn: "Disrupted", st_crit: "Suspended", st_info: "Information", st_unknown: "Unavailable",
+      noKey: "Check live line status on the RATP website.", trafficErr: "Live traffic isn't responding right now. Check the RATP website.",
+      lg_ok: "Normal", lg_works: "Works", lg_warn: "Disrupted", ratpLive: "Live RATP traffic info",
+      rentTitle: "Renting a Vélib'", rent1: "Download the Vélib' app or use the terminal at the station.",
+      rent2: "Choose a single ride or a pass for several days.", rent3: "Unlock a bike, then return it to any station.",
+      velibSite: "Vélib' website and app", mech: "Classic", elec: "Electric", docks: "Free docks",
+      vWalk: (m, n) => `${m} m · ${n} min walk`, vOk: "Bikes available", vLow: "Few bikes", vNone: "No bikes", vFull: "Almost full", vOff: "Out of service",
+      velibErr: "Vélib' availability isn't responding right now.", velibLoading: "Loading stations…",
+      velibSource: "Source: Vélib' Métropole, via Paris Data.",
+      trajetTitle: "Plan a journey", ratp: "RATP traffic info", citymapper: "Citymapper", bonjour: "Bonjour RATP app", fromStudio: "Directions from the studio",
+      sortiesTitle: "Going out", sortiesSub: "This week in Paris", events: "Events", exp: "Experiences", voir: "Sights",
+      f_near: "Nearby", f_all: "All of Paris", f_today: "Today", f_free: "Free",
+      evLoading: "Loading events…", evEmpty: "No events match these filters this week.", evErr: "Events can't be loaded right now.",
+      evMore: "See more events", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
+      until: (d) => `Until ${d}`, today: "Today", tomorrow: "Tomorrow", save: "Save this event", unsave: "Remove from saved",
+      expTitle: "Experiences to book", expSub: (p) => `${p}'s picks`, map: "Show on map",
+      aideTitle: "Help and emergencies", aideSub: "Free numbers, 24/7",
+      e112: "Emergency, all services", e112sub: "European number, from any phone",
+      e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy",
+      sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "114: emergencies by text for deaf or hard-of-hearing people.",
+      hostTitle: "Your host", hostSub: "A problem in the studio? Message me.", airbnb: "Airbnb messages", airbnbSub: "Airbnb app, Messages tab",
+      whatsapp: "WhatsApp", nearby: "Nearby",
+      close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
+      qrHint: "Scan this code with another phone's camera to connect it to the Wi-Fi.",
+      bye: "Enjoy your stay!",
+      w: { 0: "Clear sky", 1: "Partly cloudy", 2: "Partly cloudy", 3: "Overcast", 45: "Fog", 48: "Fog", 51: "Drizzle", 53: "Drizzle", 55: "Drizzle", 56: "Freezing drizzle", 57: "Freezing drizzle", 61: "Light rain", 63: "Rain", 65: "Heavy rain", 66: "Freezing rain", 67: "Freezing rain", 71: "Light snow", 73: "Snow", 75: "Heavy snow", 77: "Snow", 80: "Showers", 81: "Showers", 82: "Heavy showers", 85: "Snow showers", 86: "Snow showers", 95: "Thunderstorm", 96: "Thunderstorm", 99: "Thunderstorm" },
+      metroName: (n) => `Metro ${n}`,
+    },
+  };
+  const LOCK = {
+    none: ["Ce livret s'ouvre avec le QR code du présentoir, dans le studio.", "This guide opens with the QR code on the stand, inside the studio."],
+    bad: ["Le lien semble incomplet ou expiré. Scannez de nouveau le QR code du présentoir.", "The link looks incomplete or out of date. Please scan the QR code on the stand again."],
+    net: ["Connexion impossible pour le moment. Vérifiez le Wi-Fi, puis rechargez la page.", "Can't connect right now. Check the Wi-Fi, then reload the page."],
+  };
+
+  /* ───────── Icônes ───────── */
+  const P = {
+    home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v12h13V9"/><path d="M10 21v-5.5h4V21"/>',
+    homeTab: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9v12h13V9"/>',
+    lit: '<path d="M3 18.5V7m0 6.5h18v5"/><path d="M21 13.5a3 3 0 0 0-3-3h-7.5v3"/><circle cx="6.8" cy="10.8" r="1.7"/>',
+    four: '<rect x="2.5" y="5" width="19" height="14" rx="2.5"/><rect x="5.5" y="8" width="10" height="8" rx="1"/><path d="M18.5 9v.01M18.5 12v.01M18.5 15v.01"/>',
+    plaques: '<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.6" cy="10" r="3"/><circle cx="15.6" cy="14" r="3.3"/>',
+    cafe: '<path d="M5 8h11v6a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 9.5h1.5a2.5 2.5 0 0 1 0 5H16"/><path d="M8 3.5c0 1 1 1 1 2s-1 1-1 2M12 3.5c0 1 1 1 1 2s-1 1-1 2"/><path d="M4 21h14"/>',
+    eclair: '<path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/>',
+    radiateur: '<rect x="3.5" y="5" width="17" height="13" rx="2"/><path d="M7.5 5v13m4.5-13v13m4.5-13v13"/><path d="M6 18v2m12-2v2"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.8v.01"/>',
+    wifi: '<path d="M2.5 8.8a14.5 14.5 0 0 1 19 0"/><path d="M5.6 12.2a10 10 0 0 1 12.8 0"/><path d="M8.8 15.5a5.2 5.2 0 0 1 6.4 0"/><path d="M12 19v.01" stroke-width="2.6"/>',
+    exit: '<path d="M14 3.5H6.5v17H14"/><path d="M10 12h10.5"/><path d="m17 8.5 3.5 3.5-3.5 3.5"/>',
+    train: '<rect x="5" y="3" width="14" height="14" rx="3.5"/><path d="M5 10.5h14"/><path d="M9 13.8v.01M15 13.8v.01" stroke-width="2.4"/><path d="m8 21 2-4m6 4-2-4"/>',
+    trainTab: '<rect x="5" y="3" width="14" height="14" rx="3.5"/><path d="M5 10.5h14"/><path d="m8 21 2-4m6 4-2-4"/>',
+    velo: '<circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9.5 9h6l3 7.5"/><path d="M9.5 9l3 7.5h-7"/><path d="M8 6h3.5"/><path d="M15.5 9l-1-3H17"/>',
+    veloS: '<circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9.5 9h6l3 7.5"/><path d="M9.5 9l3 7.5h-7"/>',
+    cal: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4m8-4v4"/>',
+    star: '<path d="M12 3.5l2.4 5.2 5.6.6-4.2 3.8 1.2 5.6L12 15.9l-5 2.8 1.2-5.6L4 9.3l5.6-.6z"/>',
+    pin: '<path d="M12 21s-7-6.1-7-11.4a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.5"/>',
+    croix: '<path d="M9.5 3.5h5v6h6v5h-6v6h-5v-6h-6v-5h6z"/>',
+    msg: '<path d="M4 5.5h16v11H9l-5 4z"/>',
+    wa: '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1a4 4 0 0 1-2-2l1-1-1-2z"/>',
+    copy: '<rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5v-3a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/>',
+    qr: '<rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><path d="M13.5 13.5h3v3h-3zM17.5 17.5h3v3h-3z"/>',
+    chev: '<path d="m9 6 6 6-6 6"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    ext: '<path d="M14 4h6v6"/><path d="M20 4 11 13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
+    warn: '<path d="M12 3.5 2.5 20h19L12 3.5z"/><path d="M12 10v4.5"/><path d="M12 17.3v.01"/>',
+    refresh: '<path d="M20 11.5A8 8 0 1 0 17.7 17"/><path d="M20 4.5v7h-7"/>',
+    bolt: '<path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/>',
+    dock: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M10 16.5v-9h3a2.6 2.6 0 0 1 0 5.2h-3"/>',
+    image: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-8 8"/>',
+    heart: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
+    hospital: '<path d="M4 21V5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5V21"/><path d="M12 8v6m-3-3h6"/><path d="M3 21h18"/>',
+    sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/>',
+    partly: '<path d="M8.5 4.2v1.6M3.3 9.4h1.6M4.9 5.8l1.1 1.1M12.1 5.8 11 6.9"/><path d="M5.7 11.6a3.4 3.4 0 0 1 5.9-3.2"/><path d="M8 19.5h9.5a3.5 3.5 0 0 0 .3-7 5 5 0 0 0-9.6 1.2A2.9 2.9 0 0 0 8 19.5z"/>',
+    cloud: '<path d="M7 19h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 19z"/>',
+    rain: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="m8.5 18-1 2.5m5-2.5-1 2.5m5-2.5-1 2.5"/>',
+    snow: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="M8.5 18.5h.01M12 20h.01M15.5 18.5h.01" stroke-width="2.6"/>',
+    storm: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="m12.5 15-2 3.5h3l-2 3.5"/>',
+    fog: '<path d="M4 9h16M3 13h18M5 17h14"/>',
+  };
+  const svg = (n, cls, sw, style) => `<svg${cls ? ` class="${cls}"` : ""}${style ? ` style="${style}"` : ""} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw || 1.7}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || P.info}</svg>`;
+
+  /* ───────── Lignes (couleurs officielles) ───────── */
+  const LINES = {
+    M1: ["#FFCD00", "#1A1A1A", "1"], M2: ["#003CA6", "#FFFFFF", "2"], M3: ["#837902", "#FFFFFF", "3"], M3bis: ["#6EC4E8", "#1A1A1A", "3b"],
+    M4: ["#CF009E", "#FFFFFF", "4"], M5: ["#FF7E2E", "#1A1A1A", "5"], M6: ["#6ECA97", "#1A1A1A", "6"], M7: ["#FA9ABA", "#1A1A1A", "7"],
+    M7bis: ["#6ECA97", "#1A1A1A", "7b"], M8: ["#E19BDF", "#1A1A1A", "8"], M9: ["#B6BD00", "#1A1A1A", "9"], M10: ["#C9910D", "#1A1A1A", "10"],
+    M11: ["#704B1C", "#FFFFFF", "11"], M12: ["#007852", "#FFFFFF", "12"], M13: ["#6EC4E8", "#1A1A1A", "13"], M14: ["#62259D", "#FFFFFF", "14"],
+    RERA: ["#EB2132", "#FFFFFF", "A"], RERB: ["#5091CB", "#FFFFFF", "B"], RERC: ["#FFCC30", "#1A1A1A", "C"], RERD: ["#008B5B", "#FFFFFF", "D"], RERE: ["#B94E9A", "#FFFFFF", "E"],
+  };
+  const NETWORK = Object.keys(LINES);
+  const isRer = (c) => c.indexOf("RER") === 0;
+  const lineName = (c) => isRer(c) ? "RER " + c.slice(3) : u("metroName")(c.slice(1).replace("bis", " bis"));
+  const badge = (c) => { const L = LINES[c]; return L ? `<span class="ln${isRer(c) ? " rer" : ""}" style="--lc:${L[0]};--lt:${L[1]}" role="img" aria-label="${esc(lineName(c))}">${L[2]}</span>` : ""; };
+
+  /* ───────── Utilitaires ───────── */
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+  };
+  let LANG = store.get("livret-langue", null) || ((navigator.language || "fr").toLowerCase().indexOf("fr") === 0 ? "fr" : "en");
+  const u = (k) => (UI[LANG][k] !== undefined ? UI[LANG][k] : UI.fr[k]);
+  const t = (v) => (v == null ? "" : typeof v === "string" ? v : (v[LANG] != null ? v[LANG] : v.fr || ""));
+  const fmt = (o) => new Intl.DateTimeFormat(LANG === "fr" ? "fr-FR" : "en-GB", Object.assign({ timeZone: "Europe/Paris" }, o));
+  const hm = (d) => fmt({ hour: "2-digit", minute: "2-digit" }).format(d);
+  const parisDay = (d) => fmt({ year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+  const mapsQ = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+  function dist(lat1, lon1, lat2, lon2) {
+    const R = 6371000, r = Math.PI / 180, dLat = (lat2 - lat1) * r, dLon = (lon2 - lon1) * r;
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(dLon / 2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  const walkMin = (m) => Math.max(1, Math.round((m * 1.3) / 80));
+  async function getJSON(url, opts, ms) {
+    const ctl = new AbortController(); const id = setTimeout(() => ctl.abort(), ms || 10000);
+    try { const r = await fetch(url, Object.assign({}, opts || {}, { signal: ctl.signal })); if (!r.ok) throw new Error("HTTP " + r.status); return await r.json(); }
+    finally { clearTimeout(id); }
+  }
+  function langToggle() {
+    return `<div class="lang" role="group" aria-label="Langue / Language">
+      <button type="button" data-lang="fr" aria-pressed="${LANG === "fr"}">FR</button>
+      <button type="button" data-lang="en" aria-pressed="${LANG === "en"}">EN</button></div>`;
+  }
+  function viewHead(title, sub) {
+    return `<div class="pad vh"><div style="min-width:0"><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${langToggle()}</div>`;
+  }
+  function subnav(view, items) {
+    return `<nav class="subnav" aria-label="Sections"><div class="pad">${items.map((it, i) => `<a href="#${it[0]}" data-sub="${view}" aria-current="${i === 0}">${esc(it[1])}</a>`).join("")}</div></nav>`;
+  }
+  const warnTitle = () => `<b>${svg("warn", "", 1.8, "width:20px;height:20px")}${esc(u("important"))}</b>`;
+
+  /* ───────── Déchiffrement du contenu ───────── */
+  const b64 = (s) => { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; const bin = atob(s); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
+  async function ouvrir(secret) {
+    const enc = await getJSON("contenu.enc", { cache: "no-cache" }, 15000);
+    const brut = await crypto.subtle.digest("SHA-256", b64(secret));
+    const cle = await crypto.subtle.importKey("raw", brut, "AES-GCM", false, ["decrypt"]);
+    let clair;
+    try { clair = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, cle, b64(enc.data)); }
+    catch (e) { const err = new Error("cle"); err.cle = true; throw err; }
+    return JSON.parse(new TextDecoder().decode(clair));
+  }
+
+  let C = null;
+  const S = {
+    tab: "accueil", depart: store.get("livret-depart", []), favoris: store.get("livret-favoris", []).map(String),
+    weather: null, traffic: { state: "idle", lines: {}, at: null, sel: null },
+    velib: { state: "idle", list: [], at: null },
+    ev: Object.assign({ scope: "near", today: false, free: false }, store.get("livret-filtres", {})), evCache: {}, ficheTab: 0, openFiche: null,
+  };
+
+  /* ───────── Vue Accueil ───────── */
+  const wIcon = (c) => c === 0 ? "sun" : c <= 2 ? "partly" : c === 3 ? "cloud" : c <= 48 ? "fog" : (c <= 67 || (c >= 80 && c <= 82)) ? "rain" : (c <= 77 || c === 85 || c === 86) ? "snow" : "storm";
+  function meteoHtml() {
+    const now = hm(new Date());
+    const w = S.weather;
+    if (!w) return `<div class="meteo" id="meteo"><div><b id="clock">${esc(now)}</b><span>${esc(u("parisTime"))}</span></div></div>`;
+    return `<div class="meteo" id="meteo">${svg(wIcon(w.c), "", 1.6)}<div><b>${Math.round(w.t)}° · ${esc(u("w")[w.c] || "")}</b><span><span id="clock" style="display:inline">${esc(now)}</span> ${esc(u("parisTime"))} · ${Math.round(w.min)}° / ${Math.round(w.max)}°</span></div></div>`;
+  }
+  function renderAccueil() {
+    const L = C.logement, h = C.depart.heure, p = C.hote.prenom;
+    const arr = String(L.arrondissement || "");
+    const tab = arr ? (arr === "1" ? "1<sup>er</sup> Arr<sup>t</sup>" : `${esc(arr)}<sup>e</sup> Arr<sup>t</sup>`) : "Paris";
+    const sc = [
+      ["guide", "home", u("sc_guide")], ["depart", "exit", u("sc_depart")], ["metro", "train", u("sc_metro")], ["velib", "velo", u("sc_velib")],
+      ["sorties", "cal", u("sc_sorties")], (C.experiences && C.experiences.length) ? ["exp", "star", u("sc_exp")] : ["voir", "pin", u("sc_voir")],
+      ["urgences", "croix", u("sc_urgences")], ["contact", "msg", u("sc_contact")(p)],
+    ];
+    $("#v-accueil").innerHTML = `
+      <div class="pad vh" style="align-items:center">${meteoHtml()}${langToggle()}</div>
+      <div class="pad">
+        <div class="plaque-zone"><div class="plaque"><div class="plaque-tab">${tab}</div>
+          <div class="plaque-in"><span class="plaque-kicker">${esc(L.nomPlaque || u("kicker"))}</span><h1>${esc(u("welcome"))}</h1></div></div></div>
+        <div class="host"><div class="avatar" aria-hidden="true">${esc(p.charAt(0))}</div>
+          <div><b>${esc(u("hostLine")(p))}</b><span>${esc(t(C.accueil))}</span></div></div>
+        <div class="stack" style="padding-top:22px">
+          <div class="box">
+            <div class="box-row"><div style="flex:1"><span class="label">${esc(u("wifiNet"))}</span><span style="font-size:16px">${esc(C.wifi.reseau)}</span></div>${svg("wifi", "ico", 1.6)}</div>
+            <div class="box-row"><div><span class="label">${esc(u("wifiPwd"))}</span><span class="pwd" id="pwd">${esc(C.wifi.motDePasse)}</span></div></div>
+            <div class="box-row">
+              <button class="btn btn-primary" style="flex:1" type="button" id="copyPwd">${svg("copy", "", 2)}<span>${esc(u("copyPwd"))}</span></button>
+              <button class="btn" type="button" id="showQr">${svg("qr", "", 1.8)}<span>${esc(u("qrBtn"))}</span></button>
+            </div>
+          </div>
+          <p class="xs muted" style="margin:0">${esc(u("wifiHint"))}</p>
+          <button class="row-link" type="button" data-go="studio:s-depart">${svg("exit", "ico", 1.6)}<span class="t"><b>${esc(u("departRow")(h))}</b><span class="s">${esc(u("departSub"))}</span></span>${svg("chev", "chev", 2)}</button>
+        </div>
+        <div class="sec">
+          <h2 style="margin-bottom:16px">${esc(u("allStay"))}</h2>
+          <div class="grid2">${sc.map((s) => `<button class="shortcut" type="button" data-sc="${s[0]}">${svg(s[1], "", 1.6)}<span>${esc(s[2])}</span></button>`).join("")}</div>
+        </div>
+        <p class="bye">${esc(u("bye"))}</p>
+      </div>`;
+    $("#copyPwd").addEventListener("click", copyPwd);
+    $("#showQr").addEventListener("click", openQr);
+  }
+  function copyPwd() {
+    const ok = () => { const b = $("#copyPwd span"); if (b) b.textContent = u("copied"); setTimeout(() => { const c = $("#copyPwd span"); if (c) c.textContent = u("copyPwd"); }, 2000); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents($("#pwd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    try { navigator.clipboard.writeText(C.wifi.motDePasse).then(ok, sel); } catch (e) { sel(); }
+  }
+  const SC = {
+    guide: "studio:s-guide", depart: "studio:s-depart", metro: "transports:s-metro", velib: "transports:s-velib", sorties: "sorties:s-events",
+    exp: "sorties:s-exp", voir: "sorties:s-voir", urgences: "aide:s-sos", contact: "aide:s-hote",
+  };
+
+  /* ───────── Vue Studio ───────── */
+  function renderStudio() {
+    const D = C.depart;
+    $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")], ["s-depart", u("depart")]]) + `
+      <div class="pad">
+        <div class="sec" id="s-guide">
+          <h2>${esc(u("guide"))}</h2>
+          <p class="muted" style="margin:6px 0 8px;font-size:15px">${esc(u("guideHint"))}</p>
+          <div class="list">${C.fiches.map((f, i) => `<button class="list-item" type="button" data-fiche="${i}">${svg(f.icone, "ico", 1.5)}<span class="t"><b>${esc(t(f.titre))}</b><span class="s">${esc(t(f.resume))}</span></span>${svg("chev", "chev", 2)}</button>`).join("")}</div>
+        </div>
+        <div class="sec" id="s-depart">
+          <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(D.heure))}</span></div>
+          <div class="stack">
+            <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.intro))}</p>
+            <ul class="check">${D.etapes.map((e, i) => `<li><label for="dep-${i}"><input type="checkbox" id="dep-${i}" data-i="${i}"${S.depart.indexOf(i) !== -1 ? " checked" : ""}><span>${esc(t(e))}</span></label></li>`).join("")}</ul>
+            <div class="progress"><div class="bar"><i id="depBar"></i></div><span id="depTxt"></span></div>
+            <div class="callout">${warnTitle()}<p>${esc(t(D.attention))}</p></div>
+            <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.tardif))}</p>
+            <p style="margin:0;font-size:15px;font-weight:600">${esc(t(D.aurevoir))}</p>
+          </div>
+        </div>
+      </div>`;
+    $$("#v-studio [data-fiche]").forEach((b) => b.addEventListener("click", () => openFiche(+b.dataset.fiche)));
+    const upd = () => {
+      S.depart = $$("#v-studio .check input:checked").map((x) => +x.dataset.i); store.set("livret-depart", S.depart);
+      const n = S.depart.length, tot = D.etapes.length;
+      $("#depBar").style.width = (tot ? (n / tot) * 100 : 0) + "%"; $("#depTxt").textContent = u("progress")(n, tot);
+    };
+    $$("#v-studio .check input").forEach((x) => x.addEventListener("change", upd)); upd();
+  }
+
+  /* ───────── Fiches (panneau) ───────── */
+  const dlg = $("#sheet");
+  function sectionHtml(s) {
+    let h = "";
+    if (s.image) h += `<figure class="figure"><a href="${esc(s.image.src)}" target="_blank" rel="noopener"><img src="${esc(s.image.src)}" alt="${esc(t(s.image.alt))}"></a><figcaption>${esc(t(s.image.legende))}</figcaption></figure>`;
+    if (s.titre && !s.onglet) h += `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3>${esc(t(s.titre))}</h3>${s.badge ? `<span class="badge">${esc(t(s.badge))}</span>` : ""}</div>`;
+    if (s.etapes) h += `<ol class="steps${s.encadre || !s.titre || s.onglet ? "" : " outline"}">${s.etapes.map((e) => `<li><span>${esc(t(e))}</span></li>`).join("")}</ol>`;
+    if (s.texte) h += `<p class="txt">${esc(t(s.texte))}</p>`;
+    if (s.puces) h += `<ul class="puces">${s.puces.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>`;
+    if (s.important) h += `<div class="callout">${warnTitle()}${s.important.length > 1 ? `<ul>${s.important.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>` : `<p>${esc(t(s.important[0]))}</p>`}</div>`;
+    if (s.lien) h += `<a class="row-link" href="${esc(s.lien.url)}" target="_blank" rel="noopener">${s.lien.video ? `<span class="vid"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span>` : svg("info", "ico", 1.6)}<span class="t"><b>${esc(t(s.lien.label))}</b><span class="s">${esc(t(s.lien.sous))}</span></span>${svg("ext", "chev", 2)}</a>`;
+    const cls = s.encadre ? "fsec soft" : "fsec" + (s.titre && !s.onglet ? " sep" : "");
+    return `<div class="${cls}">${h}</div>`;
+  }
+  function renderFiche(i) {
+    const f = C.fiches[i], p = C.hote.prenom;
+    $("#sheetTitle").textContent = t(f.titre);
+    const tabs = f.onglets ? f.sections.filter((s) => s.onglet) : [];
+    let body = f.intro ? `<p class="lead">${esc(t(f.intro))}</p>` : "";
+    if (tabs.length) {
+      const k = Math.min(S.ficheTab, tabs.length - 1);
+      body += `<div class="seg" role="group" aria-label="${esc(t(f.titre))}">${tabs.map((s, j) => `<button type="button" data-ft="${j}" aria-pressed="${j === k}">${esc(t(s.titre))}</button>`).join("")}</div>`;
+      body += sectionHtml(tabs[k]);
+    }
+    f.sections.filter((s) => !s.onglet).forEach((s) => { body += sectionHtml(s); });
+    if (f.contact) body += `<p class="lead">${esc(t(f.contact))}</p>`;
+    $("#sheetBody").innerHTML = body;
+    $("#sheetFoot").innerHTML = `<button class="btn" type="button" data-sheet="contact">${esc(u("contactHost")(p))}</button><button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
+    $$("#sheetBody [data-ft]").forEach((b) => b.addEventListener("click", () => { S.ficheTab = +b.dataset.ft; renderFiche(i); }));
+    bindFoot();
+  }
+  function bindFoot() {
+    $$("#sheetFoot [data-sheet]").forEach((b) => b.addEventListener("click", () => {
+      closeSheet(); if (b.dataset.sheet === "contact") go("aide", "s-hote");
+    }));
+  }
+  function showSheet() {
+    $("#sheetClose").innerHTML = svg("x", "", 2.2); $("#sheetClose").setAttribute("aria-label", u("close"));
+    document.documentElement.style.overflow = "hidden";
+    if (!dlg.open) { if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", ""); }
+    $("#sheetBody").scrollTop = 0;
+  }
+  function closeSheet() {
+    if (dlg.open) { if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open"); }
+    document.documentElement.style.overflow = ""; S.openFiche = null;
+  }
+  function openFiche(i) { S.ficheTab = 0; S.openFiche = i; renderFiche(i); showSheet(); }
+  function renderQr() {
+    $("#sheetTitle").textContent = u("qrTitle");
+    $("#sheetBody").innerHTML = `<div class="qrbox" role="img" aria-label="${esc(u("qrTitle"))}">${C.wifi.qrSvg || ""}</div><p class="lead" style="text-align:center">${esc(u("qrHint"))}</p>
+      <div class="box"><div class="box-row"><div><span class="label">${esc(u("wifiNet"))}</span>${esc(C.wifi.reseau)}</div></div><div class="box-row"><div><span class="label">${esc(u("wifiPwd"))}</span><span class="pwd">${esc(C.wifi.motDePasse)}</span></div></div></div>`;
+    $("#sheetFoot").innerHTML = `<button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
+    bindFoot();
+  }
+  function openQr() { S.openFiche = "qr"; renderQr(); showSheet(); }
+  $("#sheetClose").addEventListener("click", closeSheet);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) closeSheet(); });
+  dlg.addEventListener("close", () => { document.documentElement.style.overflow = ""; S.openFiche = null; });
+
+  /* ───────── Vue Transports ───────── */
+  function renderTransports() {
+    const T = C.transports;
+    $("#v-transports").innerHTML = viewHead(u("transTitle"), u("transSub")) + subnav("transports", [["s-metro", u("metro")], ["s-velib", u("velib")], ["s-trajet", u("trajet")]]) + `
+      <div class="pad">
+        <div class="sec" id="s-metro">
+          <h2 style="margin-bottom:14px">${esc(u("stationsNear"))}</h2>
+          <div class="stack">${T.stations.map((s) => `<div class="station"><span class="lns">${s.lignes.map(badge).join("")}</span><b>${esc(s.nom)}</b><span class="small muted">${esc(u("walkMin")(s.minutes))}</span></div>`).join("")}
+            <div class="card" id="traffic" style="margin-top:4px"></div>
+          </div>
+        </div>
+        <div class="sec" id="s-velib">
+          <h2 style="margin-bottom:14px">${esc(u("velib"))}</h2>
+          <div class="stack">
+            <div class="soft">
+              <h3>${esc(u("rentTitle"))}</h3>
+              <ol class="steps"><li><span>${esc(u("rent1"))}</span></li><li><span>${esc(u("rent2"))}</span></li><li><span>${esc(u("rent3"))}</span></li></ol>
+              <div class="btn-row"><a class="btn" href="https://www.velib-metropole.fr/" target="_blank" rel="noopener">${esc(u("velibSite"))}${svg("ext", "", 2)}</a></div>
+            </div>
+            <div class="sec-head" style="margin:10px 0 0"><h3>${esc(u("stationsNear"))}</h3><span class="xs muted" id="velibAt"></span></div>
+            <div class="stack" id="velib"></div>
+            <p class="xs muted" style="margin:0">${esc(u("velibSource"))}</p>
+          </div>
+        </div>
+        <div class="sec" id="s-trajet">
+          <h2 style="margin-bottom:14px">${esc(u("trajetTitle"))}</h2>
+          <div class="btn-row">
+            <a class="btn btn-pill" href="https://www.google.com/maps/dir/?api=1&amp;origin=${encodeURIComponent(C.logement.adresse)}&amp;travelmode=transit" target="_blank" rel="noopener">${esc(u("fromStudio"))}</a>
+            <a class="btn btn-pill" href="https://www.ratp.fr/infos-trafic" target="_blank" rel="noopener">${esc(u("ratp"))}</a>
+            <a class="btn btn-pill" href="https://citymapper.com/paris" target="_blank" rel="noopener">${esc(u("citymapper"))}</a>
+            <a class="btn btn-pill" href="https://www.bonjour-ratp.fr/" target="_blank" rel="noopener">${esc(u("bonjour"))}</a>
+          </div>
+        </div>
+      </div>`;
+    renderTraffic(); renderVelib();
+  }
+
+  /* Info trafic (Île-de-France Mobilités, clé PRIM facultative) */
+  const SEV = { BLOQUANTE: 3, PERTURBEE: 2, INFORMATION: 1 };
+  const primDate = (s) => { const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(String(s || "")); return m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime() : NaN; };
+  function actif(d, now) { const ps = d.applicationPeriods || []; return !ps.length || ps.some((p) => { const b = primDate(p.begin), e = primDate(p.end); return (isNaN(b) || b <= now) && (isNaN(e) || e >= now); }); }
+  function primCode(l) {
+    const mode = String(l.mode || "").toLowerCase(); let s = String(l.shortName || l.name || "").toUpperCase().replace(/\s+/g, "");
+    if (mode.indexOf("metro") !== -1) { s = s.replace(/^M(ETRO)?/, "").replace(/B(IS)?$/, "bis"); return "M" + s; }
+    if (mode.indexOf("rapid") !== -1 || mode.indexOf("rer") !== -1) return "RER" + s.replace(/^RER/, "");
+    return null;
+  }
+  const texte = (h) => { const d = document.createElement("div"); d.innerHTML = String(h || "").replace(/<br\s*\/?>/gi, " "); return (d.textContent || "").replace(/\s+/g, " ").trim(); };
+  function parsePrim(j) {
+    const now = Date.now(), byId = new Map((j.disruptions || []).map((d) => [d.id, d])), out = {};
+    (j.lines || []).forEach((l) => {
+      const code = primCode(l); if (!code || !LINES[code]) return;
+      const ids = new Set(); (l.impactedObjects || []).forEach((o) => (o.disruptionIds || []).forEach((id) => ids.add(id)));
+      const act = Array.from(ids).map((id) => byId.get(id)).filter((d) => d && actif(d, now));
+      if (!act.length) return;
+      act.sort((a, b) => (SEV[b.severity] || 0) - (SEV[a.severity] || 0));
+      const d = act[0], sev = SEV[d.severity] || 1;
+      out[code] = { level: sev === 3 ? "crit" : sev === 2 ? (String(d.cause).toUpperCase() === "TRAVAUX" ? "works" : "warn") : "info", msg: texte(d.title) || texte(d.message).slice(0, 220) };
+    });
+    return out;
+  }
+  async function loadTraffic() {
+    const key = String((C.transports && C.transports.primApiKey) || "").trim();
+    if (!key) { S.traffic.state = "nokey"; return renderTraffic(); }
+    S.traffic.state = "loading"; renderTraffic();
+    try {
+      const j = await getJSON("https://prim.iledefrance-mobilites.fr/marketplace/disruptions_bulk/disruptions/v2", { headers: { apikey: key, Accept: "application/json" } }, 12000);
+      S.traffic = { state: "ok", lines: parsePrim(j), at: new Date(), sel: S.traffic.sel };
+    } catch (e) { S.traffic.state = "error"; }
+    renderTraffic();
+  }
+  const statusOf = (c) => S.traffic.state !== "ok" ? { level: "unknown", msg: "" } : (S.traffic.lines[c] || { level: "ok", msg: "" });
+  const pillSt = (lv) => `<span class="st ${lv}">${esc(u("st_" + lv))}</span>`;
+  function renderTraffic() {
+    const el = $("#traffic"); if (!el) return;
+    const follow = (C.transports.lignesSuivies || []).filter((c) => LINES[c]);
+    const st = S.traffic.state;
+    if (st === "nokey" || st === "error" || st === "idle") {
+      el.innerHTML = `<h3>${esc(u("traffic"))}</h3>
+        <span class="small" style="font-weight:600">${esc(u("nearLines"))}</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">${follow.map(badge).join("")}</div>
+        <p class="small muted" style="margin:0">${esc(st === "error" ? u("trafficErr") : u("noKey"))}</p>
+        <a class="btn btn-primary btn-block" href="https://www.ratp.fr/infos-trafic" target="_blank" rel="noopener">${esc(u("ratpLive"))}${svg("ext", "", 2)}</a>`;
+      return;
+    }
+    const sel = S.traffic.sel, selS = sel ? statusOf(sel) : null;
+    el.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${esc(u("traffic"))}</h3>
+        ${st === "ok" ? `<span class="live">${esc(u("live"))} · ${esc(u("updatedAt")(hm(S.traffic.at)))}</span>` : `<span class="live off">…</span>`}
+        <button class="iconbtn" type="button" id="trafficRefresh" style="margin-left:auto" aria-label="${esc(u("refresh"))}">${svg("refresh", "", 1.8)}</button></div>
+      <span class="small" style="font-weight:600">${esc(u("nearLines"))}</span>
+      <div class="stack" style="gap:8px">${follow.map((c) => { const s = statusOf(c); return `<div class="trow">${badge(c)}${pillSt(s.level)}${s.msg ? `<span class="msg">${esc(s.msg)}</span>` : ""}</div>`; }).join("")}</div>
+      <div class="stack" style="gap:12px;padding-top:14px;border-top:1px solid var(--line-soft)">
+        <span class="small" style="font-weight:600">${esc(u("allNet"))}</span>
+        <div class="net">${NETWORK.map((c) => `<button type="button" class="${isRer(c) ? "rer" : ""}" data-l="${c}" aria-pressed="${sel === c}" aria-label="${esc(lineName(c))} : ${esc(u("st_" + statusOf(c).level))}">${badge(c)}<span class="dot ${statusOf(c).level}"></span></button>`).join("")}</div>
+        <p class="small" style="margin:0">${sel ? `<b>${esc(lineName(sel))}</b> · ${pillSt(selS.level)}${selS.msg ? `<br><span class="muted">${esc(selS.msg)}</span>` : ""}` : `<span class="muted">${esc(u("tapLine"))}</span>`}</p>
+        <div class="legend"><span><i style="background:var(--ok)"></i>${esc(u("lg_ok"))}</span><span><i style="background:var(--dot-works)"></i>${esc(u("lg_works"))}</span><span><i style="background:var(--crit)"></i>${esc(u("lg_warn"))}</span></div>
+      </div>`;
+    $$("#traffic [data-l]").forEach((b) => b.addEventListener("click", () => { S.traffic.sel = S.traffic.sel === b.dataset.l ? null : b.dataset.l; renderTraffic(); }));
+    const r = $("#trafficRefresh"); if (r) r.addEventListener("click", loadTraffic);
+  }
+
+  /* Vélib' en direct (Paris Data) */
+  async function loadVelib() {
+    const L = C.logement, V = C.velib || {}, pt = `geom'POINT(${L.longitude} ${L.latitude})'`;
+    if (S.velib.state !== "ok") { S.velib.state = "loading"; renderVelib(); }
+    try {
+      const qs = new URLSearchParams({
+        where: `within_distance(coordonnees_geo, ${pt}, ${V.rayonMetres || 600}m)`, order_by: `distance(coordonnees_geo, ${pt})`, limit: String(V.nombre || 3),
+        select: "name,stationcode,capacity,numbikesavailable,numdocksavailable,mechanical,ebike,is_installed,is_renting,coordonnees_geo,duedate",
+      });
+      const j = await getJSON("https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/velib-disponibilite-en-temps-reel/records?" + qs, {}, 12000);
+      S.velib = { state: "ok", list: j.results || [], at: new Date() };
+    } catch (e) { if (S.velib.state !== "ok") S.velib.state = "error"; }
+    renderVelib();
+  }
+  function renderVelib() {
+    const el = $("#velib"); if (!el) return;
+    const at = $("#velibAt"); if (at) at.textContent = S.velib.state === "ok" ? hm(S.velib.at) : "";
+    if (S.velib.state === "error") { el.innerHTML = `<p class="state">${esc(u("velibErr"))}</p>`; return; }
+    if (S.velib.state !== "ok") { el.innerHTML = `<p class="state">${esc(u("velibLoading"))}</p>`; return; }
+    const L = C.logement;
+    el.innerHTML = S.velib.list.map((s) => {
+      const g = s.coordonnees_geo || {}, m = Math.round(dist(L.latitude, L.longitude, g.lat, g.lon) / 10) * 10;
+      const mech = +s.mechanical || 0, eb = +s.ebike || 0, bikes = s.numbikesavailable != null ? +s.numbikesavailable : mech + eb, docks = +s.numdocksavailable || 0, cap = +s.capacity || (bikes + docks) || 1;
+      const off = s.is_installed === "NON" || s.is_renting === "NON";
+      const chip = off ? ["crit", u("vOff")] : bikes === 0 ? ["warn", u("vNone")] : bikes < 5 ? ["works", u("vLow")] : docks <= 3 ? ["works", u("vFull")] : ["ok", u("vOk")];
+      return `<article class="vcard">
+        <div class="vhead"><div style="min-width:0"><b>${esc(s.name)}</b><span class="small muted">${esc(u("vWalk")(m, walkMin(m)))}</span></div><span class="st ${chip[0]}" style="flex:none">${esc(chip[1])}</span></div>
+        <div class="vstats">
+          <div><strong><span style="color:var(--ok);display:flex">${svg("veloS", "", 2)}</span>${mech}</strong><span>${esc(u("mech"))}</span></div>
+          <div><strong><span style="color:var(--ebike);display:flex">${svg("bolt", "", 2)}</span>${eb}</strong><span>${esc(u("elec"))}</span></div>
+          <div><strong><span style="color:var(--muted);display:flex">${svg("dock", "", 2)}</span>${docks}</strong><span>${esc(u("docks"))}</span></div>
+        </div>
+        <div class="vbar" aria-hidden="true"><i style="width:${(mech / cap) * 100}%;background:var(--ok)"></i><i style="width:${(eb / cap) * 100}%;background:var(--ebike)"></i></div>
+      </article>`;
+    }).join("") || `<p class="state">${esc(u("velibErr"))}</p>`;
+  }
+
+  /* ───────── Vue Sorties ───────── */
+  function renderSorties() {
+    const X = C.experiences || [], hasX = X.length > 0, p = C.hote.prenom;
+    const items = [["s-events", u("events")]]; if (hasX) items.push(["s-exp", u("exp")]); items.push(["s-voir", u("voir")]);
+    $("#v-sorties").innerHTML = viewHead(u("sortiesTitle"), u("sortiesSub")) + subnav("sorties", items) + `
+      <div class="pad">
+        <div class="sec" id="s-events">
+          <div class="filters" role="group" aria-label="${esc(u("events"))}">
+            <button type="button" data-f="near">${esc(u("f_near"))}</button><button type="button" data-f="all">${esc(u("f_all"))}</button>
+            <button type="button" data-f="today">${esc(u("f_today"))}</button><button type="button" data-f="free">${esc(u("f_free"))}</button>
+          </div>
+          <div id="events" style="margin-top:20px"></div>
+          <div class="stack" style="margin-top:20px">
+            <a class="btn btn-block" href="https://www.paris.fr/quefaire" target="_blank" rel="noopener">${esc(u("evMore"))}</a>
+            <p class="xs muted" style="margin:0">${esc(u("evSource"))}</p>
+          </div>
+        </div>
+        ${hasX ? `<div class="sec" id="s-exp"><h2>${esc(u("expTitle"))}</h2><p class="muted" style="margin:4px 0 16px;font-size:15px">${esc(u("expSub")(p))}</p>
+          <div class="hscroll">${X.map((x) => `<a class="exp" href="${esc(x.url)}" target="_blank" rel="noopener sponsored"><span class="img">${x.image ? `<img src="${esc(x.image)}" alt="" loading="lazy">` : ""}</span><b>${esc(t(x.titre))}</b>${x.prix ? `<span class="small muted">${esc(t(x.prix))}</span>` : ""}</a>`).join("")}</div></div>` : ""}
+        <div class="sec" id="s-voir">
+          ${C.adresses.map((c, i) => `<h2 style="margin:${i ? "24px" : "0"} 0 6px">${esc(t(c.categorie))}</h2>
+            <div>${c.lieux.map((l) => `<div class="place"><div class="t"><b>${esc(l.nom)}</b><span>${esc(t(l.note))}</span></div><a class="iconbtn" href="${mapsQ(l.carte || l.nom)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(l.nom)}">${svg("pin", "", 1.7)}</a></div>`).join("")}</div>`).join("")}
+        </div>
+      </div>`;
+    $$("#v-sorties [data-f]").forEach((b) => b.addEventListener("click", () => {
+      const f = b.dataset.f;
+      if (f === "today" || f === "free") S.ev[f] = !S.ev[f]; else S.ev.scope = f;
+      store.set("livret-filtres", S.ev); loadEvents();
+    }));
+    loadEvents();
+  }
+  const EV_BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/records";
+  const isoDay = (d) => d.toISOString().slice(0, 10);
+  function nextSlot(r, from, to) {
+    const slots = String(r.occurrences || "").split(";").map((x) => x.split("_")).filter((x) => x.length === 2).map((x) => [Date.parse(x[0]), Date.parse(x[1])]).filter((x) => !isNaN(x[0]) && !isNaN(x[1]));
+    if (slots.length) { const hit = slots.filter((x) => x[1] >= from && x[0] <= to).sort((a, b) => a[0] - b[0])[0]; return hit ? { start: hit[0], end: hit[1], long: false } : null; }
+    const a = Date.parse(r.date_start), b = Date.parse(r.date_end);
+    if (isNaN(a) || isNaN(b) || b < from || a > to) return null;
+    return { start: a, end: b, long: b - a > 864e5 };
+  }
+  async function fetchEvents(scope) {
+    if (S.evCache[scope]) return S.evCache[scope];
+    const L = C.logement, now = new Date(), end = new Date(now.getTime() + 7 * 864e5);
+    const where = [`date_end >= date'${isoDay(now)}'`, `date_start <= date'${isoDay(end)}'`];
+    if (scope === "near") where.push(`within_distance(lat_lon, geom'POINT(${L.longitude} ${L.latitude})', ${(C.sorties && C.sorties.rayonKm) || 2}km)`);
+    const qs = new URLSearchParams({ select: "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type", where: where.join(" AND "), order_by: "date_start desc", limit: "100" });
+    const j = await getJSON(EV_BASE + "?" + qs, {}, 12000);
+    const from = Date.now(), to = from + 7 * 864e5;
+    const list = (j.results || []).map((r) => ({ r, s: nextSlot(r, from, to) })).filter((x) => x.s)
+      .sort((x, y) => (x.s.long - y.s.long) || (Math.max(x.s.start, from) - Math.max(y.s.start, from)));
+    return (S.evCache[scope] = list);
+  }
+  function quand(s) {
+    const now = Date.now();
+    if (s.long) return u("until")(fmt({ day: "numeric", month: "long" }).format(new Date(s.end)));
+    if (s.start <= now && s.end >= now) return u("now");
+    const d = new Date(s.start), j = parisDay(d) === parisDay(new Date()) ? u("today") : parisDay(d) === parisDay(new Date(now + 864e5)) ? u("tomorrow") : fmt({ weekday: "short", day: "numeric", month: "short" }).format(d);
+    return `${j} · ${hm(d)}`;
+  }
+  async function loadEvents() {
+    $$("#v-sorties [data-f]").forEach((b) => { const f = b.dataset.f; b.setAttribute("aria-pressed", String(f === "today" || f === "free" ? !!S.ev[f] : S.ev.scope === f)); });
+    const box = $("#events"); if (!box) return;
+    box.innerHTML = `<p class="state">${esc(u("evLoading"))}</p>`;
+    let list;
+    try { list = await fetchEvents(S.ev.scope); } catch (e) { box.innerHTML = `<p class="state">${esc(u("evErr"))}</p>`; return; }
+    const finJour = new Date(); finJour.setHours(23, 59, 59, 999);
+    if (S.ev.free) list = list.filter((x) => String(x.r.price_type || "").toLowerCase().indexOf("gratuit") === 0);
+    if (S.ev.today) list = list.filter((x) => x.s.start <= finJour.getTime() && x.s.end >= Date.now());
+    list = list.slice(0, 12);
+    if (!list.length) { box.innerHTML = `<p class="state">${esc(u("evEmpty"))}</p>`; return; }
+    const L = C.logement;
+    box.innerHTML = `<ul class="events">${list.map(({ r, s }) => {
+      const g = r.lat_lon || {}, m = g.lat ? dist(L.latitude, L.longitude, g.lat, g.lon) : null;
+      const km = m == null ? r.address_zipcode : m < 1000 ? Math.round(m / 50) * 50 + " m" : (m / 1000).toFixed(1).replace(".", LANG === "fr" ? "," : ".") + " km";
+      const where = [r.address_name, km].filter(Boolean).join(" · ");
+      const free = String(r.price_type || "").toLowerCase().indexOf("gratuit") === 0;
+      const fid = String(r.id), fav = S.favoris.indexOf(fid) !== -1;
+      return `<li class="ev"><div class="ev-media">${r.cover_url ? `<img src="${esc(r.cover_url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : `<span class="ph">${svg("image", "", 1.4)}</span>`}
+        ${free ? `<span class="ev-free">${esc(u("free"))}</span>` : ""}
+        <button class="ev-save" type="button" data-fav="${esc(fid)}" aria-pressed="${fav}" aria-label="${esc(fav ? u("unsave") : u("save"))}"><svg viewBox="0 0 24 24" fill="${fav ? "#D2364D" : "rgba(0,0,0,0.45)"}" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button></div>
+        <a class="ev-link" href="${esc(r.url || "https://www.paris.fr/quefaire")}" target="_blank" rel="noopener"><span class="ev-title">${esc(r.title)}</span><span class="ev-meta">${esc(quand(s))}</span><span class="ev-meta">${esc(where)}</span></a></li>`;
+    }).join("")}</ul>`;
+    $$("#events img").forEach((im) => im.addEventListener("error", () => { const ph = document.createElement("span"); ph.className = "ph"; ph.innerHTML = svg("image", "", 1.4); im.replaceWith(ph); }));
+    $$("#events [data-fav]").forEach((b) => b.addEventListener("click", () => {
+      const id = b.dataset.fav, i = S.favoris.indexOf(id);
+      if (i === -1) S.favoris.push(id); else S.favoris.splice(i, 1);
+      store.set("livret-favoris", S.favoris);
+      const on = i === -1; b.setAttribute("aria-pressed", String(on)); b.setAttribute("aria-label", on ? u("unsave") : u("save"));
+      b.querySelector("svg").setAttribute("fill", on ? "#D2364D" : "rgba(0,0,0,0.45)");
+    }));
+  }
+
+  /* ───────── Vue Aide ───────── */
+  function renderAide() {
+    const H = C.hote, Sa = C.sante || {};
+    const nums = [["15", "e15"], ["17", "e17"], ["18", "e18"], ["3237", "e3237"]];
+    const wa = H.whatsapp ? String(H.whatsapp).replace(/[^\d]/g, "") : "";
+    $("#v-aide").innerHTML = viewHead(u("aideTitle"), u("aideSub")) + `
+      <div class="pad">
+        <div class="sec" id="s-sos" style="padding-top:20px">
+          <div class="stack">
+            <a class="e112" href="tel:112"><strong>112</strong><span class="t"><b>${esc(u("e112"))}</b><span>${esc(u("e112sub"))}</span></span></a>
+            <div class="grid2">${nums.map((n) => `<a class="enum" href="tel:${n[0]}"><strong>${n[0]}</strong><span>${esc(u(n[1]))}</span></a>`).join("")}</div>
+            <a class="erow" href="tel:0147077777"><span><b style="display:block;font-size:16px">${esc(u("sos"))}</b><span class="small muted">${esc(u("sosSub"))}</span></span><strong>01 47 07 77 77</strong></a>
+            <p class="xs muted" style="margin:0">${esc(u("e114"))}</p>
+          </div>
+        </div>
+        <div class="sec" id="s-hote">
+          <h2 style="margin-bottom:16px">${esc(u("hostTitle"))}</h2>
+          <div class="stack" style="gap:16px">
+            <div class="host" style="padding:0"><div class="avatar" aria-hidden="true">${esc(H.prenom.charAt(0))}</div><div><b>${esc(H.prenom)}</b><span>${esc(u("hostSub"))}</span></div></div>
+            <div class="stack" style="gap:6px">
+              <a class="btn btn-primary btn-block" href="https://www.airbnb.fr/" target="_blank" rel="noopener">${svg("msg", "", 1.8)}<span>${esc(u("airbnb"))}</span></a>
+              <p class="xs muted" style="margin:0;text-align:center">${esc(u("airbnbSub"))}</p>
+            </div>
+            ${wa ? `<a class="btn btn-block" href="https://wa.me/${wa}" target="_blank" rel="noopener">${svg("wa", "", 1.7)}<span>${esc(u("whatsapp"))} · ${esc(H.whatsappAffiche || H.whatsapp)}</span></a>` : ""}
+          </div>
+        </div>
+        <div class="sec" id="s-proche">
+          <h2 style="margin-bottom:6px">${esc(u("nearby"))}</h2>
+          ${Sa.pharmacie ? `<div class="place">${svg("croix", "ico", 1.6)}<div class="t"><b>${esc(Sa.pharmacie.nom)}</b><span>${esc(Sa.pharmacie.adresse)}</span></div><a class="iconbtn" href="${mapsQ(Sa.pharmacie.nom + ", " + Sa.pharmacie.adresse)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(Sa.pharmacie.nom)}">${svg("pin", "", 1.7)}</a></div>` : ""}
+          ${Sa.hopital ? `<div class="place">${svg("hospital", "ico", 1.6)}<div class="t"><b>${esc(Sa.hopital.nom)}</b><span>${esc(Sa.hopital.adresse)}${Sa.hopital.note ? " · " + esc(t(Sa.hopital.note)) : ""}</span></div><a class="iconbtn" href="${mapsQ(Sa.hopital.nom + ", " + Sa.hopital.adresse)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(Sa.hopital.nom)}">${svg("pin", "", 1.7)}</a></div>` : ""}
+        </div>
+      </div>`;
+  }
+
+  /* ───────── Onglets, navigation ───────── */
+  const TABS = [["accueil", "homeTab"], ["studio", "lit"], ["transports", "trainTab"], ["sorties", "cal"], ["aide", "croix"]];
+  function renderTabbar() {
+    $("#tabbar").innerHTML = TABS.map((x) => `<button type="button" data-tab="${x[0]}"${S.tab === x[0] ? ' aria-current="page"' : ""}>${svg(x[1], "", 1.8)}<span>${esc(u("tab_" + x[0]))}</span></button>`).join("");
+  }
+  function go(tab, anchor) {
+    S.tab = tab;
+    TABS.forEach((x) => { $("#v-" + x[0]).hidden = x[0] !== tab; });
+    renderTabbar();
+    if (anchor) { const a = document.getElementById(anchor); if (a) { a.scrollIntoView({ block: "start" }); return; } }
+    window.scrollTo(0, 0);
+  }
+  document.addEventListener("click", (e) => {
+    const l = e.target.closest("[data-lang]");
+    if (l) { if (l.dataset.lang !== LANG) { LANG = l.dataset.lang; store.set("livret-langue", LANG); renderAll(); } return; }
+    const tb = e.target.closest("[data-tab]"); if (tb) { go(tb.dataset.tab); return; }
+    const g = e.target.closest("[data-go]"); if (g) { const p = g.dataset.go.split(":"); go(p[0], p[1]); return; }
+    const s = e.target.closest("[data-sc]"); if (s) { const p = SC[s.dataset.sc].split(":"); go(p[0], p[1]); return; }
+    const sn = e.target.closest("[data-sub]");
+    if (sn) { e.preventDefault(); const tgt = document.getElementById(sn.getAttribute("href").slice(1)); if (tgt) tgt.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+  });
+  let spy = null;
+  function scrollSpy() {
+    if (spy) spy.disconnect();
+    if (!("IntersectionObserver" in window)) return;
+    spy = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const id = en.target.id, nav = en.target.closest(".view").querySelector(".subnav");
+        if (nav) $$("a", nav).forEach((a) => a.setAttribute("aria-current", String(a.getAttribute("href") === "#" + id)));
+      });
+    }, { rootMargin: "-70px 0px -60% 0px" });
+    $$(".view .sec[id]").forEach((s) => spy.observe(s));
+  }
+
+  /* ───────── Météo (Open-Meteo, sans clé) ───────── */
+  async function loadWeather() {
+    const L = C.logement;
+    try {
+      const j = await getJSON(`https://api.open-meteo.com/v1/forecast?latitude=${L.latitude}&longitude=${L.longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FParis&forecast_days=1`);
+      S.weather = { t: j.current.temperature_2m, c: j.current.weather_code, max: j.daily.temperature_2m_max[0], min: j.daily.temperature_2m_min[0] };
+    } catch (e) { S.weather = null; }
+    const m = $("#meteo"); if (m) m.outerHTML = meteoHtml();
+  }
+
+  function renderAll() {
+    document.documentElement.lang = LANG;
+    renderAccueil(); renderStudio(); renderTransports(); renderSorties(); renderAide(); renderTabbar();
+    TABS.forEach((x) => { $("#v-" + x[0]).hidden = x[0] !== S.tab; });
+    scrollSpy();
+    if (dlg.open && typeof S.openFiche === "number") renderFiche(S.openFiche);
+    else if (dlg.open && S.openFiche === "qr") renderQr();
+  }
+
+  /* ───────── Démarrage ───────── */
+  function verrou(k) {
+    $("#app").hidden = true; $("#lock").hidden = false;
+    $("#lockMsg").textContent = LOCK[k][0]; $("#lockMsgEn").textContent = LOCK[k][1];
+  }
+  async function demarrer() {
+    let secret = null;
+    const h = location.hash.slice(1);
+    const neuf = /^[A-Za-z0-9_-]{16,64}$/.test(h);
+    if (neuf) { secret = h; store.set("livret-cle", h); history.replaceState(null, "", location.pathname + location.search); }
+    else secret = store.get("livret-cle", null);
+    if (!secret) return verrou("none");
+    try { C = await ouvrir(secret); }
+    catch (e) {
+      if (e && e.cle) { store.del("livret-cle"); return verrou(neuf ? "bad" : "none"); }
+      return verrou("net");
+    }
+    $("#lock").hidden = true; $("#app").hidden = false;
+    renderAll();
+    loadWeather(); loadTraffic(); loadVelib();
+    setInterval(() => { const c = $("#clock"); if (c) c.textContent = hm(new Date()); }, 15000);
+    setInterval(() => { if (!document.hidden) { loadVelib(); if (S.traffic.state === "ok") loadTraffic(); } }, 120000);
+  }
+  demarrer();
+})();
+</script>
+</body>
+</html>

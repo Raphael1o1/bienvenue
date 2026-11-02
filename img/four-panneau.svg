@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 392" role="img" aria-labelledby="t">
+  <title id="t">Panneau de commande du four micro-ondes : Stop à gauche, Microwave, Grill, Jet Reheat, Jet Defrost, molette, Chef Menu, et Jet Start tout à droite</title>
+  <defs>
+    <radialGradient id="metal" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#D4D8DB"/>
+      <stop offset="1" stop-color="#9AA1A6"/>
+    </radialGradient>
+  </defs>
+  <rect x="0" y="0" width="1000" height="392" rx="16" fill="#FFFFFF"/>
+  <g transform="translate(0,60)">
+
+  <!-- Façade noire et cadre inox -->
+  <rect x="20" y="94" width="960" height="134" rx="12" fill="#121416" stroke="#A9AFB4" stroke-width="6"/>
+
+  <g fill="none" stroke="#F4F6F7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Stop -->
+    <rect x="52" y="120" width="56" height="50" rx="3"/>
+    <rect x="70" y="135" width="20" height="20" rx="1.5"/>
+
+    <!-- Rangée du haut -->
+    <path d="M234 146 a16 16 0 0 1 32 0 M240 146 a10 10 0 0 1 20 0 M246 146 a4 4 0 0 1 8 0"/>
+    <path d="M322 131 h36 M324 138 l4 7 l4 -7 l4 7 l4 -7 l4 7 l4 -7 l4 7 l4 -7"/>
+    <circle cx="430" cy="138" r="3" fill="#F4F6F7"/>
+    <path d="M430 135 c-2 -8 6 -11 9 -6 c2 4 -3 6 -9 6 M432.6 139.5 c8 -1 9 8 3.5 9.5 c-4.5 1 -5 -4.5 -3.5 -9.5 M427.4 139.5 c-5 6 -12.5 1 -10 -4 c2 -4 7 -1 10 4"/>
+    <path d="M506 146 h28 M512 140 q-3 -4 0 -8 q3 -4 0 -8 M520 140 q-3 -4 0 -8 q3 -4 0 -8 M528 140 q-3 -4 0 -8 q3 -4 0 -8"/>
+
+    <!-- Rangée du bas -->
+    <path d="M236 192 q14 8 28 0 M240 196 h20 M244 186 q-3 -4 0 -8 M250 186 q-3 -4 0 -8 M256 186 q-3 -4 0 -8"/>
+    <path d="M340 176 v18 M331 180.5 l18 9 M331 189.5 l18 -9 M340 198 q-4 6 0 8 q4 -2 0 -8"/>
+    <path d="M414 196 a10 10 0 0 1 20 0 M418 196 a6 6 0 0 1 12 0"/>
+    <circle cx="442" cy="182" r="5"/>
+    <path d="M508 182 h24 v14 h-24 z M512 189 q3 -3 6 0 t6 0 t6 0"/>
+
+    <!-- Groupe de droite -->
+    <path d="M731 146 h18 v-6 a6 6 0 0 0 -2 -11 a7 7 0 0 0 -12 0 a6 6 0 0 0 -4 11 z"/>
+    <rect x="789" y="127" width="22" height="22" rx="4"/>
+    <circle cx="795" cy="133" r="1.4" fill="#F4F6F7"/><circle cx="805" cy="133" r="1.4" fill="#F4F6F7"/><circle cx="795" cy="143" r="1.4" fill="#F4F6F7"/><circle cx="805" cy="143" r="1.4" fill="#F4F6F7"/>
+    <path d="M728 196 h24 M731 196 a9 9 0 0 1 18 0 M740 185 v-2"/>
+    <circle cx="800" cy="188" r="9"/>
+    <path d="M793 195 l14 -14"/>
+
+    <!-- Jet Start -->
+    <rect x="924" y="120" width="44" height="50" rx="3"/>
+    <path d="M940 135 l13 10 l-13 10 z"/>
+  </g>
+
+  <!-- Molette -->
+  <circle cx="650" cy="161" r="44" fill="#2B2F33"/>
+  <circle cx="650" cy="161" r="38" fill="url(#metal)" stroke="#7E868C" stroke-width="1.5"/>
+
+  <!-- Afficheur -->
+  <text x="868" y="172" font-family="Menlo, Consolas, monospace" font-size="30" fill="#A9D2E6" text-anchor="middle">15:01</text>
+
+  <g font-family="Helvetica, Arial, sans-serif" fill="#F4F6F7" text-anchor="middle">
+    <text x="80" y="197" font-size="15">STOP</text>
+    <text x="946" y="197" font-size="12">JET START</text>
+    <text x="800" y="214" font-size="9">Press 3 sec</text>
+  </g>
+
+  </g>
+
+  <!-- Repères -->
+  <g stroke="#8A9096" stroke-width="2">
+    <line x1="80" y1="54" x2="80" y2="176"/>
+    <line x1="250" y1="98" x2="250" y2="184"/>
+    <line x1="340" y1="142" x2="340" y2="186"/>
+    <line x1="650" y1="54" x2="650" y2="174"/>
+    <line x1="740" y1="142" x2="740" y2="184"/>
+    <line x1="946" y1="54" x2="946" y2="176"/>
+    <line x1="250" y1="266" x2="250" y2="346"/>
+    <line x1="340" y1="272" x2="340" y2="302"/>
+  </g>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" fill="#222222" text-anchor="middle">
+    <text x="80" y="44">Stop</text>
+    <text x="250" y="88">Microwave</text>
+    <text x="340" y="132">Grill</text>
+    <text x="650" y="44">Molette · Dial</text>
+    <text x="760" y="132">Chef Menu</text>
+    <text x="940" y="44">Start</text>
+    <text x="380" y="330">Jet Defrost</text>
+    <text x="250" y="376">Jet Reheat</text>
+  </g>
+</svg>

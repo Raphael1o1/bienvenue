@@ -1,0 +1,11 @@
+{
+  "name": "livret-outils",
+  "private": true,
+  "type": "module",
+  "description": "Chiffre le contenu du livret et génère les QR codes.",
+  "dependencies": {
+    "qrcode": "1.5.4",
+    "jsqr": "1.4.0",
+    "pngjs": "7.0.0"
+  }
+}
