@@ -145,6 +145,11 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .callout ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
 .callout p{margin:0;font-size:14px;line-height:1.45}
 .soft{padding:16px;border-radius:16px;background:var(--alt);display:flex;flex-direction:column;gap:12px}
+.partner .pt{display:flex;gap:12px;align-items:flex-start}
+.partner .pt b{display:block;font-size:15px;font-weight:600}
+.partner .pt p{margin:2px 0 0;font-size:14px;line-height:1.45;color:var(--ink2)}
+.partner .btn{align-self:flex-start}
+.partner p.xs{margin:0}
 
 /* Check-list */
 .check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
@@ -364,7 +369,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde",
       sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "114 : urgences par SMS pour les personnes sourdes ou malentendantes.",
       hostTitle: "Votre hôte", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Messagerie Airbnb", airbnbSub: "Appli Airbnb, onglet Messages",
-      whatsapp: "WhatsApp", nearby: "À proximité",
+      whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
       close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
       qrHint: "Scannez ce code avec l'appareil photo d'un autre téléphone pour le connecter au Wi-Fi.",
       bye: "Bon séjour !",
@@ -408,7 +413,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy",
       sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "114: emergencies by text for deaf or hard-of-hearing people.",
       hostTitle: "Your host", hostSub: "A problem in the studio? Message me.", airbnb: "Airbnb messages", airbnbSub: "Airbnb app, Messages tab",
-      whatsapp: "WhatsApp", nearby: "Nearby",
+      whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
       close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
       qrHint: "Scan this code with another phone's camera to connect it to the Wi-Fi.",
       bye: "Enjoy your stay!",
@@ -464,6 +469,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     snow: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="M8.5 18.5h.01M12 20h.01M15.5 18.5h.01" stroke-width="2.6"/>',
     storm: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="m12.5 15-2 3.5h3l-2 3.5"/>',
     fog: '<path d="M4 9h16M3 13h18M5 17h14"/>',
+    valise: '<rect x="4" y="7.5" width="16" height="12" rx="2"/><path d="M9 7.5V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2.5"/><path d="M8 11v5M16 11v5"/><path d="M7.5 19.5v1M16.5 19.5v1"/>',
+    signal: '<path d="M5 19v-3M9.7 19v-6M14.3 19v-9M19 19V7"/>',
+    prise: '<circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="12.5" r="1.2"/><circle cx="15" cy="12.5" r="1.2"/><path d="M12 6.5v1.8"/>',
+    goutte: '<path d="M12 3.5s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/>',
+    resto: '<path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17 21V3c-2.2 1.3-3.5 3.8-3.5 6.5V13H17"/>',
+    voiture: '<path d="M5 16.5V12l2-5.5h10l2 5.5v4.5"/><path d="M3.5 16.5h17v2.5h-17z"/><path d="M7.5 19v1.5M16.5 19v1.5"/><path d="M5 12h14"/>',
   };
   const svg = (n, cls, sw, style) => `<svg${cls ? ` class="${cls}"` : ""}${style ? ` style="${style}"` : ""} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw || 1.7}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || P.info}</svg>`;
 
@@ -518,6 +529,13 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   function subnav(view, items) {
     return `<nav class="subnav" aria-label="Sections"><div class="pad">${items.map((it, i) => `<a href="#${it[0]}" data-sub="${view}" aria-current="${i === 0}">${esc(it[1])}</a>`).join("")}</div></nav>`;
   }
+  function partnerCard(p) {
+    if (!p || !p.url) return "";
+    const m = C.partenaires && C.partenaires.mention;
+    return `<div class="soft partner"><div class="pt">${svg(p.icone || "star", "ico", 1.6)}<div><b>${esc(t(p.titre))}</b><p>${esc(t(p.texte))}</p></div></div>
+      <a class="btn" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">${esc(t(p.bouton))}${svg("ext", "", 2)}</a>
+      ${m ? `<p class="xs muted">${esc(t(m))}</p>` : ""}</div>`;
+  }
   const warnTitle = () => `<b>${svg("warn", "", 1.8, "width:20px;height:20px")}${esc(u("important"))}</b>`;
 
   /* ───────── Déchiffrement du contenu ───────── */
@@ -554,7 +572,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     const tab = arr ? (arr === "1" ? "1<sup>er</sup> Arr<sup>t</sup>" : `${esc(arr)}<sup>e</sup> Arr<sup>t</sup>`) : "Paris";
     const sc = [
       ["guide", "home", u("sc_guide")], ["depart", "exit", u("sc_depart")], ["metro", "train", u("sc_metro")], ["velib", "velo", u("sc_velib")],
-      ["sorties", "cal", u("sc_sorties")], (C.experiences && C.experiences.length) ? ["exp", "star", u("sc_exp")] : ["voir", "pin", u("sc_voir")],
+      ["sorties", "cal", u("sc_sorties")], ["voir", "pin", u("sc_voir")],
       ["urgences", "croix", u("sc_urgences")], ["contact", "msg", u("sc_contact")(p)],
     ];
     $("#v-accueil").innerHTML = `
@@ -597,7 +615,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Vue Studio ───────── */
   function renderStudio() {
-    const D = C.depart;
+    const D = C.depart, PA = C.partenaires || {};
     $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")], ["s-depart", u("depart")]]) + `
       <div class="pad">
         <div class="sec" id="s-guide">
@@ -613,6 +631,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             <div class="progress"><div class="bar"><i id="depBar"></i></div><span id="depTxt"></span></div>
             <div class="callout">${warnTitle()}<p>${esc(t(D.attention))}</p></div>
             <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.tardif))}</p>
+            ${partnerCard(PA.bagages)}${partnerCard(PA.transfert)}
             <p style="margin:0;font-size:15px;font-weight:600">${esc(t(D.aurevoir))}</p>
           </div>
         </div>
@@ -826,8 +845,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Vue Sorties ───────── */
   function renderSorties() {
-    const X = C.experiences || [], hasX = X.length > 0, p = C.hote.prenom;
-    const items = [["s-events", u("events")]]; if (hasX) items.push(["s-exp", u("exp")]); items.push(["s-voir", u("voir")]);
+    const PA = C.partenaires || {}, act = !!(PA.activites && PA.activites.url);
+    const items = [["s-events", u("events")]]; if (act) items.push(["s-activites", u("activites")]); items.push(["s-voir", u("voir")]);
     $("#v-sorties").innerHTML = viewHead(u("sortiesTitle"), u("sortiesSub")) + subnav("sorties", items) + `
       <div class="pad">
         <div class="sec" id="s-events">
@@ -841,8 +860,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             <p class="xs muted" style="margin:0">${esc(u("evSource"))}</p>
           </div>
         </div>
-        ${hasX ? `<div class="sec" id="s-exp"><h2>${esc(u("expTitle"))}</h2><p class="muted" style="margin:4px 0 16px;font-size:15px">${esc(u("expSub")(p))}</p>
-          <div class="hscroll">${X.map((x) => `<a class="exp" href="${esc(x.url)}" target="_blank" rel="noopener sponsored"><span class="img">${x.image ? `<img src="${esc(x.image)}" alt="" loading="lazy">` : ""}</span><b>${esc(t(x.titre))}</b>${x.prix ? `<span class="small muted">${esc(t(x.prix))}</span>` : ""}</a>`).join("")}</div></div>` : ""}
+        ${act ? `<div class="sec" id="s-activites">${partnerCard(PA.activites)}</div>` : ""}
         <div class="sec" id="s-voir">
           ${C.adresses.map((c, i) => `<h2 style="margin:${i ? "24px" : "0"} 0 6px">${esc(t(c.categorie))}</h2>
             <div>${c.lieux.map((l) => `<div class="place"><div class="t"><b>${esc(l.nom)}</b><span>${esc(t(l.note))}</span></div><a class="iconbtn" href="${mapsQ(l.carte || l.nom)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(l.nom)}">${svg("pin", "", 1.7)}</a></div>`).join("")}</div>`).join("")}
@@ -918,7 +936,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Vue Aide ───────── */
   function renderAide() {
-    const H = C.hote, Sa = C.sante || {};
+    const H = C.hote, Sa = C.sante || {}, PA = C.partenaires || {};
     const nums = [["15", "e15"], ["17", "e17"], ["18", "e18"], ["3237", "e3237"]];
     const wa = H.whatsapp ? String(H.whatsapp).replace(/[^\d]/g, "") : "";
     $("#v-aide").innerHTML = viewHead(u("aideTitle"), u("aideSub")) + `
@@ -942,6 +960,11 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             ${wa ? `<a class="btn btn-block" href="https://wa.me/${wa}" target="_blank" rel="noopener">${svg("wa", "", 1.7)}<span>${esc(u("whatsapp"))} · ${esc(H.whatsappAffiche || H.whatsapp)}</span></a>` : ""}
           </div>
         </div>
+        ${(C.pratique && C.pratique.length) || PA.esim ? `<div class="sec" id="s-pratique">
+          <h2 style="margin-bottom:6px">${esc(u("pratique"))}</h2>
+          ${(C.pratique || []).map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
+          ${PA.esim ? `<div style="margin-top:12px">${partnerCard(PA.esim)}</div>` : ""}
+        </div>` : ""}
         <div class="sec" id="s-proche">
           <h2 style="margin-bottom:6px">${esc(u("nearby"))}</h2>
           ${Sa.pharmacie ? `<div class="place">${svg("croix", "ico", 1.6)}<div class="t"><b>${esc(Sa.pharmacie.nom)}</b><span>${esc(Sa.pharmacie.adresse)}</span></div><a class="iconbtn" href="${mapsQ(Sa.pharmacie.nom + ", " + Sa.pharmacie.adresse)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(Sa.pharmacie.nom)}">${svg("pin", "", 1.7)}</a></div>` : ""}
