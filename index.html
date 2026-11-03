@@ -64,7 +64,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .vh h1{font-size:28px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .vh p{margin:4px 0 0;color:var(--muted);font-size:15px}
 .lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
-.lang button{border:0;border-radius:999px;min-width:46px;height:40px;font-weight:600;font-size:14px;background:transparent;color:var(--muted);cursor:pointer}
+.lang button{border:0;border-radius:999px;min-width:46px;height:44px;font-weight:600;font-size:14px;background:transparent;color:var(--muted);cursor:pointer}
 .lang button[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
 .meteo{display:flex;align-items:center;gap:10px;min-width:0}
 .meteo svg{width:30px;height:30px;flex:none}
@@ -121,7 +121,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 /* Sous-menu collant */
 .subnav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line-soft);margin-top:8px}
 .subnav .pad{display:flex;gap:24px;overflow-x:auto;scrollbar-width:none}
-.subnav a{padding:12px 0;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.subnav a{min-width:44px;text-align:center;padding:12px 0;font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
 .subnav a[aria-current="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
 [id^="s-"]{scroll-margin-top:calc(56px + env(safe-area-inset-top,0px))}
 
@@ -205,7 +205,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 
 /* Événements */
 .filters{display:flex;flex-wrap:wrap;gap:8px}
-.filters button{min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:14px;font-weight:600;cursor:pointer}
+.filters button{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:14px;font-weight:600;cursor:pointer}
 .filters button[aria-pressed="true"]{background:var(--on);border-color:var(--on);color:var(--on-ink)}
 .events{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:22px}
 .ev{display:flex;flex-direction:column;gap:10px}
@@ -267,12 +267,18 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 .sheet-body .lead{font-size:15px;line-height:1.5;color:var(--ink2)}
 .fsec{display:flex;flex-direction:column;gap:10px}
 .fsec.sep{padding-top:18px;border-top:1px solid var(--line-soft)}
+.fsec.fold{display:block}
+.fold > summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;cursor:pointer}
+.fold > summary::-webkit-details-marker{display:none}
+.fold .fchev{width:18px;height:18px;color:var(--muted);transition:transform .2s;flex:none}
+.fold[open] .fchev{transform:rotate(90deg)}
+.fold-body{display:flex;flex-direction:column;gap:10px;padding-top:6px}
 .fsec h3{font-size:17px;font-weight:600}
 .fsec .txt{font-size:15px;line-height:1.5;color:var(--ink2)}
 .fsec ul.puces{margin:0;padding-left:18px;font-size:15px;line-height:1.5;color:var(--ink2)}
 .badge{padding:3px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line);font-size:12px;font-weight:600;white-space:nowrap}
 .seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:4px;border-radius:12px;background:var(--alt)}
-.seg button{height:40px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
+.seg button{height:44px;border:0;border-radius:9px;background:transparent;font-size:14px;font-weight:600;cursor:pointer;color:var(--ink)}
 .seg button[aria-pressed="true"]{background:var(--bg);box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .figure{margin:0;display:flex;flex-direction:column;gap:8px}
 .figure img{width:100%;height:auto;display:block;border:1px solid var(--line-soft);border-radius:12px;background:#FFFFFF}
@@ -361,14 +367,14 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       sortiesTitle: "Sorties", sortiesSub: "Cette semaine à Paris", events: "Événements", exp: "Expériences", voir: "À voir",
       f_near: "Près d'ici", f_all: "Tout Paris", f_today: "Aujourd'hui", f_free: "Gratuit",
       evLoading: "Chargement des événements…", evEmpty: "Aucun événement avec ces filtres cette semaine.", evErr: "Les événements ne peuvent pas être chargés pour le moment.",
-      evMore: "Voir plus d'événements", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
-      until: (d) => `Jusqu'au ${d}`, today: "Aujourd'hui", tomorrow: "Demain", save: "Enregistrer cet événement", unsave: "Retirer des favoris",
+      evMore: "Tout le programme sur paris.fr", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
+      until: (d) => `Jusqu'au ${d}`, today: "Aujourd'hui", tomorrow: "Demain", save: "Enregistrer cet événement", unsave: "Retirer des favoris", f_saved: (n) => `Enregistrés (${n})`, savedEmpty: "Aucun événement enregistré pour l'instant. Touchez le cœur d'un événement pour le retrouver ici.", evMoreBtn: (n) => `Afficher plus d'événements (${n})`,
       expTitle: "Expériences à réserver", expSub: (p) => `La sélection de ${p}`, map: "Voir sur la carte",
       aideTitle: "Aide et urgences", aideSub: "Numéros gratuits, 24 h/24",
       e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
       e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde",
       sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "114 : urgences par SMS pour les personnes sourdes ou malentendantes.",
-      hostTitle: "Votre hôte", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Messagerie Airbnb", airbnbSub: "Appli Airbnb, onglet Messages",
+      hostTitle: "Votre hôte", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
       whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
       close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
       qrHint: "Scannez ce code avec l'appareil photo d'un autre téléphone pour le connecter au Wi-Fi.",
@@ -405,14 +411,14 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       sortiesTitle: "Going out", sortiesSub: "This week in Paris", events: "Events", exp: "Experiences", voir: "Sights",
       f_near: "Nearby", f_all: "All of Paris", f_today: "Today", f_free: "Free",
       evLoading: "Loading events…", evEmpty: "No events match these filters this week.", evErr: "Events can't be loaded right now.",
-      evMore: "See more events", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
-      until: (d) => `Until ${d}`, today: "Today", tomorrow: "Tomorrow", save: "Save this event", unsave: "Remove from saved",
+      evMore: "Full listings on paris.fr", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
+      until: (d) => `Until ${d}`, today: "Today", tomorrow: "Tomorrow", save: "Save this event", unsave: "Remove from saved", f_saved: (n) => `Saved (${n})`, savedEmpty: "No saved events yet. Tap the heart on an event to find it here.", evMoreBtn: (n) => `Show more events (${n})`,
       expTitle: "Experiences to book", expSub: (p) => `${p}'s picks`, map: "Show on map",
       aideTitle: "Help and emergencies", aideSub: "Free numbers, 24/7",
       e112: "Emergency, all services", e112sub: "European number, from any phone",
       e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy",
       sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "114: emergencies by text for deaf or hard-of-hearing people.",
-      hostTitle: "Your host", hostSub: "A problem in the studio? Message me.", airbnb: "Airbnb messages", airbnbSub: "Airbnb app, Messages tab",
+      hostTitle: "Your host", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
       whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
       close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
       qrHint: "Scan this code with another phone's camera to connect it to the Wi-Fi.",
@@ -536,6 +542,13 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       <a class="btn" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">${esc(t(p.bouton))}${svg("ext", "", 2)}</a>
       ${m ? `<p class="xs muted">${esc(t(m))}</p>` : ""}</div>`;
   }
+  function heure(hhmm) {
+    const m = /^(\d{1,2}):(\d{2})$/.exec(String(hhmm || "")); if (!m) return String(hhmm || "");
+    const h = +m[1], mn = m[2];
+    if (LANG === "fr") return mn === "00" ? `${h} h` : `${h} h ${mn}`;
+    const h12 = ((h + 11) % 12) + 1, ap = h < 12 ? "am" : "pm";
+    return mn === "00" ? `${h12} ${ap}` : `${h12}:${mn} ${ap}`;
+  }
   const warnTitle = () => `<b>${svg("warn", "", 1.8, "width:20px;height:20px")}${esc(u("important"))}</b>`;
 
   /* ───────── Déchiffrement du contenu ───────── */
@@ -552,10 +565,10 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   let C = null;
   const S = {
-    tab: "accueil", depart: store.get("livret-depart", []), favoris: store.get("livret-favoris", []).map(String),
+    tab: "accueil", depart: store.get("livret-depart", []), favoris: (store.get("livret-favoris-v2", []) || []).filter((f) => f && f.r && f.s), evShown: 6, evList: [], sheetHist: false,
     weather: null, traffic: { state: "idle", lines: {}, at: null, sel: null },
     velib: { state: "idle", list: [], at: null },
-    ev: Object.assign({ scope: "near", today: false, free: false }, store.get("livret-filtres", {})), evCache: {}, ficheTab: 0, openFiche: null,
+    ev: Object.assign({ scope: "near", today: false, free: false }, store.get("livret-filtres", {}), { saved: false }), evCache: {}, ficheTab: 0, openFiche: null,
   };
 
   /* ───────── Vue Accueil ───────── */
@@ -567,7 +580,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     return `<div class="meteo" id="meteo">${svg(wIcon(w.c), "", 1.6)}<div><b>${Math.round(w.t)}° · ${esc(u("w")[w.c] || "")}</b><span><span id="clock" style="display:inline">${esc(now)}</span> ${esc(u("parisTime"))} · ${Math.round(w.min)}° / ${Math.round(w.max)}°</span></div></div>`;
   }
   function renderAccueil() {
-    const L = C.logement, h = C.depart.heure, p = C.hote.prenom;
+    const L = C.logement, h = heure(C.depart.heure), p = C.hote.prenom;
     const arr = String(L.arrondissement || "");
     const tab = arr ? (arr === "1" ? "1<sup>er</sup> Arr<sup>t</sup>" : `${esc(arr)}<sup>e</sup> Arr<sup>t</sup>`) : "Paris";
     const sc = [
@@ -624,7 +637,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
           <div class="list">${C.fiches.map((f, i) => `<button class="list-item" type="button" data-fiche="${i}">${svg(f.icone, "ico", 1.5)}<span class="t"><b>${esc(t(f.titre))}</b><span class="s">${esc(t(f.resume))}</span></span>${svg("chev", "chev", 2)}</button>`).join("")}</div>
         </div>
         <div class="sec" id="s-depart">
-          <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(D.heure))}</span></div>
+          <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(heure(D.heure)))}</span></div>
           <div class="stack">
             <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.intro))}</p>
             <ul class="check">${D.etapes.map((e, i) => `<li><label for="dep-${i}"><input type="checkbox" id="dep-${i}" data-i="${i}"${S.depart.indexOf(i) !== -1 ? " checked" : ""}><span>${esc(t(e))}</span></label></li>`).join("")}</ul>
@@ -648,16 +661,18 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Fiches (panneau) ───────── */
   const dlg = $("#sheet");
   function sectionHtml(s) {
-    let h = "";
-    if (s.image) h += `<figure class="figure"><a href="${esc(s.image.src)}" target="_blank" rel="noopener"><img src="${esc(s.image.src)}" alt="${esc(t(s.image.alt))}"></a><figcaption>${esc(t(s.image.legende))}</figcaption></figure>`;
-    if (s.titre && !s.onglet) h += `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3>${esc(t(s.titre))}</h3>${s.badge ? `<span class="badge">${esc(t(s.badge))}</span>` : ""}</div>`;
-    if (s.etapes) h += `<ol class="steps${s.encadre || !s.titre || s.onglet ? "" : " outline"}">${s.etapes.map((e) => `<li><span>${esc(t(e))}</span></li>`).join("")}</ol>`;
-    if (s.texte) h += `<p class="txt">${esc(t(s.texte))}</p>`;
-    if (s.puces) h += `<ul class="puces">${s.puces.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>`;
-    if (s.important) h += `<div class="callout">${warnTitle()}${s.important.length > 1 ? `<ul>${s.important.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>` : `<p>${esc(t(s.important[0]))}</p>`}</div>`;
-    if (s.lien) h += `<a class="row-link" href="${esc(s.lien.url)}" target="_blank" rel="noopener">${s.lien.video ? `<span class="vid"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span>` : svg("info", "ico", 1.6)}<span class="t"><b>${esc(t(s.lien.label))}</b><span class="s">${esc(t(s.lien.sous))}</span></span>${svg("ext", "chev", 2)}</a>`;
-    const cls = s.encadre ? "fsec soft" : "fsec" + (s.titre && !s.onglet ? " sep" : "");
-    return `<div class="${cls}">${h}</div>`;
+    const titre = s.titre && !s.onglet ? esc(t(s.titre)) : "";
+    let b = "";
+    if (s.image) b += `<figure class="figure"><a href="${esc(s.image.src)}" target="_blank" rel="noopener"><img src="${esc(s.image.src)}" alt="${esc(t(s.image.alt))}"></a><figcaption>${esc(t(s.image.legende))}</figcaption></figure>`;
+    if (s.etapes) b += `<ol class="steps${s.encadre || !s.titre || s.onglet ? "" : " outline"}">${s.etapes.map((e) => `<li><span>${esc(t(e))}</span></li>`).join("")}</ol>`;
+    if (s.texte) b += `<p class="txt">${esc(t(s.texte))}</p>`;
+    if (s.puces) b += `<ul class="puces">${s.puces.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>`;
+    if (s.important) b += `<div class="callout">${warnTitle()}${s.important.length > 1 ? `<ul>${s.important.map((e) => `<li>${esc(t(e))}</li>`).join("")}</ul>` : `<p>${esc(t(s.important[0]))}</p>`}</div>`;
+    if (s.lien) b += `<a class="row-link" href="${esc(s.lien.url)}" target="_blank" rel="noopener">${s.lien.video ? `<span class="vid"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span>` : svg("info", "ico", 1.6)}<span class="t"><b>${esc(t(s.lien.label))}</b><span class="s">${esc(t(s.lien.sous))}</span></span>${svg("ext", "chev", 2)}</a>`;
+    if (titre && s.replie) return `<details class="fsec sep fold"><summary><h3>${titre}</h3>${svg("chev", "fchev", 2)}</summary><div class="fold-body">${b}</div></details>`;
+    const head = titre ? `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px"><h3>${titre}</h3>${s.badge ? `<span class="badge">${esc(t(s.badge))}</span>` : ""}</div>` : "";
+    const cls = s.encadre ? "fsec soft" : "fsec" + (titre ? " sep" : "");
+    return `<div class="${cls}">${head}${b}</div>`;
   }
   function renderFiche(i) {
     const f = C.fiches[i], p = C.hote.prenom;
@@ -678,18 +693,30 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   function bindFoot() {
     $$("#sheetFoot [data-sheet]").forEach((b) => b.addEventListener("click", () => {
-      closeSheet(); if (b.dataset.sheet === "contact") go("aide", "s-hote");
+      if (b.dataset.sheet === "contact") { closeSheet("replace"); go("aide", "s-hote", "replace"); }
+      else closeSheet();
     }));
   }
   function showSheet() {
     $("#sheetClose").innerHTML = svg("x", "", 2.2); $("#sheetClose").setAttribute("aria-label", u("close"));
     document.documentElement.style.overflow = "hidden";
-    if (!dlg.open) { if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", ""); }
+    dlg.style.transition = ""; dlg.style.transform = "";
+    if (!dlg.open) {
+      if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
+      try { history.pushState({ tab: S.tab, sheet: true }, ""); S.sheetHist = true; } catch (e) { S.sheetHist = false; }
+    }
     $("#sheetBody").scrollTop = 0;
   }
-  function closeSheet() {
+  // mode : rien = fermeture par l'interface (on revient d'un cran dans l'historique),
+  // "pop" = l'historique a déjà reculé (bouton retour), "replace" = on remplace l'étape « fiche ».
+  function closeSheet(mode) {
     if (dlg.open) { if (typeof dlg.close === "function") dlg.close(); else dlg.removeAttribute("open"); }
-    document.documentElement.style.overflow = ""; S.openFiche = null;
+    dlg.style.transform = ""; document.documentElement.style.overflow = ""; S.openFiche = null;
+    if (S.sheetHist) {
+      S.sheetHist = false;
+      if (mode === "replace") { try { history.replaceState({ tab: S.tab }, ""); } catch (e) {} }
+      else if (mode !== "pop") history.back();
+    }
   }
   function openFiche(i) { S.ficheTab = 0; S.openFiche = i; renderFiche(i); showSheet(); }
   function renderQr() {
@@ -700,9 +727,39 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     bindFoot();
   }
   function openQr() { S.openFiche = "qr"; renderQr(); showSheet(); }
-  $("#sheetClose").addEventListener("click", closeSheet);
-  dlg.addEventListener("click", (e) => { if (e.target === dlg) closeSheet(); });
+  $("#sheetClose").addEventListener("click", () => closeSheet());
+  // Fermer en touchant le fond, seulement si le geste a commencé sur le fond
+  let appuiFond = false;
+  dlg.addEventListener("pointerdown", (e) => { appuiFond = e.target === dlg; });
+  dlg.addEventListener("click", (e) => { if (e.target === dlg && appuiFond) closeSheet(); appuiFond = false; });
+  dlg.addEventListener("cancel", (e) => { e.preventDefault(); closeSheet(); });
   dlg.addEventListener("close", () => { document.documentElement.style.overflow = ""; S.openFiche = null; });
+  // Glisser la fiche vers le bas pour la fermer (poignée, en-tête, ou contenu déjà en haut)
+  (function glisser() {
+    let y0 = null, dy = 0, t0 = 0, depuisCorps = false;
+    dlg.addEventListener("touchstart", (e) => {
+      if (!dlg.open || e.touches.length !== 1) return;
+      const corps = e.target.closest("#sheetBody");
+      if (corps && corps.scrollTop > 0) return;
+      depuisCorps = !!corps; y0 = e.touches[0].clientY; dy = 0; t0 = Date.now(); dlg.style.transition = "none";
+    }, { passive: true });
+    dlg.addEventListener("touchmove", (e) => {
+      if (y0 == null) return;
+      dy = e.touches[0].clientY - y0;
+      if (dy <= 0) { if (depuisCorps) { y0 = null; dlg.style.transform = ""; } return; }
+      if (e.cancelable) e.preventDefault();
+      dlg.style.transform = `translateY(${dy}px)`;
+    }, { passive: false });
+    const fin = () => {
+      if (y0 == null) return;
+      const v = dy / Math.max(1, Date.now() - t0);
+      dlg.style.transition = "transform .2s ease-out";
+      if (dy > 110 || (dy > 30 && v > 0.6)) { dlg.style.transform = "translateY(100%)"; setTimeout(() => closeSheet(), 180); }
+      else dlg.style.transform = "";
+      y0 = null; dy = 0;
+    };
+    dlg.addEventListener("touchend", fin); dlg.addEventListener("touchcancel", fin);
+  })();
 
   /* ───────── Vue Transports ───────── */
   function renderTransports() {
@@ -853,6 +910,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
           <div class="filters" role="group" aria-label="${esc(u("events"))}">
             <button type="button" data-f="near">${esc(u("f_near"))}</button><button type="button" data-f="all">${esc(u("f_all"))}</button>
             <button type="button" data-f="today">${esc(u("f_today"))}</button><button type="button" data-f="free">${esc(u("f_free"))}</button>
+            <button type="button" data-f="saved" id="f-saved" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">${P.heart}</svg><span></span></button>
           </div>
           <div id="events" style="margin-top:20px"></div>
           <div class="stack" style="margin-top:20px">
@@ -868,13 +926,19 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       </div>`;
     $$("#v-sorties [data-f]").forEach((b) => b.addEventListener("click", () => {
       const f = b.dataset.f;
-      if (f === "today" || f === "free") S.ev[f] = !S.ev[f]; else S.ev.scope = f;
-      store.set("livret-filtres", S.ev); loadEvents();
+      if (f === "saved") S.ev.saved = !S.ev.saved;
+      else { S.ev.saved = false; if (f === "today" || f === "free") S.ev[f] = !S.ev[f]; else S.ev.scope = f; }
+      store.set("livret-filtres", { scope: S.ev.scope, today: S.ev.today, free: S.ev.free }); loadEvents();
     }));
     loadEvents();
   }
   const EV_BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/records";
+  const EV_SEL = "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type";
   const isoDay = (d) => d.toISOString().slice(0, 10);
+  const dayKey = (ms) => new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Paris" }).format(new Date(ms));
+  const sansAccent = (x) => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  // Les affiches de la Ville pèsent souvent plus d'1 Mo : on passe par un service de redimensionnement (≈ 20 Ko).
+  const imgEv = (url) => "https://wsrv.nl/?url=" + encodeURIComponent(url) + "&w=720&h=450&fit=cover&a=attention&output=webp&q=72";
   function nextSlot(r, from, to) {
     const slots = String(r.occurrences || "").split(";").map((x) => x.split("_")).filter((x) => x.length === 2).map((x) => [Date.parse(x[0]), Date.parse(x[1])]).filter((x) => !isNaN(x[0]) && !isNaN(x[1]));
     if (slots.length) { const hit = slots.filter((x) => x[1] >= from && x[0] <= to).sort((a, b) => a[0] - b[0])[0]; return hit ? { start: hit[0], end: hit[1], long: false } : null; }
@@ -882,16 +946,35 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     if (isNaN(a) || isNaN(b) || b < from || a > to) return null;
     return { start: a, end: b, long: b - a > 864e5 };
   }
+  // Tri : par jour, les événements ponctuels (concert, visite…) avant les longues ouvertures (expositions), puis par heure.
+  function trierEvenements(list) {
+    const now = Date.now();
+    const cle = (x) => { const d = Math.max(x.s.start, now); return [dayKey(d), (x.s.long || x.s.end - x.s.start > 6 * 36e5) ? 1 : 0, d]; };
+    return list.map((x) => ({ x, k: cle(x) })).sort((a, b) => (a.k[0] < b.k[0] ? -1 : a.k[0] > b.k[0] ? 1 : 0) || a.k[1] - b.k[1] || a.k[2] - b.k[2]).map((o) => o.x);
+  }
+  function dedoublonner(list) {
+    const vus = new Set();
+    return list.filter(({ r }) => {
+      const k1 = "t:" + sansAccent(r.title).replace(/^(exposition|expo|concert|spectacle|atelier)\s*:\s*/, "").replace(/[^a-z0-9]+/g, " ").trim();
+      const k2 = r.cover_url ? "c:" + r.cover_url : null, k3 = "i:" + r.id;
+      if (vus.has(k1) || vus.has(k3) || (k2 && vus.has(k2))) return false;
+      vus.add(k1); vus.add(k3); if (k2) vus.add(k2); return true;
+    });
+  }
   async function fetchEvents(scope) {
     if (S.evCache[scope]) return S.evCache[scope];
-    const L = C.logement, now = new Date(), end = new Date(now.getTime() + 7 * 864e5);
-    const where = [`date_end >= date'${isoDay(now)}'`, `date_start <= date'${isoDay(end)}'`];
-    if (scope === "near") where.push(`within_distance(lat_lon, geom'POINT(${L.longitude} ${L.latitude})', ${(C.sorties && C.sorties.rayonKm) || 2}km)`);
-    const qs = new URLSearchParams({ select: "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type", where: where.join(" AND "), order_by: "date_start desc", limit: "100" });
-    const j = await getJSON(EV_BASE + "?" + qs, {}, 12000);
+    const L = C.logement, now = new Date(), d0 = isoDay(now), d7 = isoDay(new Date(now.getTime() + 7 * 864e5));
+    const geo = scope === "near" ? ` AND within_distance(lat_lon, geom'POINT(${L.longitude} ${L.latitude})', ${(C.sorties && C.sorties.rayonKm) || 2}km)` : "";
+    const q = (where, order) => getJSON(EV_BASE + "?" + new URLSearchParams({ select: EV_SEL, where: where + geo, order_by: order, limit: "100" }), {}, 12000);
+    // Deux requêtes : ce qui commence cette semaine (dans l'ordre), et ce qui est déjà en cours (expositions…).
+    const res = await Promise.allSettled([
+      q(`date_start >= date'${d0}' AND date_start <= date'${d7}'`, "date_start asc"),
+      q(`date_start < date'${d0}' AND date_end >= date'${d0}'`, "date_end asc"),
+    ]);
+    if (res.every((x) => x.status === "rejected")) throw new Error("evenements");
     const from = Date.now(), to = from + 7 * 864e5;
-    const list = (j.results || []).map((r) => ({ r, s: nextSlot(r, from, to) })).filter((x) => x.s)
-      .sort((x, y) => (x.s.long - y.s.long) || (Math.max(x.s.start, from) - Math.max(y.s.start, from)));
+    const brut = [].concat(...res.filter((x) => x.status === "fulfilled").map((x) => x.value.results || []));
+    const list = dedoublonner(trierEvenements(brut.map((r) => ({ r, s: nextSlot(r, from, to) })).filter((x) => x.s)));
     return (S.evCache[scope] = list);
   }
   function quand(s) {
@@ -901,37 +984,62 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     const d = new Date(s.start), j = parisDay(d) === parisDay(new Date()) ? u("today") : parisDay(d) === parisDay(new Date(now + 864e5)) ? u("tomorrow") : fmt({ weekday: "short", day: "numeric", month: "short" }).format(d);
     return `${j} · ${hm(d)}`;
   }
-  async function loadEvents() {
-    $$("#v-sorties [data-f]").forEach((b) => { const f = b.dataset.f; b.setAttribute("aria-pressed", String(f === "today" || f === "free" ? !!S.ev[f] : S.ev.scope === f)); });
+  const estFavori = (id) => S.favoris.some((f) => String(f.r.id) === String(id));
+  function basculerFavori(ev) {
+    const id = String(ev.r.id), i = S.favoris.findIndex((f) => String(f.r.id) === id);
+    if (i === -1) {
+      const r = ev.r;
+      S.favoris.push({ r: { id: r.id, title: r.title, url: r.url, cover_url: r.cover_url, address_name: r.address_name, address_zipcode: r.address_zipcode, lat_lon: r.lat_lon, price_type: r.price_type }, s: ev.s });
+    } else S.favoris.splice(i, 1);
+    store.set("livret-favoris-v2", S.favoris);
+    return i === -1;
+  }
+  function majFiltres() {
+    const nb = S.favoris.filter((f) => f.s.end >= Date.now()).length;
+    $$("#v-sorties [data-f]").forEach((b) => {
+      const f = b.dataset.f;
+      b.setAttribute("aria-pressed", String(f === "saved" ? !!S.ev.saved : !S.ev.saved && (f === "today" || f === "free" ? !!S.ev[f] : S.ev.scope === f)));
+    });
+    const sb = $("#f-saved"); if (sb) { sb.hidden = nb === 0 && !S.ev.saved; sb.querySelector("span").textContent = u("f_saved")(nb); }
+  }
+  function carteEvenement({ r, s }) {
+    const L = C.logement, g = r.lat_lon || {}, m = g.lat ? dist(L.latitude, L.longitude, g.lat, g.lon) : null;
+    const km = m == null ? r.address_zipcode : m < 1000 ? Math.round(m / 50) * 50 + " m" : (m / 1000).toFixed(1).replace(".", LANG === "fr" ? "," : ".") + " km";
+    const where = [r.address_name, km].filter(Boolean).join(" · ");
+    const free = String(r.price_type || "").toLowerCase().indexOf("gratuit") === 0, fav = estFavori(r.id);
+    return `<li class="ev"><div class="ev-media">${r.cover_url ? `<img src="${esc(imgEv(r.cover_url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : `<span class="ph">${svg("image", "", 1.4)}</span>`}
+      ${free ? `<span class="ev-free">${esc(u("free"))}</span>` : ""}
+      <button class="ev-save" type="button" data-fav="${esc(String(r.id))}" aria-pressed="${fav}" aria-label="${esc(fav ? u("unsave") : u("save"))}"><svg viewBox="0 0 24 24" fill="${fav ? "#D2364D" : "rgba(0,0,0,0.45)"}" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button></div>
+      <a class="ev-link" href="${esc(r.url || "https://www.paris.fr/quefaire")}" target="_blank" rel="noopener"><span class="ev-title">${esc(r.title)}</span><span class="ev-meta">${esc(quand(s))}</span><span class="ev-meta">${esc(where)}</span></a></li>`;
+  }
+  async function loadEvents(plus) {
+    majFiltres();
     const box = $("#events"); if (!box) return;
-    box.innerHTML = `<p class="state">${esc(u("evLoading"))}</p>`;
+    if (!plus) S.evShown = 6;
     let list;
-    try { list = await fetchEvents(S.ev.scope); } catch (e) { box.innerHTML = `<p class="state">${esc(u("evErr"))}</p>`; return; }
-    const finJour = new Date(); finJour.setHours(23, 59, 59, 999);
-    if (S.ev.free) list = list.filter((x) => String(x.r.price_type || "").toLowerCase().indexOf("gratuit") === 0);
-    if (S.ev.today) list = list.filter((x) => x.s.start <= finJour.getTime() && x.s.end >= Date.now());
-    list = list.slice(0, 12);
-    if (!list.length) { box.innerHTML = `<p class="state">${esc(u("evEmpty"))}</p>`; return; }
-    const L = C.logement;
-    box.innerHTML = `<ul class="events">${list.map(({ r, s }) => {
-      const g = r.lat_lon || {}, m = g.lat ? dist(L.latitude, L.longitude, g.lat, g.lon) : null;
-      const km = m == null ? r.address_zipcode : m < 1000 ? Math.round(m / 50) * 50 + " m" : (m / 1000).toFixed(1).replace(".", LANG === "fr" ? "," : ".") + " km";
-      const where = [r.address_name, km].filter(Boolean).join(" · ");
-      const free = String(r.price_type || "").toLowerCase().indexOf("gratuit") === 0;
-      const fid = String(r.id), fav = S.favoris.indexOf(fid) !== -1;
-      return `<li class="ev"><div class="ev-media">${r.cover_url ? `<img src="${esc(r.cover_url)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : `<span class="ph">${svg("image", "", 1.4)}</span>`}
-        ${free ? `<span class="ev-free">${esc(u("free"))}</span>` : ""}
-        <button class="ev-save" type="button" data-fav="${esc(fid)}" aria-pressed="${fav}" aria-label="${esc(fav ? u("unsave") : u("save"))}"><svg viewBox="0 0 24 24" fill="${fav ? "#D2364D" : "rgba(0,0,0,0.45)"}" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button></div>
-        <a class="ev-link" href="${esc(r.url || "https://www.paris.fr/quefaire")}" target="_blank" rel="noopener"><span class="ev-title">${esc(r.title)}</span><span class="ev-meta">${esc(quand(s))}</span><span class="ev-meta">${esc(where)}</span></a></li>`;
-    }).join("")}</ul>`;
+    if (S.ev.saved) {
+      list = trierEvenements(S.favoris.filter((f) => f.s.end >= Date.now()).map((f) => ({ r: f.r, s: f.s })));
+      if (!list.length) { box.innerHTML = `<p class="state">${esc(u("savedEmpty"))}</p>`; return; }
+    } else {
+      if (!plus) box.innerHTML = `<p class="state">${esc(u("evLoading"))}</p>`;
+      try { list = await fetchEvents(S.ev.scope); } catch (e) { box.innerHTML = `<p class="state">${esc(u("evErr"))}</p>`; return; }
+      const finJour = new Date(); finJour.setHours(23, 59, 59, 999);
+      if (S.ev.free) list = list.filter((x) => String(x.r.price_type || "").toLowerCase().indexOf("gratuit") === 0);
+      if (S.ev.today) list = list.filter((x) => x.s.start <= finJour.getTime() && x.s.end >= Date.now());
+      if (!list.length) { box.innerHTML = `<p class="state">${esc(u("evEmpty"))}</p>`; return; }
+    }
+    S.evList = list;
+    const vis = list.slice(0, S.evShown), reste = list.length - vis.length;
+    box.innerHTML = `<ul class="events">${vis.map(carteEvenement).join("")}</ul>` + (reste > 0 ? `<button class="btn btn-block" type="button" id="evPlus" style="margin-top:20px">${esc(u("evMoreBtn")(reste))}</button>` : "");
     $$("#events img").forEach((im) => im.addEventListener("error", () => { const ph = document.createElement("span"); ph.className = "ph"; ph.innerHTML = svg("image", "", 1.4); im.replaceWith(ph); }));
     $$("#events [data-fav]").forEach((b) => b.addEventListener("click", () => {
-      const id = b.dataset.fav, i = S.favoris.indexOf(id);
-      if (i === -1) S.favoris.push(id); else S.favoris.splice(i, 1);
-      store.set("livret-favoris", S.favoris);
-      const on = i === -1; b.setAttribute("aria-pressed", String(on)); b.setAttribute("aria-label", on ? u("unsave") : u("save"));
+      const ev = S.evList.find((x) => String(x.r.id) === b.dataset.fav); if (!ev) return;
+      const on = basculerFavori(ev);
+      b.setAttribute("aria-pressed", String(on)); b.setAttribute("aria-label", on ? u("unsave") : u("save"));
       b.querySelector("svg").setAttribute("fill", on ? "#D2364D" : "rgba(0,0,0,0.45)");
+      if (S.ev.saved && !on) loadEvents(true); else majFiltres();
     }));
+    const pl = $("#evPlus"); if (pl) pl.addEventListener("click", () => { S.evShown += 6; loadEvents(true); });
   }
 
   /* ───────── Vue Aide ───────── */
@@ -978,13 +1086,25 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   function renderTabbar() {
     $("#tabbar").innerHTML = TABS.map((x) => `<button type="button" data-tab="${x[0]}"${S.tab === x[0] ? ' aria-current="page"' : ""}>${svg(x[1], "", 1.8)}<span>${esc(u("tab_" + x[0]))}</span></button>`).join("");
   }
-  function go(tab, anchor) {
+  // mode : rien = nouvelle étape dans l'historique, "pop" = bouton retour, "replace" = remplace l'étape courante
+  function go(tab, anchor, mode) {
+    if (mode === "pop" && tab === S.tab) return;
+    const change = tab !== S.tab;
     S.tab = tab;
+    try {
+      if (mode === "replace") history.replaceState({ tab }, "");
+      else if (mode !== "pop" && change) history.pushState({ tab }, "");
+    } catch (e) {}
     TABS.forEach((x) => { $("#v-" + x[0]).hidden = x[0] !== tab; });
     renderTabbar();
     if (anchor) { const a = document.getElementById(anchor); if (a) { a.scrollIntoView({ block: "start" }); return; } }
     window.scrollTo(0, 0);
   }
+  addEventListener("popstate", (e) => {
+    if (dlg.open) { closeSheet("pop"); return; }
+    if (!C) return;
+    go((e.state && e.state.tab) || "accueil", null, "pop");
+  });
   document.addEventListener("click", (e) => {
     const l = e.target.closest("[data-lang]");
     if (l) { if (l.dataset.lang !== LANG) { LANG = l.dataset.lang; store.set("livret-langue", LANG); renderAll(); } return; }
@@ -1032,12 +1152,17 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#app").hidden = true; $("#lock").hidden = false;
     $("#lockMsg").textContent = LOCK[k][0]; $("#lockMsgEn").textContent = LOCK[k][1];
   }
+  const CLE_JOURS = 30; // un ancien voyageur perd l'accès un mois après son dernier scan
   async function demarrer() {
     let secret = null;
     const h = location.hash.slice(1);
     const neuf = /^[A-Za-z0-9_-]{16,64}$/.test(h);
-    if (neuf) { secret = h; store.set("livret-cle", h); history.replaceState(null, "", location.pathname + location.search); }
-    else secret = store.get("livret-cle", null);
+    if (neuf) { secret = h; store.set("livret-cle", { k: h, t: Date.now() }); }
+    else {
+      const m = store.get("livret-cle", null), o = typeof m === "string" ? { k: m, t: Date.now() } : m;
+      if (o && o.k && Date.now() - (o.t || 0) < CLE_JOURS * 864e5) secret = o.k; else store.del("livret-cle");
+    }
+    try { history.replaceState({ tab: "accueil" }, "", location.pathname + location.search); } catch (e) {}
     if (!secret) return verrou("none");
     try { C = await ouvrir(secret); }
     catch (e) {
@@ -1047,6 +1172,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#lock").hidden = true; $("#app").hidden = false;
     renderAll();
     loadWeather(); loadTraffic(); loadVelib();
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
     setInterval(() => { const c = $("#clock"); if (c) c.textContent = hm(new Date()); }, 15000);
     setInterval(() => { if (!document.hidden) { loadVelib(); if (S.traffic.state === "ok") loadTraffic(); } }, 120000);
   }
