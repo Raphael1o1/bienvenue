@@ -935,8 +935,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   const EV_BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/records";
   const EV_SEL = "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type";
   const isoDay = (d) => d.toISOString().slice(0, 10);
-  const dayKey = (ms) => new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Paris" }).format(new Date(ms));
-  const sansAccent = (x) => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const sansAccent = (x) => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   // Les affiches de la Ville pèsent souvent plus d'1 Mo : on passe par un service de redimensionnement (≈ 20 Ko).
   const imgEv = (url) => "https://wsrv.nl/?url=" + encodeURIComponent(url) + "&w=720&h=450&fit=cover&a=attention&output=webp&q=72";
   function nextSlot(r, from, to) {
@@ -946,11 +945,15 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     if (isNaN(a) || isNaN(b) || b < from || a > to) return null;
     return { start: a, end: b, long: b - a > 864e5 };
   }
-  // Tri : par jour, les événements ponctuels (concert, visite…) avant les longues ouvertures (expositions), puis par heure.
+  // Tri : d'abord les rendez-vous ponctuels de la semaine (concert, visite…) dans l'ordre chronologique,
+  // puis ce qui est ouvert en continu (expositions, activités récurrentes), qu'on peut caser à tout moment.
+  function recurrent(x) {
+    const a = Date.parse(x.r.date_start), b = Date.parse(x.r.date_end);
+    return x.s.long || x.s.end - x.s.start > 6 * 36e5 || (!isNaN(a) && !isNaN(b) && b - a > 2 * 864e5);
+  }
   function trierEvenements(list) {
     const now = Date.now();
-    const cle = (x) => { const d = Math.max(x.s.start, now); return [dayKey(d), (x.s.long || x.s.end - x.s.start > 6 * 36e5) ? 1 : 0, d]; };
-    return list.map((x) => ({ x, k: cle(x) })).sort((a, b) => (a.k[0] < b.k[0] ? -1 : a.k[0] > b.k[0] ? 1 : 0) || a.k[1] - b.k[1] || a.k[2] - b.k[2]).map((o) => o.x);
+    return list.map((x) => ({ x, r: recurrent(x) ? 1 : 0, d: Math.max(x.s.start, now) })).sort((a, b) => a.r - b.r || a.d - b.d).map((o) => o.x);
   }
   function dedoublonner(list) {
     const vus = new Set();
