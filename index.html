@@ -531,7 +531,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   function partnerCard(p) {
     if (!p || !p.url) return "";
-    const m = C.partenaires && C.partenaires.mention;
+    const m = p.mention || (C.partenaires && C.partenaires.mention);
     return `<div class="soft partner"><div class="pt">${svg(p.icone || "star", "ico", 1.6)}<div><b>${esc(t(p.titre))}</b><p>${esc(t(p.texte))}</p></div></div>
       <a class="btn" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">${esc(t(p.bouton))}${svg("ext", "", 2)}</a>
       ${m ? `<p class="xs muted">${esc(t(m))}</p>` : ""}</div>`;
