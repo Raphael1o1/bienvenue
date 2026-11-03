@@ -226,6 +226,11 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .exp .img img{width:100%;height:100%;object-fit:cover}
 .exp b{font-size:14px;font-weight:600;line-height:1.3}
 .place{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.place span.loc{font-size:13px;color:var(--muted);margin-top:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips button{flex:none;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);font-size:14px;font-weight:600;cursor:pointer}
+.sec h3.cat{margin:24px 0 2px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+[id^="cat-"]{scroll-margin-top:calc(60px + env(safe-area-inset-top,0px))}
 .place:last-child{border-bottom:0}
 .place .t{flex:1;min-width:0}
 .place b{display:block;font-size:15px;font-weight:600}
@@ -346,7 +351,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       departRow: (h) => `Départ avant ${h}`, departSub: "La check-list avant de partir",
       allStay: "Tout votre séjour",
       sc_guide: "Mode d'emploi", sc_depart: "Départ", sc_metro: "Métro", sc_velib: "Vélib'", sc_sorties: "Sorties",
-      sc_exp: "Expériences", sc_voir: "À voir", sc_urgences: "Urgences", sc_contact: (p) => `Écrire à ${p}`,
+      sc_exp: "Expériences", sc_voir: "Bonnes adresses", sc_urgences: "Urgences", sc_contact: (p) => `Écrire à ${p}`,
       studioTitle: "Le studio", studioSub: "Mode d'emploi et départ", guide: "Mode d'emploi", depart: "Départ",
       guideHint: "Touchez un équipement pour afficher les étapes.", before: (h) => `Avant ${h}`,
       progress: (n, t) => `${n} sur ${t} fait${n > 1 ? "s" : ""}`, important: "Important",
@@ -364,7 +369,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       velibErr: "Les disponibilités Vélib' ne répondent pas pour le moment.", velibLoading: "Chargement des stations…",
       velibSource: "Source : Vélib' Métropole, via Paris Data.",
       trajetTitle: "Préparer un trajet", ratp: "Info trafic RATP", citymapper: "Citymapper", bonjour: "Appli Bonjour RATP", fromStudio: "Itinéraire depuis le studio",
-      sortiesTitle: "Sorties", sortiesSub: "Cette semaine à Paris", events: "Événements", exp: "Expériences", voir: "À voir",
+      sortiesTitle: "Sorties", sortiesSub: "Cette semaine à Paris", events: "Événements", exp: "Expériences", voir: "Adresses", voirTitle: "Nos bonnes adresses", voirNote: "Sélection faite d'après les avis. Pensez à vérifier les horaires avant de vous déplacer.", walkFoot: (n) => `${n} min à pied`,
       f_near: "Près d'ici", f_all: "Tout Paris", f_today: "Aujourd'hui", f_free: "Gratuit",
       evLoading: "Chargement des événements…", evEmpty: "Aucun événement avec ces filtres cette semaine.", evErr: "Les événements ne peuvent pas être chargés pour le moment.",
       evMore: "Tout le programme sur paris.fr", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
@@ -390,7 +395,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       departRow: (h) => `Check-out before ${h}`, departSub: "Your checklist before leaving",
       allStay: "Everything for your stay",
       sc_guide: "How things work", sc_depart: "Check-out", sc_metro: "Metro", sc_velib: "Vélib' bikes", sc_sorties: "What's on",
-      sc_exp: "Experiences", sc_voir: "Sights", sc_urgences: "Emergency", sc_contact: (p) => `Message ${p}`,
+      sc_exp: "Experiences", sc_voir: "Good places", sc_urgences: "Emergency", sc_contact: (p) => `Message ${p}`,
       studioTitle: "The studio", studioSub: "How things work and check-out", guide: "How things work", depart: "Check-out",
       guideHint: "Tap an appliance to see the steps.", before: (h) => `Before ${h}`,
       progress: (n, t) => `${n} of ${t} done`, important: "Important",
@@ -408,7 +413,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       velibErr: "Vélib' availability isn't responding right now.", velibLoading: "Loading stations…",
       velibSource: "Source: Vélib' Métropole, via Paris Data.",
       trajetTitle: "Plan a journey", ratp: "RATP traffic info", citymapper: "Citymapper", bonjour: "Bonjour RATP app", fromStudio: "Directions from the studio",
-      sortiesTitle: "Going out", sortiesSub: "This week in Paris", events: "Events", exp: "Experiences", voir: "Sights",
+      sortiesTitle: "Going out", sortiesSub: "This week in Paris", events: "Events", exp: "Experiences", voir: "Places", voirTitle: "Our favourite places", voirNote: "Picked from reviews. Please check opening hours before you go.", walkFoot: (n) => `${n} min walk`,
       f_near: "Nearby", f_all: "All of Paris", f_today: "Today", f_free: "Free",
       evLoading: "Loading events…", evEmpty: "No events match these filters this week.", evErr: "Events can't be loaded right now.",
       evMore: "Full listings on paris.fr", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
@@ -920,8 +925,10 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         </div>
         ${act ? `<div class="sec" id="s-activites">${partnerCard(PA.activites)}</div>` : ""}
         <div class="sec" id="s-voir">
-          ${C.adresses.map((c, i) => `<h2 style="margin:${i ? "24px" : "0"} 0 6px">${esc(t(c.categorie))}</h2>
-            <div>${c.lieux.map((l) => `<div class="place"><div class="t"><b>${esc(l.nom)}</b><span>${esc(t(l.note))}</span></div><a class="iconbtn" href="${mapsQ(l.carte || l.nom)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(l.nom)}">${svg("pin", "", 1.7)}</a></div>`).join("")}</div>`).join("")}
+          <h2 style="margin-bottom:12px">${esc(u("voirTitle"))}</h2>
+          <div class="chips" role="group" aria-label="${esc(u("voirTitle"))}">${C.adresses.map((c, i) => `<button type="button" data-cat="${i}">${esc(t(c.categorie))}</button>`).join("")}</div>
+          ${C.adresses.map((c, i) => `<h3 class="cat" id="cat-${i}">${esc(t(c.categorie))}</h3><div>${c.lieux.map(lieuHtml).join("")}</div>`).join("")}
+          <p class="xs muted" style="margin:14px 0 0">${esc(u("voirNote"))}</p>
         </div>
       </div>`;
     $$("#v-sorties [data-f]").forEach((b) => b.addEventListener("click", () => {
@@ -931,6 +938,11 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       store.set("livret-filtres", { scope: S.ev.scope, today: S.ev.today, free: S.ev.free }); loadEvents();
     }));
     loadEvents();
+  }
+  function lieuHtml(l) {
+    const L = C.logement, m = l.lat ? dist(L.latitude, L.longitude, l.lat, l.lon) : null;
+    const loc = [l.adresse, m != null ? u("walkFoot")(walkMin(m)) : ""].filter(Boolean).join(" · ");
+    return `<div class="place"><div class="t"><b>${esc(l.nom)}</b><span>${esc(t(l.note))}</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ""}</div><a class="iconbtn" href="${mapsQ(l.carte || l.nom)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(l.nom)}">${svg("pin", "", 1.7)}</a></div>`;
   }
   const EV_BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/records";
   const EV_SEL = "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type";
@@ -1114,6 +1126,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     const tb = e.target.closest("[data-tab]"); if (tb) { go(tb.dataset.tab); return; }
     const g = e.target.closest("[data-go]"); if (g) { const p = g.dataset.go.split(":"); go(p[0], p[1]); return; }
     const s = e.target.closest("[data-sc]"); if (s) { const p = SC[s.dataset.sc].split(":"); go(p[0], p[1]); return; }
+    const ct = e.target.closest("[data-cat]");
+    if (ct) { const el = document.getElementById("cat-" + ct.dataset.cat); if (el) el.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); return; }
     const sn = e.target.closest("[data-sub]");
     if (sn) { e.preventDefault(); const tgt = document.getElementById(sn.getAttribute("href").slice(1)); if (tgt) tgt.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
   });
