@@ -259,7 +259,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 
 /* Panneau (fiche) */
 dialog.sheet{position:fixed;inset:auto 0 0 0;margin:0 auto;width:100%;max-width:560px;max-height:92vh;max-height:92dvh;padding:0;border:0;border-radius:16px 16px 0 0;background:var(--bg);color:var(--ink);box-shadow:0 -8px 28px rgba(0,0,0,.2)}
-dialog.sheet[open]{display:flex;flex-direction:column;animation:monte .22s ease-out}
+dialog.sheet[open]{display:flex;flex-direction:column;height:auto;animation:monte .22s ease-out}
 dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 @keyframes monte{from{transform:translateY(28px);opacity:.6}}
 .grip{width:36px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 0;flex:none}
@@ -267,7 +267,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 .sheet-head h2{text-align:center;font-size:16px;font-weight:600}
 .close{width:44px;height:44px;border:0;border-radius:50%;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .close svg{width:18px;height:18px}
-.sheet-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;display:flex;flex-direction:column;gap:22px}
+.sheet-body{flex:1 1 auto;min-height:0;max-height:calc(92vh - 150px - env(safe-area-inset-bottom,0px));max-height:calc(92dvh - 150px - env(safe-area-inset-bottom,0px));overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:20px;display:flex;flex-direction:column;gap:22px}
+.sheet-body:focus{outline:none}
+.sheet-body > *{flex:none}
 .sheet-body p{margin:0}
 .sheet-body .lead{font-size:15px;line-height:1.5;color:var(--ink2)}
 .fsec{display:flex;flex-direction:column;gap:10px}
@@ -333,7 +335,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     <h2 id="sheetTitle"></h2>
     <span></span>
   </div>
-  <div class="sheet-body" id="sheetBody"></div>
+  <div class="sheet-body" id="sheetBody" tabindex="-1"></div>
   <div class="sheet-foot" id="sheetFoot"></div>
 </dialog>
 
@@ -352,7 +354,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       allStay: "Tout votre séjour",
       sc_guide: "Mode d'emploi", sc_depart: "Départ", sc_metro: "Métro", sc_velib: "Vélib'", sc_sorties: "Sorties",
       sc_exp: "Expériences", sc_voir: "Bonnes adresses", sc_urgences: "Urgences", sc_contact: (p) => `Écrire à ${p}`,
-      studioTitle: "Le studio", studioSub: "Mode d'emploi et départ", guide: "Mode d'emploi", depart: "Départ",
+      studioTitle: "Le studio", studioSub: "Mode d'emploi, infos utiles et départ", guide: "Mode d'emploi", infos: "Infos utiles", depart: "Départ",
       guideHint: "Touchez un équipement pour afficher les étapes.", before: (h) => `Avant ${h}`,
       progress: (n, t) => `${n} sur ${t} fait${n > 1 ? "s" : ""}`, important: "Important",
       transTitle: "Se déplacer", transSub: "Métro et Vélib' en direct", metro: "Métro", velib: "Vélib'", trajet: "Itinéraire",
@@ -396,7 +398,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       allStay: "Everything for your stay",
       sc_guide: "How things work", sc_depart: "Check-out", sc_metro: "Metro", sc_velib: "Vélib' bikes", sc_sorties: "What's on",
       sc_exp: "Experiences", sc_voir: "Good places", sc_urgences: "Emergency", sc_contact: (p) => `Message ${p}`,
-      studioTitle: "The studio", studioSub: "How things work and check-out", guide: "How things work", depart: "Check-out",
+      studioTitle: "The studio", studioSub: "How things work, useful info and check-out", guide: "How things work", infos: "Useful info", depart: "Check-out",
       guideHint: "Tap an appliance to see the steps.", before: (h) => `Before ${h}`,
       progress: (n, t) => `${n} of ${t} done`, important: "Important",
       transTitle: "Getting around", transSub: "Live metro and Vélib' info", metro: "Metro", velib: "Vélib'", trajet: "Journeys",
@@ -480,6 +482,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     snow: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="M8.5 18.5h.01M12 20h.01M15.5 18.5h.01" stroke-width="2.6"/>',
     storm: '<path d="M7 15h10.5a4 4 0 0 0 .4-8 6 6 0 0 0-11.5 1.6A3.2 3.2 0 0 0 7 15z"/><path d="m12.5 15-2 3.5h3l-2 3.5"/>',
     fog: '<path d="M4 9h16M3 13h18M5 17h14"/>',
+    poubelle: '<path d="M4 7h16"/><path d="M9.5 7V4.5h5V7"/><path d="m6 7 1.1 13h9.8L18 7"/><path d="M10 11v5.5m4-5.5v5.5"/>',
+    linge: '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 14.5h16"/>',
     valise: '<rect x="4" y="7.5" width="16" height="12" rx="2"/><path d="M9 7.5V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2.5"/><path d="M8 11v5M16 11v5"/><path d="M7.5 19.5v1M16.5 19.5v1"/>',
     signal: '<path d="M5 19v-3M9.7 19v-6M14.3 19v-9M19 19V7"/>',
     prise: '<circle cx="12" cy="12" r="8.5"/><circle cx="9" cy="12.5" r="1.2"/><circle cx="15" cy="12.5" r="1.2"/><path d="M12 6.5v1.8"/>',
@@ -634,13 +638,17 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Vue Studio ───────── */
   function renderStudio() {
     const D = C.depart, PA = C.partenaires || {};
-    $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")], ["s-depart", u("depart")]]) + `
+    $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")]].concat(C.infos && C.infos.length ? [["s-infos", u("infos")]] : [], [["s-depart", u("depart")]])) + `
       <div class="pad">
         <div class="sec" id="s-guide">
           <h2>${esc(u("guide"))}</h2>
           <p class="muted" style="margin:6px 0 8px;font-size:15px">${esc(u("guideHint"))}</p>
           <div class="list">${C.fiches.map((f, i) => `<button class="list-item" type="button" data-fiche="${i}">${svg(f.icone, "ico", 1.5)}<span class="t"><b>${esc(t(f.titre))}</b><span class="s">${esc(t(f.resume))}</span></span>${svg("chev", "chev", 2)}</button>`).join("")}</div>
         </div>
+        ${C.infos && C.infos.length ? `<div class="sec" id="s-infos">
+          <h2 style="margin-bottom:6px">${esc(u("infos"))}</h2>
+          ${C.infos.map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
+        </div>` : ""}
         <div class="sec" id="s-depart">
           <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(heure(D.heure)))}</span></div>
           <div class="stack">
@@ -710,7 +718,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       if (typeof dlg.showModal === "function") dlg.showModal(); else dlg.setAttribute("open", "");
       try { history.pushState({ tab: S.tab, sheet: true }, ""); S.sheetHist = true; } catch (e) { S.sheetHist = false; }
     }
-    $("#sheetBody").scrollTop = 0;
+    const corps = $("#sheetBody"); corps.scrollTop = 0;
+    try { corps.focus({ preventScroll: true }); } catch (e) {}
   }
   // mode : rien = fermeture par l'interface (on revient d'un cran dans l'historique),
   // "pop" = l'historique a déjà reculé (bouton retour), "replace" = on remplace l'étape « fiche ».
