@@ -63,13 +63,25 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .vh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-top:max(18px, calc(env(safe-area-inset-top,0px) + 10px));padding-bottom:6px}
 .vh h1{font-size:28px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
 .vh p{margin:4px 0 0;color:var(--muted);font-size:15px}
-.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;flex:none}
-.lang button{border:0;border-radius:999px;min-width:46px;height:44px;font-weight:600;font-size:14px;background:transparent;color:var(--muted);cursor:pointer}
-.lang button[aria-pressed="true"]{background:var(--on);color:var(--on-ink)}
-.meteo{display:flex;align-items:center;gap:10px;min-width:0}
-.meteo svg{width:30px;height:30px;flex:none}
-.meteo b{display:block;font-size:15px;font-weight:600;line-height:1.25}
-.meteo span{display:block;font-size:13px;color:var(--muted);line-height:1.25}
+/* Sélecteur FR/EN : pastille fine, zone tactile de 44 px conservée */
+.lang{display:flex;position:relative;flex:none}
+.lang::before{content:"";position:absolute;inset:6px 0;border:1px solid var(--line);border-radius:999px;pointer-events:none}
+.lang button{border:0;background:transparent;height:44px;min-width:44px;padding:0 3px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer}
+.lang button span{display:block;padding:5px 9px;border-radius:999px;line-height:1.2}
+.lang button[aria-pressed="true"] span{background:var(--on);color:var(--on-ink)}
+.meteo{display:flex;align-items:center;gap:8px;min-width:0}
+.meteo svg{width:24px;height:24px;flex:none}
+.meteo > div{min-width:0}
+.meteo b{display:block;font-size:14px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meteo span{display:block;font-size:12px;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meteo span span{display:inline}
+@media (max-width:359px){.meteo .mm{display:none}}
+/* Accueil : barre du haut (météo à gauche, Wi-Fi et langue à droite) */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:max(8px, calc(env(safe-area-inset-top,0px) + 4px))}
+.top-actions{display:flex;align-items:center;gap:2px;flex:none}
+.icon-btn{width:44px;height:44px;border:0;padding:0;background:none;display:flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer}
+.icon-btn > span{width:32px;height:32px;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.icon-btn svg{width:17px;height:17px}
 
 /* Plaque de rue */
 .plaque-zone{padding-top:44px}
@@ -79,6 +91,17 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .plaque-in{border:2px solid rgba(255,255,255,.92);border-radius:7px;padding:14px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
 .plaque-kicker{font-family:var(--plaque);font-weight:600;font-size:14px;letter-spacing:.2em;text-transform:uppercase}
 .plaque h1{font-family:var(--plaque);font-weight:700;font-size:clamp(52px,16vw,72px);line-height:.95;letter-spacing:.03em;text-transform:uppercase}
+/* Plaque compacte de l'Accueil (même dessin, moitié moins haute) */
+.plaque-zone.mini{padding-top:26px}
+.mini .plaque{border-width:4px;border-radius:11px;padding:4px}
+.mini .plaque-tab{top:-24px;height:24px;border-width:4px 4px 0;border-radius:9px 9px 0 0;padding:3px 12px 0;font-size:13px;line-height:17px}
+.mini .plaque-in{border-width:1.5px;border-radius:6px;padding:7px 10px 9px;gap:1px}
+.mini .plaque-kicker{font-size:11px;letter-spacing:.22em}
+.mini .plaque h1{font-size:clamp(34px,10.5vw,44px)}
+/* Petit mot de l'hôte */
+.mot{padding-top:18px}
+.mot p{margin:0;font-size:15px;line-height:1.5;color:var(--ink2)}
+.mot p.sig{margin-top:6px;font-family:"Caveat","Bradley Hand","Segoe Script","Snell Roundhand",cursive;font-size:26px;font-weight:600;line-height:1.1;color:var(--ink)}
 
 .host{display:flex;align-items:center;gap:14px;padding-top:22px}
 .avatar{width:52px;height:52px;border-radius:50%;background:var(--on);color:var(--on-ink);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;flex:none}
@@ -232,6 +255,8 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .sec h3.cat{margin:24px 0 2px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 [id^="cat-"]{scroll-margin-top:calc(60px + env(safe-area-inset-top,0px))}
 .place:last-child{border-bottom:0}
+.place-btn{width:100%;background:none;border:0;border-bottom:1px solid var(--line-soft);text-align:left;color:var(--ink);cursor:pointer}
+.place-btn .t{color:var(--ink);font-size:15px}
 .place .t{flex:1;min-width:0}
 .place b{display:block;font-size:15px;font-weight:600}
 .place span{display:block;font-size:14px;color:var(--muted)}
@@ -295,6 +320,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 .sheet-foot .btn{flex:1}
 .qrbox{background:#FFFFFF;border-radius:16px;padding:16px;max-width:300px;width:100%;margin:0 auto}
 .qrbox svg{display:block;width:100%;height:auto}
+.qrbox.qr-mini{max-width:200px;padding:12px;border:1px solid var(--line-soft)}
 
 /* Écran verrouillé */
 .lock{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-top:40px;padding-bottom:40px}
@@ -347,9 +373,10 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   const UI = {
     fr: {
       tab_accueil: "Accueil", tab_studio: "Studio", tab_transports: "Transports", tab_sorties: "Sorties", tab_aide: "Aide",
-      welcome: "Bienvenue", kicker: "Livret d'accueil", parisTime: "à Paris", hostLine: (p) => `Votre hôte : ${p}`,
-      wifiNet: "Réseau Wi-Fi", wifiPwd: "Mot de passe", copyPwd: "Copier", copied: "Copié", qrBtn: "QR code",
-      wifiHint: "Le plus simple : scannez le QR au dos du présentoir, votre téléphone se connecte tout seul.",
+      welcome: "Bienvenue", kicker: "Livret d'accueil", parisTime: "à Paris", wifiBtn: "Wi-Fi : réseau et mot de passe",
+      wifiNet: "Réseau Wi-Fi", wifiPwd: "Mot de passe", copyPwd: "Copier", copied: "Copié",
+      wifiLead: "Votre téléphone est normalement déjà connecté. Pour un autre appareil, voici les identifiants.",
+      wifiRow: (n) => `Réseau ${n} · mot de passe et QR code`,
       departRow: (h) => `Départ avant ${h}`, departSub: "La check-list avant de partir",
       allStay: "Tout votre séjour",
       sc_guide: "Mode d'emploi", sc_depart: "Départ", sc_metro: "Métro", sc_velib: "Vélib'", sc_sorties: "Sorties",
@@ -381,7 +408,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
       e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde",
       sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "114 : urgences par SMS pour les personnes sourdes ou malentendantes.",
-      hostTitle: "Votre hôte", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
+      hostTitle: "Me contacter", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
       whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
       close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
       qrHint: "Scannez ce code avec l'appareil photo d'un autre téléphone pour le connecter au Wi-Fi.",
@@ -391,9 +418,10 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     },
     en: {
       tab_accueil: "Home", tab_studio: "Studio", tab_transports: "Transport", tab_sorties: "Going out", tab_aide: "Help",
-      welcome: "Welcome", kicker: "Guest guide", parisTime: "in Paris", hostLine: (p) => `Your host: ${p}`,
-      wifiNet: "Wi-Fi network", wifiPwd: "Password", copyPwd: "Copy", copied: "Copied", qrBtn: "QR code",
-      wifiHint: "Easiest: scan the QR code on the back of the stand and your phone joins automatically.",
+      welcome: "Welcome", kicker: "Guest guide", parisTime: "in Paris", wifiBtn: "Wi-Fi: network and password",
+      wifiNet: "Wi-Fi network", wifiPwd: "Password", copyPwd: "Copy", copied: "Copied",
+      wifiLead: "Your phone should already be connected. For another device, here are the details.",
+      wifiRow: (n) => `Network ${n} · password and QR code`,
       departRow: (h) => `Check-out before ${h}`, departSub: "Your checklist before leaving",
       allStay: "Everything for your stay",
       sc_guide: "How things work", sc_depart: "Check-out", sc_metro: "Metro", sc_velib: "Vélib' bikes", sc_sorties: "What's on",
@@ -425,7 +453,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       e112: "Emergency, all services", e112sub: "European number, from any phone",
       e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy",
       sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "114: emergencies by text for deaf or hard-of-hearing people.",
-      hostTitle: "Your host", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
+      hostTitle: "Contact me", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
       whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
       close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
       qrHint: "Scan this code with another phone's camera to connect it to the Wi-Fi.",
@@ -535,8 +563,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   function langToggle() {
     return `<div class="lang" role="group" aria-label="Langue / Language">
-      <button type="button" data-lang="fr" aria-pressed="${LANG === "fr"}">FR</button>
-      <button type="button" data-lang="en" aria-pressed="${LANG === "en"}">EN</button></div>`;
+      <button type="button" data-lang="fr" aria-pressed="${LANG === "fr"}"><span>FR</span></button>
+      <button type="button" data-lang="en" aria-pressed="${LANG === "en"}"><span>EN</span></button></div>`;
   }
   function viewHead(title, sub) {
     return `<div class="pad vh"><div style="min-width:0"><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${langToggle()}</div>`;
@@ -586,7 +614,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     const now = hm(new Date());
     const w = S.weather;
     if (!w) return `<div class="meteo" id="meteo"><div><b id="clock">${esc(now)}</b><span>${esc(u("parisTime"))}</span></div></div>`;
-    return `<div class="meteo" id="meteo">${svg(wIcon(w.c), "", 1.6)}<div><b>${Math.round(w.t)}° · ${esc(u("w")[w.c] || "")}</b><span><span id="clock" style="display:inline">${esc(now)}</span> ${esc(u("parisTime"))} · ${Math.round(w.min)}° / ${Math.round(w.max)}°</span></div></div>`;
+    return `<div class="meteo" id="meteo">${svg(wIcon(w.c), "", 1.6)}<div><b>${Math.round(w.t)}° · ${esc(u("w")[w.c] || "")}</b><span><span id="clock">${esc(now)}</span> ${esc(u("parisTime"))}<span class="mm"> · ${Math.round(w.min)}° / ${Math.round(w.max)}°</span></span></div></div>`;
   }
   function renderAccueil() {
     const L = C.logement, h = heure(C.depart.heure), p = C.hote.prenom;
@@ -597,23 +625,16 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       ["sorties", "cal", u("sc_sorties")], ["voir", "pin", u("sc_voir")],
       ["urgences", "croix", u("sc_urgences")], ["contact", "msg", u("sc_contact")(p)],
     ];
+    chargerSignature(p);
     $("#v-accueil").innerHTML = `
-      <div class="pad vh" style="align-items:center">${meteoHtml()}${langToggle()}</div>
+      <div class="pad topbar">${meteoHtml()}<div class="top-actions">
+        <button class="icon-btn" type="button" id="wifiBtn" aria-label="${esc(u("wifiBtn"))}" title="Wi-Fi"><span>${svg("wifi", "", 1.8)}</span></button>${langToggle()}</div></div>
       <div class="pad">
-        <div class="plaque-zone"><div class="plaque"><div class="plaque-tab">${tab}</div>
+        <div class="plaque-zone mini"><div class="plaque"><div class="plaque-tab">${tab}</div>
           <div class="plaque-in"><span class="plaque-kicker">${esc(L.nomPlaque || u("kicker"))}</span><h1>${esc(u("welcome"))}</h1></div></div></div>
-        <div class="host"><div class="avatar" aria-hidden="true">${esc(p.charAt(0))}</div>
-          <div><b>${esc(u("hostLine")(p))}</b><span>${esc(t(C.accueil))}</span></div></div>
-        <div class="stack" style="padding-top:22px">
-          <div class="box">
-            <div class="box-row"><div style="flex:1"><span class="label">${esc(u("wifiNet"))}</span><span style="font-size:16px">${esc(C.wifi.reseau)}</span></div>${svg("wifi", "ico", 1.6)}</div>
-            <div class="box-row"><div><span class="label">${esc(u("wifiPwd"))}</span><span class="pwd" id="pwd">${esc(C.wifi.motDePasse)}</span></div></div>
-            <div class="box-row">
-              <button class="btn btn-primary" style="flex:1" type="button" id="copyPwd">${svg("copy", "", 2)}<span>${esc(u("copyPwd"))}</span></button>
-              <button class="btn" type="button" id="showQr">${svg("qr", "", 1.8)}<span>${esc(u("qrBtn"))}</span></button>
-            </div>
-          </div>
-          <p class="xs muted" style="margin:0">${esc(u("wifiHint"))}</p>
+        <div class="mot"><p>${esc(t(C.accueil))}</p>
+          <p class="sig">${esc(p)}</p></div>
+        <div style="padding-top:18px">
           <button class="row-link" type="button" data-go="studio:s-depart">${svg("exit", "ico", 1.6)}<span class="t"><b>${esc(u("departRow")(h))}</b><span class="s">${esc(u("departSub"))}</span></span>${svg("chev", "chev", 2)}</button>
         </div>
         <div class="sec">
@@ -622,8 +643,17 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         </div>
         <p class="bye">${esc(u("bye"))}</p>
       </div>`;
-    $("#copyPwd").addEventListener("click", copyPwd);
-    $("#showQr").addEventListener("click", openQr);
+    $("#wifiBtn").addEventListener("click", openWifi);
+  }
+  // Signature manuscrite : police chargée seulement pour les lettres du prénom (quelques Ko)
+  let signatureChargee = false;
+  function chargerSignature(p) {
+    if (signatureChargee || !p) return;
+    signatureChargee = true;
+    const l = document.createElement("link");
+    l.rel = "stylesheet";
+    l.href = "https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap&text=" + encodeURIComponent(p);
+    document.head.appendChild(l);
   }
   function copyPwd() {
     const ok = () => { const b = $("#copyPwd span"); if (b) b.textContent = u("copied"); setTimeout(() => { const c = $("#copyPwd span"); if (c) c.textContent = u("copyPwd"); }, 2000); };
@@ -637,17 +667,18 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Vue Studio ───────── */
   function renderStudio() {
-    const D = C.depart, PA = C.partenaires || {};
-    $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")]].concat(C.infos && C.infos.length ? [["s-infos", u("infos")]] : [], [["s-depart", u("depart")]])) + `
+    const D = C.depart, PA = C.partenaires || {}, infos = C.infos || [], aInfos = !!(C.wifi || infos.length);
+    $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")]].concat(aInfos ? [["s-infos", u("infos")]] : [], [["s-depart", u("depart")]])) + `
       <div class="pad">
         <div class="sec" id="s-guide">
           <h2>${esc(u("guide"))}</h2>
           <p class="muted" style="margin:6px 0 8px;font-size:15px">${esc(u("guideHint"))}</p>
           <div class="list">${C.fiches.map((f, i) => `<button class="list-item" type="button" data-fiche="${i}">${svg(f.icone, "ico", 1.5)}<span class="t"><b>${esc(t(f.titre))}</b><span class="s">${esc(t(f.resume))}</span></span>${svg("chev", "chev", 2)}</button>`).join("")}</div>
         </div>
-        ${C.infos && C.infos.length ? `<div class="sec" id="s-infos">
+        ${aInfos ? `<div class="sec" id="s-infos">
           <h2 style="margin-bottom:6px">${esc(u("infos"))}</h2>
-          ${C.infos.map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
+          ${C.wifi ? `<button class="place place-btn" type="button" data-wifi>${svg("wifi", "ico", 1.6)}<span class="t"><b>Wi-Fi</b><span>${esc(u("wifiRow")(C.wifi.reseau))}</span></span>${svg("chev", "chev", 2)}</button>` : ""}
+          ${infos.map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
         </div>` : ""}
         <div class="sec" id="s-depart">
           <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(heure(D.heure)))}</span></div>
@@ -733,14 +764,21 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     }
   }
   function openFiche(i) { S.ficheTab = 0; S.openFiche = i; renderFiche(i); showSheet(); }
-  function renderQr() {
-    $("#sheetTitle").textContent = u("qrTitle");
-    $("#sheetBody").innerHTML = `<div class="qrbox" role="img" aria-label="${esc(u("qrTitle"))}">${C.wifi.qrSvg || ""}</div><p class="lead" style="text-align:center">${esc(u("qrHint"))}</p>
-      <div class="box"><div class="box-row"><div><span class="label">${esc(u("wifiNet"))}</span>${esc(C.wifi.reseau)}</div></div><div class="box-row"><div><span class="label">${esc(u("wifiPwd"))}</span><span class="pwd">${esc(C.wifi.motDePasse)}</span></div></div></div>`;
+  function renderWifi() {
+    $("#sheetTitle").textContent = "Wi-Fi";
+    $("#sheetBody").innerHTML = `<p class="lead">${esc(u("wifiLead"))}</p>
+      <div class="box">
+        <div class="box-row"><div style="flex:1;min-width:0"><span class="label">${esc(u("wifiNet"))}</span><span style="font-size:16px">${esc(C.wifi.reseau)}</span></div>${svg("wifi", "ico", 1.6)}</div>
+        <div class="box-row"><div style="flex:1;min-width:0"><span class="label">${esc(u("wifiPwd"))}</span><span class="pwd" id="pwd">${esc(C.wifi.motDePasse)}</span></div>
+          <button class="btn" type="button" id="copyPwd">${svg("copy", "", 2)}<span>${esc(u("copyPwd"))}</span></button></div>
+      </div>
+      <div class="fsec sep"><div class="qrbox qr-mini" role="img" aria-label="${esc(u("qrTitle"))}">${C.wifi.qrSvg || ""}</div>
+        <p class="xs muted" style="text-align:center">${esc(u("qrHint"))}</p></div>`;
     $("#sheetFoot").innerHTML = `<button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
+    $("#copyPwd").addEventListener("click", copyPwd);
     bindFoot();
   }
-  function openQr() { S.openFiche = "qr"; renderQr(); showSheet(); }
+  function openWifi() { S.openFiche = "wifi"; renderWifi(); showSheet(); }
   $("#sheetClose").addEventListener("click", () => closeSheet());
   // Fermer en touchant le fond, seulement si le geste a commencé sur le fond
   let appuiFond = false;
@@ -1132,6 +1170,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   document.addEventListener("click", (e) => {
     const l = e.target.closest("[data-lang]");
     if (l) { if (l.dataset.lang !== LANG) { LANG = l.dataset.lang; store.set("livret-langue", LANG); renderAll(); } return; }
+    if (e.target.closest("[data-wifi]")) { openWifi(); return; }
     const tb = e.target.closest("[data-tab]"); if (tb) { go(tb.dataset.tab); return; }
     const g = e.target.closest("[data-go]"); if (g) { const p = g.dataset.go.split(":"); go(p[0], p[1]); return; }
     const s = e.target.closest("[data-sc]"); if (s) { const p = SC[s.dataset.sc].split(":"); go(p[0], p[1]); return; }
@@ -1170,7 +1209,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     TABS.forEach((x) => { $("#v-" + x[0]).hidden = x[0] !== S.tab; });
     scrollSpy();
     if (dlg.open && typeof S.openFiche === "number") renderFiche(S.openFiche);
-    else if (dlg.open && S.openFiche === "qr") renderQr();
+    else if (dlg.open && S.openFiche === "wifi") renderWifi();
   }
 
   /* ───────── Démarrage ───────── */
