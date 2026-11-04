@@ -998,7 +998,10 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       if (!act.length) return;
       act.sort((a, b) => (SEV[b.severity] || 0) - (SEV[a.severity] || 0));
       const d = act[0], sev = SEV[d.severity] || 1;
-      out[code] = { level: sev === 3 ? "crit" : sev === 2 ? (String(d.cause).toUpperCase() === "TRAVAUX" ? "works" : "warn") : "info", msg: texte(d.title) || texte(d.message).slice(0, 220) };
+      // Une gare fermée (« arrêt non desservi ») n'interrompt pas toute la ligne : travaux ou perturbation, pas « interrompu »
+      const travaux = String(d.cause).toUpperCase() === "TRAVAUX", gare = /non desservi/i.test(texte(d.title) + " " + texte(d.shortMessage));
+      const level = sev === 3 && !gare ? "crit" : sev >= 2 ? (travaux ? "works" : "warn") : "info";
+      out[code] = { level, msg: texte(d.title) || texte(d.message).slice(0, 220) };
     });
     return out;
   }
@@ -1294,6 +1297,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     } catch (e) {}
     TABS.forEach((x) => { $("#v-" + x[0]).hidden = x[0] !== tab; });
     renderTabbar();
+    if (tab === "transports" && C && S.traffic.state !== "loading" && (!S.traffic.at || Date.now() - S.traffic.at > 180000)) loadTraffic();
     if (anchor) { const a = document.getElementById(anchor); if (a) { a.scrollIntoView({ block: "start" }); return; } }
     window.scrollTo(0, 0);
   }
@@ -1375,10 +1379,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     }
     $("#lock").hidden = true; $("#app").hidden = false;
     renderAll();
-    loadWeather(); loadTraffic(); loadVelib();
+    loadWeather(); loadVelib(); if (S.tab === "transports") loadTraffic();
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
     setInterval(() => { const c = $("#clock"); if (c) c.textContent = hm(new Date()); }, 15000);
-    setInterval(() => { if (!document.hidden) { loadVelib(); if (S.traffic.state === "ok") loadTraffic(); } }, 120000);
+    // L'info trafic pèse ~250 Ko : chargée à l'ouverture de l'onglet Transports, puis toutes les 5 min s'il reste affiché
+    setInterval(() => { if (!document.hidden) loadVelib(); }, 120000);
+    setInterval(() => { if (!document.hidden && S.tab === "transports") loadTraffic(); }, 300000);
   }
   demarrer();
 })();
