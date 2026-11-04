@@ -254,6 +254,13 @@ textarea.note:focus{outline:2px solid var(--c-studio);outline-offset:1px}
 .ln{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--lc);color:var(--lt);font-size:14px;font-weight:700;flex:none;line-height:1}
 .ln.rer{border-radius:7px}
 .station{display:flex;align-items:center;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:12px}
+.proches{display:flex;flex-direction:column}
+.proche{display:flex;align-items:center;gap:10px;min-height:52px;padding:6px 0;border-bottom:1px solid var(--line-soft)}
+.proche:last-child{border-bottom:0}
+.proche .nom{flex:1;min-width:0;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.proche .pied{display:flex;align-items:center;gap:3px;font-size:13px;color:var(--muted);white-space:nowrap;flex:none}
+.proche .pied svg{width:16px;height:16px}
+.proche .st{flex:none}
 .station b{flex:1;min-width:0;font-size:15px;font-weight:600}
 .station .lns{display:flex;gap:5px}
 .card{border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
@@ -466,7 +473,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       phShareHint: "Le menu de partage de votre téléphone va s'ouvrir : choisissez WhatsApp ou Messages, puis Raphaël.", phRemove: "Retirer la photo", phMsg: (d) => `Départ du studio, ${d}`,
       phNoShare: "Votre navigateur ne permet pas d'envoyer les photos directement. Ouvrez WhatsApp avec le bouton ci-dessous, puis joignez les photos depuis votre galerie.", phWa: "Ouvrir WhatsApp",
       transTitle: "Se déplacer", transSub: "Métro et Vélib' en direct", metro: "Métro", velib: "Vélib'", trajet: "Itinéraire",
-      stationsNear: "Stations à proximité", walkMin: (n) => `≈ ${n} min`, traffic: "Info trafic", live: "en direct",
+      stationsNear: "Stations à proximité", aeroTitle: "Rejoindre l'aéroport ou la gare", metroNear: "Métro à proximité", walkMin: (n) => `≈ ${n} min`, traffic: "Info trafic", live: "en direct",
       updatedAt: (t) => `mis à jour à ${t}`, refresh: "Actualiser", nearLines: "Lignes proches du studio",
       allNet: "Tout le réseau métro et RER", tapLine: "Touchez une ligne pour voir son état.",
       st_ok: "Trafic normal", st_works: "Travaux", st_warn: "Perturbé", st_crit: "Interrompu", st_info: "Information", st_unknown: "Non disponible",
@@ -516,7 +523,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       phShareHint: "Your phone's share menu will open: choose WhatsApp or Messages, then Raphaël.", phRemove: "Remove photo", phMsg: (d) => `Studio check-out, ${d}`,
       phNoShare: "Your browser can't send the photos directly. Open WhatsApp with the button below, then attach the photos from your gallery.", phWa: "Open WhatsApp",
       transTitle: "Getting around", transSub: "Live metro and Vélib' info", metro: "Metro", velib: "Vélib'", trajet: "Journeys",
-      stationsNear: "Nearby stations", walkMin: (n) => `≈ ${n} min`, traffic: "Live traffic", live: "live",
+      stationsNear: "Nearby stations", aeroTitle: "Getting to the airport or station", metroNear: "Metro nearby", walkMin: (n) => `≈ ${n} min`, traffic: "Live traffic", live: "live",
       updatedAt: (t) => `updated at ${t}`, refresh: "Refresh", nearLines: "Lines near the studio",
       allNet: "Whole metro and RER network", tapLine: "Tap a line to see its status.",
       st_ok: "Good service", st_works: "Engineering works", st_warn: "Disrupted", st_crit: "Suspended", st_info: "Information", st_unknown: "Unavailable",
@@ -615,6 +622,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     cle: '<circle cx="8" cy="15" r="4.5"/><path d="M11.2 11.8 20 3M16.5 6.5l2.5 2.5M14 9l2 2"/>',
     appareil: '<path d="M3.5 8.5h3.2l1.6-2.5h7.4l1.6 2.5h3.2V19h-17z"/><circle cx="12" cy="13.3" r="3.6"/>',
     galerie: '<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="m21 15.5-5-5L6 19.5"/>',
+    pieton: '<circle cx="13" cy="4.5" r="1.8"/><path d="m10 21 2.2-6.5L15 17v4M9 11.5l1.5-4 3 1.5 2 3 2.5 1M10.5 7.5 8 9l-1 3"/>',
     voiture: '<path d="M5 16.5V12l2-5.5h10l2 5.5v4.5"/><path d="M3.5 16.5h17v2.5h-17z"/><path d="M7.5 19v1.5M16.5 19v1.5"/><path d="M5 12h14"/>',
   };
   const svg = (n, cls, sw, style) => `<svg${cls ? ` class="${cls}"` : ""}${style ? ` style="${style}"` : ""} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw || 1.7}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || P.info}</svg>`;
@@ -804,7 +812,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
               <button class="btn btn-block" type="button" id="photoCtaBtn">${svg("galerie", "", 1.8)}<span>${esc(u("phCtaBtn"))}</span></button></div>
             <div class="callout">${warnTitle()}<p>${esc(t(D.attention))}</p></div>
             <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.tardif))}</p>
-            ${partnerCard(PA.bagages)}${partnerCard(PA.transfert)}
+            ${partnerCard(PA.bagages)}
             <p style="margin:0;font-size:15px;font-weight:600">${esc(t(D.aurevoir))}</p>
           </div>
         </div>
@@ -1061,15 +1069,15 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Vue Transports ───────── */
   function renderTransports() {
-    const T = C.transports;
+    const T = C.transports, PA = C.partenaires || {};
     $("#v-transports").innerHTML = viewHead(u("transTitle"), u("transSub")) + subnav("transports", [["s-metro", u("metro")], ["s-velib", u("velib")], ["s-trajet", u("trajet")]]) + `
       <div class="pad">
         <div class="sec" id="s-metro">
-          <h2 style="margin-bottom:14px">${esc(u("stationsNear"))}</h2>
-          <div class="stack">${T.stations.map((s) => `<div class="station"><span class="lns">${s.lignes.map(badge).join("")}</span><b>${esc(s.nom)}</b><span class="small muted">${esc(u("walkMin")(s.minutes))}</span></div>`).join("")}
-            <div class="card" id="traffic" style="margin-top:4px"></div>
-          </div>
+          <h2 style="margin-bottom:6px">${esc(u("metroNear"))}</h2>
+          <div class="proches" id="proches"></div>
+          <div class="card" id="traffic" style="margin-top:16px"></div>
         </div>
+        ${PA.transfert && PA.transfert.url ? `<div class="sec" id="s-aero"><h2 style="margin-bottom:14px">${esc(u("aeroTitle"))}</h2>${partnerCard(PA.transfert)}</div>` : ""}
         <div class="sec" id="s-velib">
           <h2 style="margin-bottom:14px">${esc(u("velib"))}</h2>
           <div class="stack">
@@ -1087,7 +1095,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
           <h2 style="margin-bottom:14px">${esc(u("trajetTitle"))}</h2>
           <div class="btn-row">
             <a class="btn btn-pill" href="https://www.google.com/maps/dir/?api=1&amp;origin=${encodeURIComponent(C.logement.adresse)}&amp;travelmode=transit" target="_blank" rel="noopener">${esc(u("fromStudio"))}</a>
-            <a class="btn btn-pill" href="https://www.ratp.fr/infos-trafic" target="_blank" rel="noopener">${esc(u("ratp"))}</a>
             <a class="btn btn-pill" href="https://citymapper.com/paris" target="_blank" rel="noopener">${esc(u("citymapper"))}</a>
             <a class="btn btn-pill" href="https://www.bonjour-ratp.fr/" target="_blank" rel="noopener">${esc(u("bonjour"))}</a>
           </div>
@@ -1098,7 +1105,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* Info trafic (Île-de-France Mobilités, clé PRIM facultative) */
   const SEV = { BLOQUANTE: 3, PERTURBEE: 2, INFORMATION: 1 };
-  const primDate = (s) => { const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(String(s || "")); return m ? new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime() : NaN; };
+  const PARIS_PARTS = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  function heureParis(y, mo, d, h, mi, se) {
+    const t = Date.UTC(y, mo - 1, d, h, mi, se), p = Object.fromEntries(PARIS_PARTS.formatToParts(t).map((x) => [x.type, x.value]));
+    return t - (Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - t);
+  }
+  const primDate = (s) => { const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/.exec(String(s || "")); return m ? heureParis(+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]) : NaN; };
   function actif(d, now) { const ps = d.applicationPeriods || []; return !ps.length || ps.some((p) => { const b = primDate(p.begin), e = primDate(p.end); return (isNaN(b) || b <= now) && (isNaN(e) || e >= now); }); }
   function primCode(l) {
     const mode = String(l.mode || "").toLowerCase(); let s = String(l.shortName || l.name || "").toUpperCase().replace(/\s+/g, "");
@@ -1135,27 +1147,31 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   const statusOf = (c) => S.traffic.state !== "ok" ? { level: "unknown", msg: "" } : (S.traffic.lines[c] || { level: "ok", msg: "" });
   const pillSt = (lv) => `<span class="st ${lv}">${esc(u("st_" + lv))}</span>`;
+  function renderProches() {
+    const el = $("#proches"); if (!el) return;
+    const ok = S.traffic.state === "ok";
+    el.innerHTML = C.transports.stations.map((s) => {
+      const c = (s.lignes || []).find((x) => LINES[x]), st = c && ok ? statusOf(c) : null;
+      return `<div class="proche"><span class="lns" style="display:flex;gap:4px">${(s.lignes || []).map(badge).join("")}</span><span class="nom">${esc(s.nom)}</span>
+        <span class="pied" aria-label="${esc(u("walkFoot")(s.minutes))}">${svg("pieton", "", 1.8)}${esc(s.minutes + " min")}</span>${st ? pillSt(st.level) : ""}</div>`;
+    }).join("");
+  }
   function renderTraffic() {
+    renderProches();
     const el = $("#traffic"); if (!el) return;
-    const follow = (C.transports.lignesSuivies || []).filter((c) => LINES[c]);
     const st = S.traffic.state;
     if (st === "nokey" || st === "error" || st === "idle") {
-      el.innerHTML = `<h3>${esc(u("traffic"))}</h3>
-        <span class="small" style="font-weight:600">${esc(u("nearLines"))}</span>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">${follow.map(badge).join("")}</div>
+      el.innerHTML = `<h3>${esc(u("allNet"))}</h3>
         <p class="small muted" style="margin:0">${esc(st === "error" ? u("trafficErr") : u("noKey"))}</p>
         <a class="btn btn-primary btn-block" href="https://www.ratp.fr/infos-trafic" target="_blank" rel="noopener">${esc(u("ratpLive"))}${svg("ext", "", 2)}</a>`;
       return;
     }
     const sel = S.traffic.sel, selS = sel ? statusOf(sel) : null;
     el.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h3>${esc(u("traffic"))}</h3>
-        ${st === "ok" ? `<span class="live">${esc(u("live"))} · ${esc(u("updatedAt")(hm(S.traffic.at)))}</span>` : `<span class="live off">…</span>`}
-        <button class="iconbtn" type="button" id="trafficRefresh" style="margin-left:auto" aria-label="${esc(u("refresh"))}">${svg("refresh", "", 1.8)}</button></div>
-      <span class="small" style="font-weight:600">${esc(u("nearLines"))}</span>
-      <div class="stack" style="gap:8px">${follow.map((c) => { const s = statusOf(c); return `<div class="trow">${badge(c)}${pillSt(s.level)}${s.msg ? `<span class="msg">${esc(s.msg)}</span>` : ""}</div>`; }).join("")}</div>
-      <div class="stack" style="gap:12px;padding-top:14px;border-top:1px solid var(--line-soft)">
-        <span class="small" style="font-weight:600">${esc(u("allNet"))}</span>
+      <div style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><h3>${esc(u("allNet"))}</h3>
+        ${st === "ok" ? `<span class="live">${esc(u("live"))} · ${esc(u("updatedAt")(hm(S.traffic.at)))}</span>` : `<span class="live off">…</span>`}</div>
+        <button class="iconbtn" type="button" id="trafficRefresh" aria-label="${esc(u("refresh"))}">${svg("refresh", "", 1.8)}</button></div>
+      <div class="stack" style="gap:12px">
         <div class="net">${NETWORK.map((c) => `<button type="button" class="${isRer(c) ? "rer" : ""}" data-l="${c}" aria-pressed="${sel === c}" aria-label="${esc(lineName(c))} : ${esc(u("st_" + statusOf(c).level))}">${badge(c)}<span class="dot ${statusOf(c).level}"></span></button>`).join("")}</div>
         <p class="small" style="margin:0">${sel ? `<b>${esc(lineName(sel))}</b> · ${pillSt(selS.level)}${selS.msg ? `<br><span class="muted">${esc(selS.msg)}</span>` : ""}` : `<span class="muted">${esc(u("tapLine"))}</span>`}</p>
         <div class="legend"><span><i style="background:var(--ok)"></i>${esc(u("lg_ok"))}</span><span><i style="background:var(--dot-works)"></i>${esc(u("lg_works"))}</span><span><i style="background:var(--crit)"></i>${esc(u("lg_warn"))}</span></div>
