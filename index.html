@@ -1048,9 +1048,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       if (depot) {
         const lot = Date.now().toString(36), b64f = (b) => new Promise((ok) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(",")[1]); r.readAsDataURL(b); });
         for (let i = 0; i < fichiers.length; i++) {
-          await fetch(depot, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ jeton: C.photos.jeton || "", lot, nom: fichiers[i].name, data: await b64f(fichiers[i]) }) }).then((r) => { if (!r.ok) throw new Error(r.status); });
+          await fetch(depot, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ jeton: C.photos.jeton || "", lot, nom: fichiers[i].name, data: await b64f(fichiers[i]) }) }).then(async (r) => { const j = await r.json().catch(() => ({})); if (!r.ok || j.ok !== true) throw new Error(j.erreur || r.status); });
         }
-        await fetch(depot, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ jeton: C.photos.jeton || "", lot, fin: true, nb: fichiers.length, message: messagePhotos() }) }).then((r) => { if (!r.ok) throw new Error(r.status); });
+        await fetch(depot, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ jeton: C.photos.jeton || "", lot, fin: true, nb: fichiers.length, message: messagePhotos() }) }).then(async (r) => { const j = await r.json().catch(() => ({})); if (!r.ok || j.ok !== true) throw new Error(j.erreur || r.status); });
       } else {
         const donnees = { title: u("phTitle"), text: messagePhotos() };
         if (fichiers.length) donnees.files = fichiers;
