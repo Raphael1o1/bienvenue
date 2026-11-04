@@ -373,6 +373,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 .sheet-foot .btn{flex:1}
 .qrbox{background:#FFFFFF;border-radius:16px;padding:16px;max-width:300px;width:100%;margin:0 auto}
 .qrbox svg{display:block;width:100%;height:auto}
+.cg-mention p{margin:0;font-size:14px}
+.cg h3{font-size:15px;margin-top:6px}
+.cg .txt{font-size:14px;line-height:1.55}
 .qrbox.qr-mini{max-width:200px;padding:12px;border:1px solid var(--line-soft)}
 
 /* Écran verrouillé */
@@ -459,7 +462,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       aideTitle: "Aide et urgences", aideSub: "Urgences gratuites 24 h/24 : 112, 15, 17, 18",
       e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
       e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers",
-      sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "par SMS, pour les personnes sourdes ou malentendantes", contactTitle: (p) => `Écrire à ${p}`, contactLead: "Une question, un souci dans le studio ? Écrivez-moi, par Airbnb ou WhatsApp.", airbnbMsg: "Messagerie Airbnb", reglesTitle: "Règles de la maison", reglesVide: "Les règles de la maison figurent dans votre réservation Airbnb.", cguTitle: "Conditions d'Airbnb & partenaires", cguTxt: "Votre séjour est aussi soumis aux conditions de service d'Airbnb et aux liens partenaires.", cgBtn: "Conditions Générales", cgTitle: "Conditions générales", cgLead: "Les conditions de service d'Airbnb s'appliquent à votre séjour. Leur version officielle, toujours à jour, est sur le site d'Airbnb :", cguLink: "Conditions de service d'Airbnb", affTxt: "Certains liens de ce livret peuvent être des liens partenaires sans aucun surcoût pour le voyageur.", back: "Retour", visites: "Visites et activités", visitesNav: "Visites",
+      sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "par SMS, pour les personnes sourdes ou malentendantes", contactTitle: (p) => `Écrire à ${p}`, contactLead: "Une question, un souci dans le studio ? Écrivez-moi, par Airbnb ou WhatsApp.", airbnbMsg: "Messagerie Airbnb", reglesTitle: "Règles de la maison", reglesVide: "Les règles de la maison figurent dans votre réservation Airbnb.", cguTitle: "Conditions d'Airbnb & partenaires", cguTxt: "Votre séjour est aussi soumis aux conditions de service d'Airbnb et aux liens partenaires.", cgBtn: "Conditions Générales", cgTitle: "Conditions générales", cgLead: "Les conditions de service d'Airbnb s'appliquent à votre séjour. Leur version officielle, toujours à jour, est sur le site d'Airbnb :", cguLink: "Conditions de service d'Airbnb", affTxt: "Certains liens de ce livret peuvent être des liens partenaires sans aucun surcoût pour le voyageur.", cgParts: ["Europe (EEE, Suisse, Royaume-Uni)", "Reste du monde (en anglais)", "Australie (en anglais)"], cgLoading: "Chargement des conditions…", cgErr: "Les conditions ne peuvent pas être affichées ici. Consultez la version officielle :", back: "Retour", visites: "Visites et activités", visitesNav: "Visites",
       hostTitle: "Me contacter", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
       whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
       close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
@@ -503,7 +506,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       aideTitle: "Help and emergencies", aideSub: "Free emergency numbers 24/7: 112, 15, 17, 18",
       e112: "Emergency, all services", e112sub: "European number, from any phone",
       e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade",
-      sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "by text, for deaf or hard-of-hearing people", contactTitle: (p) => `Message ${p}`, contactLead: "A question or a problem in the studio? Message me on Airbnb or WhatsApp.", airbnbMsg: "Airbnb messages", reglesTitle: "House rules", reglesVide: "The house rules are in your Airbnb booking.", cguTitle: "Airbnb & partner terms", cguTxt: "Your stay is also subject to Airbnb's Terms of Service and to partner links.", cgBtn: "Terms and conditions", cgTitle: "Terms and conditions", cgLead: "Airbnb's Terms of Service apply to your stay. The official, always up-to-date version is on Airbnb's website:", cguLink: "Airbnb Terms of Service", affTxt: "Some links in this guide may be partner links, at no extra cost to the guest.", back: "Back", visites: "Tours and activities", visitesNav: "Tours",
+      sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "by text, for deaf or hard-of-hearing people", contactTitle: (p) => `Message ${p}`, contactLead: "A question or a problem in the studio? Message me on Airbnb or WhatsApp.", airbnbMsg: "Airbnb messages", reglesTitle: "House rules", reglesVide: "The house rules are in your Airbnb booking.", cguTitle: "Airbnb & partner terms", cguTxt: "Your stay is also subject to Airbnb's Terms of Service and to partner links.", cgBtn: "Terms and conditions", cgTitle: "Terms and conditions", cgLead: "Airbnb's Terms of Service apply to your stay. The official, always up-to-date version is on Airbnb's website:", cguLink: "Airbnb Terms of Service", affTxt: "Some links in this guide may be partner links, at no extra cost to the guest.", cgParts: ["Europe (EEA, Switzerland, UK), in French", "Rest of the world", "Australia"], cgLoading: "Loading the terms…", cgErr: "The terms can't be shown here. See the official version:", back: "Back", visites: "Tours and activities", visitesNav: "Tours",
       hostTitle: "Contact me", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
       whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
       close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
@@ -652,6 +655,16 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 
   /* ───────── Déchiffrement du contenu ───────── */
   const b64 = (s) => { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; const bin = atob(s); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
+  let SECRET = null;
+  // Fichier chiffré secondaire (compressé en gzip), ouvert à la demande avec la même clé
+  async function ouvrirFichier(nom) {
+    const enc = await getJSON(nom, { cache: "no-cache" }, 20000);
+    const cle = await crypto.subtle.importKey("raw", await crypto.subtle.digest("SHA-256", b64(SECRET)), "AES-GCM", false, ["decrypt"]);
+    const brut = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, cle, b64(enc.data));
+    if (!enc.gz) return JSON.parse(new TextDecoder().decode(brut));
+    const flux = new Blob([brut]).stream().pipeThrough(new DecompressionStream("gzip"));
+    return JSON.parse(await new Response(flux).text());
+  }
   async function ouvrir(secret) {
     const enc = await getJSON("contenu.enc", { cache: "no-cache" }, 15000);
     const brut = await crypto.subtle.digest("SHA-256", b64(secret));
@@ -873,16 +886,26 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#sheetBody [data-sheet=cg]").addEventListener("click", () => { S.openFiche = "cg"; renderCG(); $("#sheetBody").scrollTop = 0; });
   }
   function openRegles() { S.openFiche = "regles"; renderRegles(); showSheet(); }
+  let CG = null;
   function renderCG() {
-    const R = C.regles || {}, texte = (R.cguTexte && (R.cguTexte[LANG] || R.cguTexte.fr)) || [];
+    const R = C.regles || {}, lien = R.cgu || "https://www.airbnb.fr/help/article/2908";
+    const secours = (msg) => `<p class="lead">${esc(msg)}</p><a class="btn btn-block" href="${esc(lien)}" target="_blank" rel="noopener">${esc(u("cguLink"))}${svg("ext", "", 2)}</a>`;
     $("#sheetTitle").textContent = u("cgTitle");
-    $("#sheetBody").innerHTML = (texte.length
-      ? `<div class="fsec">${texte.map((x) => /^#/.test(x) ? `<h3>${esc(x.replace(/^#+\s*/, ""))}</h3>` : `<p class="txt">${esc(x)}</p>`).join("")}</div>`
-      : `<p class="lead">${esc(u("cgLead"))}</p>
-         <a class="btn btn-block" href="${esc(R.cgu || "https://www.airbnb.fr/help/article/2908")}" target="_blank" rel="noopener">${esc(u("cguLink"))}${svg("ext", "", 2)}</a>`) +
-      `<p class="xs muted fsec sep">${esc(u("affTxt"))}</p>`;
     $("#sheetFoot").innerHTML = `<button class="btn" type="button" data-sheet="regles">${esc(u("back"))}</button><button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
     bindFoot();
+    const corps = $("#sheetBody"), mention = `<div class="callout cg-mention"><p>${esc(u("affTxt"))}</p></div>`;
+    const afficher = () => {
+      if (S.openFiche !== "cg") return;
+      if (!CG) { corps.innerHTML = mention + secours(u("cgErr")); return; }
+      const noms = u("cgParts");
+      corps.innerHTML = mention + `<div class="btn-row">${CG.parties.map((p, i) => `<button class="btn btn-pill" type="button" data-cgp="${i}">${esc(noms[i] || p.id)}</button>`).join("")}</div>` +
+        CG.parties.map((p, i) => `<div class="fsec sep cg" id="cg-${i}">${p.blocs.map((x) => x[0] === "h" ? `<h3>${esc(x[1])}</h3>` : `<p class="txt">${esc(x[1])}</p>`).join("")}</div>`).join("");
+      $$("#sheetBody [data-cgp]").forEach((x) => x.addEventListener("click", () => { const el = document.getElementById("cg-" + x.dataset.cgp); if (el) corps.scrollTop = el.offsetTop - corps.offsetTop - 8; }));
+    };
+    if (CG) return afficher();
+    corps.innerHTML = mention + `<p class="state">${esc(u("cgLoading"))}</p>`;
+    if (!("DecompressionStream" in window)) { corps.innerHTML = mention + secours(u("cgErr")); return; }
+    ouvrirFichier("conditions.enc").then((d) => { CG = d; afficher(); }, () => { if (S.openFiche === "cg") corps.innerHTML = mention + secours(u("cgErr")); });
   }
   $("#sheetClose").addEventListener("click", () => closeSheet());
   // Fermer en touchant le fond, seulement si le geste a commencé sur le fond
@@ -1060,11 +1083,17 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Vue Sorties ───────── */
   function renderSorties() {
     const PA = C.partenaires || {}, act = !!(PA.activites && PA.activites.url);
-    const items = (act ? [["s-activites", u("visitesNav")]] : []).concat([["s-events", u("events")], ["s-voir", u("voir")]]);
+    const items = (act ? [["s-activites", u("visitesNav")]] : []).concat([["s-voir", u("voir")], ["s-events", u("events")]]);
     $("#v-sorties").innerHTML = viewHead(u("sortiesTitle"), u("sortiesSub")) + subnav("sorties", items) + `
       <div class="pad">
         ${act ? `<div class="sec" id="s-activites"><h2 style="margin-bottom:14px">${esc(u("visites"))}</h2>${partnerCard(PA.activites)}</div>` : ""}
         ${(C.pratique || []).map((x) => `<div class="place" style="margin-top:12px">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
+        <div class="sec" id="s-voir">
+          <h2 style="margin-bottom:12px">${esc(u("voirTitle"))}</h2>
+          <div class="chips" role="group" aria-label="${esc(u("voirTitle"))}">${C.adresses.map((c, i) => `<button type="button" data-cat="${i}">${esc(t(c.categorie))}</button>`).join("")}</div>
+          ${C.adresses.map((c, i) => `<h3 class="cat" id="cat-${i}">${esc(t(c.categorie))}</h3><div>${c.lieux.map(lieuHtml).join("")}</div>`).join("")}
+          <p class="xs muted" style="margin:14px 0 0">${esc(u("voirNote"))}</p>
+        </div>
         <div class="sec" id="s-events">
           <h2 style="margin-bottom:14px">${esc(u("events"))}</h2>
           <div class="filters" role="group" aria-label="${esc(u("events"))}">
@@ -1077,12 +1106,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             <a class="btn btn-block" href="https://www.paris.fr/quefaire" target="_blank" rel="noopener">${esc(u("evMore"))}</a>
             <p class="xs muted" style="margin:0">${esc(u("evSource"))}</p>
           </div>
-        </div>
-        <div class="sec" id="s-voir">
-          <h2 style="margin-bottom:12px">${esc(u("voirTitle"))}</h2>
-          <div class="chips" role="group" aria-label="${esc(u("voirTitle"))}">${C.adresses.map((c, i) => `<button type="button" data-cat="${i}">${esc(t(c.categorie))}</button>`).join("")}</div>
-          ${C.adresses.map((c, i) => `<h3 class="cat" id="cat-${i}">${esc(t(c.categorie))}</h3><div>${c.lieux.map(lieuHtml).join("")}</div>`).join("")}
-          <p class="xs muted" style="margin:14px 0 0">${esc(u("voirNote"))}</p>
         </div>
       </div>`;
     $$("#v-sorties [data-f]").forEach((b) => b.addEventListener("click", () => {
@@ -1345,7 +1368,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     }
     try { history.replaceState({ tab: "accueil" }, "", location.pathname + location.search); } catch (e) {}
     if (!secret) return verrou("none");
-    try { C = await ouvrir(secret); }
+    try { C = await ouvrir(secret); SECRET = secret; }
     catch (e) {
       if (e && e.cle) { store.del("livret-cle"); return verrou(neuf ? "bad" : "none"); }
       return verrou("net");

@@ -9,6 +9,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { webcrypto as crypto } from 'node:crypto';
+import { gzipSync, gunzipSync } from 'node:zlib';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
@@ -87,6 +88,16 @@ async function chiffrer() {
   console.log('contenu.enc :', chiffre.length, 'octets chiffrés · relecture', retour.wifi.reseau === w.reseau ? 'OK' : 'ÉCHEC');
   console.log('QR Wi-Fi :', wifiRelu === texteWifi ? 'relu OK' : 'ÉCHEC de relecture');
   console.log('Lien du livret :', lien, `(${lien.length} caractères)`);
+  // Conditions d'Airbnb (texte long) : compressées puis chiffrées à part, chargées seulement à l'ouverture
+  const fCond = path.join(PRIVE, 'conditions.json');
+  if (existsSync(fCond)) {
+    const brut = gzipSync(await readFile(fCond), { level: 9 });
+    const ivC = crypto.getRandomValues(new Uint8Array(12));
+    const ch = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: ivC }, cle, brut));
+    await writeFile(path.join(RACINE, 'conditions.enc'), JSON.stringify({ v: 1, gz: 1, iv: b64url(ivC), data: b64url(ch) }) + '\n');
+    const relu = JSON.parse(gunzipSync(Buffer.from(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: ivC }, cle, ch))).toString('utf8'));
+    console.log('conditions.enc :', ch.length, 'octets chiffrés ·', relu.parties.length, 'parties · relecture OK');
+  }
   console.log('QR du livret : version', qr.version, '·', qr.modules.size, 'modules + 4 de marge de chaque côté · relecture', relirePng(png) === lien ? 'OK' : 'ÉCHEC');
 }
 
