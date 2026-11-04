@@ -377,7 +377,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       wifiNet: "Réseau Wi-Fi", wifiPwd: "Mot de passe", copyPwd: "Copier", copied: "Copié",
       wifiLead: "Votre téléphone est normalement déjà connecté. Pour un autre appareil, voici les identifiants.",
       wifiRow: (n) => `Réseau ${n} · mot de passe et QR code`,
-      departRow: (h) => `Départ avant ${h}`, departSub: "La check-list avant de partir",
       allStay: "Tout votre séjour",
       sc_guide: "Mode d'emploi", sc_depart: "Départ", sc_metro: "Métro", sc_velib: "Vélib'", sc_sorties: "Sorties",
       sc_exp: "Expériences", sc_voir: "Bonnes adresses", sc_urgences: "Urgences", sc_contact: (p) => `Écrire à ${p}`,
@@ -404,9 +403,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       evMore: "Tout le programme sur paris.fr", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
       until: (d) => `Jusqu'au ${d}`, today: "Aujourd'hui", tomorrow: "Demain", save: "Enregistrer cet événement", unsave: "Retirer des favoris", f_saved: (n) => `Enregistrés (${n})`, savedEmpty: "Aucun événement enregistré pour l'instant. Touchez le cœur d'un événement pour le retrouver ici.", evMoreBtn: (n) => `Afficher plus d'événements (${n})`,
       expTitle: "Expériences à réserver", expSub: (p) => `La sélection de ${p}`, map: "Voir sur la carte",
-      aideTitle: "Aide et urgences", aideSub: "Numéros gratuits, 24 h/24",
+      aideTitle: "Aide et urgences", aideSub: "Urgences gratuites 24 h/24 : 112, 15, 17, 18",
       e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
-      e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde",
+      e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers", e3237: "Pharmacie de garde (appel payant)",
       sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "114 : urgences par SMS pour les personnes sourdes ou malentendantes.",
       hostTitle: "Me contacter", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
       whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
@@ -422,7 +421,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       wifiNet: "Wi-Fi network", wifiPwd: "Password", copyPwd: "Copy", copied: "Copied",
       wifiLead: "Your phone should already be connected. For another device, here are the details.",
       wifiRow: (n) => `Network ${n} · password and QR code`,
-      departRow: (h) => `Check-out before ${h}`, departSub: "Your checklist before leaving",
       allStay: "Everything for your stay",
       sc_guide: "How things work", sc_depart: "Check-out", sc_metro: "Metro", sc_velib: "Vélib' bikes", sc_sorties: "What's on",
       sc_exp: "Experiences", sc_voir: "Good places", sc_urgences: "Emergency", sc_contact: (p) => `Message ${p}`,
@@ -449,9 +447,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       evMore: "Full listings on paris.fr", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
       until: (d) => `Until ${d}`, today: "Today", tomorrow: "Tomorrow", save: "Save this event", unsave: "Remove from saved", f_saved: (n) => `Saved (${n})`, savedEmpty: "No saved events yet. Tap the heart on an event to find it here.", evMoreBtn: (n) => `Show more events (${n})`,
       expTitle: "Experiences to book", expSub: (p) => `${p}'s picks`, map: "Show on map",
-      aideTitle: "Help and emergencies", aideSub: "Free numbers, 24/7",
+      aideTitle: "Help and emergencies", aideSub: "Free emergency numbers 24/7: 112, 15, 17, 18",
       e112: "Emergency, all services", e112sub: "European number, from any phone",
-      e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy",
+      e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade", e3237: "Duty pharmacy (paid call)",
       sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "114: emergencies by text for deaf or hard-of-hearing people.",
       hostTitle: "Contact me", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
       whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
@@ -549,6 +547,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   const fmt = (o) => new Intl.DateTimeFormat(LANG === "fr" ? "fr-FR" : "en-GB", Object.assign({ timeZone: "Europe/Paris" }, o));
   const hm = (d) => fmt({ hour: "2-digit", minute: "2-digit" }).format(d);
   const parisDay = (d) => fmt({ year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+  // Date du jour à Paris au format AAAA-MM-JJ (comparable), quel que soit le fuseau du téléphone
+  const JOUR_PARIS = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" });
+  const jourParis = (d) => JOUR_PARIS.format(d);
   const mapsQ = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
   function dist(lat1, lon1, lat2, lon2) {
     const R = 6371000, r = Math.PI / 180, dLat = (lat2 - lat1) * r, dLon = (lon2 - lon1) * r;
@@ -601,8 +602,13 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
 
   let C = null;
+  function lireDepart() {
+    const v = store.get("livret-depart", null);
+    if (Array.isArray(v)) return [];                                  // ancien format sans date : on repart de zéro
+    return v && Array.isArray(v.i) && Date.now() - (v.t || 0) < 3 * 864e5 ? v.i : [];
+  }
   const S = {
-    tab: "accueil", depart: store.get("livret-depart", []), favoris: (store.get("livret-favoris-v2", []) || []).filter((f) => f && f.r && f.s), evShown: 6, evList: [], sheetHist: false,
+    tab: "accueil", depart: lireDepart(), favoris: (store.get("livret-favoris-v2", []) || []).filter((f) => f && f.r && f.s), evShown: 6, evList: [], sheetHist: false,
     weather: null, traffic: { state: "idle", lines: {}, at: null, sel: null },
     velib: { state: "idle", list: [], at: null },
     ev: Object.assign({ scope: "near", today: false, free: false }, store.get("livret-filtres", {}), { saved: false }), evCache: {}, ficheTab: 0, openFiche: null,
@@ -617,7 +623,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     return `<div class="meteo" id="meteo">${svg(wIcon(w.c), "", 1.6)}<div><b>${Math.round(w.t)}° · ${esc(u("w")[w.c] || "")}</b><span><span id="clock">${esc(now)}</span> ${esc(u("parisTime"))}<span class="mm"> · ${Math.round(w.min)}° / ${Math.round(w.max)}°</span></span></div></div>`;
   }
   function renderAccueil() {
-    const L = C.logement, h = heure(C.depart.heure), p = C.hote.prenom;
+    const L = C.logement, p = C.hote.prenom;
     const arr = String(L.arrondissement || "");
     const tab = arr ? (arr === "1" ? "1<sup>er</sup> Arr<sup>t</sup>" : `${esc(arr)}<sup>e</sup> Arr<sup>t</sup>`) : "Paris";
     const sc = [
@@ -634,9 +640,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
           <div class="plaque-in"><span class="plaque-kicker">${esc(L.nomPlaque || u("kicker"))}</span><h1>${esc(u("welcome"))}</h1></div></div></div>
         <div class="mot"><p>${esc(t(C.accueil))}</p>
           <p class="sig">${esc(p)}</p></div>
-        <div style="padding-top:18px">
-          <button class="row-link" type="button" data-go="studio:s-depart">${svg("exit", "ico", 1.6)}<span class="t"><b>${esc(u("departRow")(h))}</b><span class="s">${esc(u("departSub"))}</span></span>${svg("chev", "chev", 2)}</button>
-        </div>
         <div class="sec">
           <h2 style="margin-bottom:16px">${esc(u("allStay"))}</h2>
           <div class="grid2">${sc.map((s) => `<button class="shortcut" type="button" data-sc="${s[0]}">${svg(s[1], "", 1.6)}<span>${esc(s[2])}</span></button>`).join("")}</div>
@@ -695,7 +698,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       </div>`;
     $$("#v-studio [data-fiche]").forEach((b) => b.addEventListener("click", () => openFiche(+b.dataset.fiche)));
     const upd = () => {
-      S.depart = $$("#v-studio .check input:checked").map((x) => +x.dataset.i); store.set("livret-depart", S.depart);
+      S.depart = $$("#v-studio .check input:checked").map((x) => +x.dataset.i); store.set("livret-depart", { i: S.depart, t: Date.now() });
       const n = S.depart.length, tot = D.etapes.length;
       $("#depBar").style.width = (tot ? (n / tot) * 100 : 0) + "%"; $("#depTxt").textContent = u("progress")(n, tot);
     };
@@ -1072,7 +1075,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     return `<li class="ev"><div class="ev-media">${r.cover_url ? `<img src="${esc(imgEv(r.cover_url))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">` : `<span class="ph">${svg("image", "", 1.4)}</span>`}
       ${free ? `<span class="ev-free">${esc(u("free"))}</span>` : ""}
       <button class="ev-save" type="button" data-fav="${esc(String(r.id))}" aria-pressed="${fav}" aria-label="${esc(fav ? u("unsave") : u("save"))}"><svg viewBox="0 0 24 24" fill="${fav ? "#D2364D" : "rgba(0,0,0,0.45)"}" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">${P.heart}</svg></button></div>
-      <a class="ev-link" href="${esc(r.url || "https://www.paris.fr/quefaire")}" target="_blank" rel="noopener"><span class="ev-title">${esc(r.title)}</span><span class="ev-meta">${esc(quand(s))}</span><span class="ev-meta">${esc(where)}</span></a></li>`;
+      <a class="ev-link" href="${esc(/^https?:\/\//i.test(String(r.url || "")) ? r.url : "https://www.paris.fr/quefaire")}" target="_blank" rel="noopener"><span class="ev-title">${esc(r.title)}</span><span class="ev-meta">${esc(quand(s))}</span><span class="ev-meta">${esc(where)}</span></a></li>`;
   }
   async function loadEvents(plus) {
     majFiltres();
@@ -1085,9 +1088,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     } else {
       if (!plus) box.innerHTML = `<p class="state">${esc(u("evLoading"))}</p>`;
       try { list = await fetchEvents(S.ev.scope); } catch (e) { box.innerHTML = `<p class="state">${esc(u("evErr"))}</p>`; return; }
-      const finJour = new Date(); finJour.setHours(23, 59, 59, 999);
+      const auj = jourParis(new Date());
       if (S.ev.free) list = list.filter((x) => String(x.r.price_type || "").toLowerCase().indexOf("gratuit") === 0);
-      if (S.ev.today) list = list.filter((x) => x.s.start <= finJour.getTime() && x.s.end >= Date.now());
+      if (S.ev.today) list = list.filter((x) => jourParis(new Date(x.s.start)) <= auj && x.s.end >= Date.now());
       if (!list.length) { box.innerHTML = `<p class="state">${esc(u("evEmpty"))}</p>`; return; }
     }
     S.evList = list;
@@ -1133,7 +1136,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         ${(C.pratique && C.pratique.length) || PA.esim ? `<div class="sec" id="s-pratique">
           <h2 style="margin-bottom:6px">${esc(u("pratique"))}</h2>
           ${(C.pratique || []).map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
-          ${PA.esim ? `<div style="margin-top:12px">${partnerCard(PA.esim)}</div>` : ""}
+          ${PA.esim && PA.esim.url ? `<div style="margin-top:12px">${partnerCard(PA.esim)}</div>` : ""}
         </div>` : ""}
         <div class="sec" id="s-proche">
           <h2 style="margin-bottom:6px">${esc(u("nearby"))}</h2>
