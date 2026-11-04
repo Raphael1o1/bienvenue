@@ -459,7 +459,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       aideTitle: "Aide et urgences", aideSub: "Urgences gratuites 24 h/24 : 112, 15, 17, 18",
       e112: "Urgences, tous services", e112sub: "Numéro européen, depuis n'importe quel téléphone",
       e15: "SAMU, urgence médicale", e17: "Police", e18: "Pompiers",
-      sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "par SMS, pour les personnes sourdes ou malentendantes", contactTitle: (p) => `Écrire à ${p}`, contactLead: "Une question, un souci dans le studio ? Écrivez-moi, par Airbnb ou WhatsApp.", airbnbMsg: "Messagerie Airbnb", reglesTitle: "Règles de la maison", reglesVide: "Les règles de la maison figurent dans votre réservation Airbnb.", cguTitle: "Conditions d'Airbnb", cguTxt: "Votre séjour est aussi soumis aux conditions de service d'Airbnb.", cguLink: "Conditions de service d'Airbnb", affTitle: "Liens partenaires", affTxt: "Certains liens de ce livret sont des liens partenaires : je peux toucher une petite commission, sans aucun surcoût pour vous.",
+      sos: "SOS Médecins Paris", sosSub: "Médecin à domicile", e114: "par SMS, pour les personnes sourdes ou malentendantes", contactTitle: (p) => `Écrire à ${p}`, contactLead: "Une question, un souci dans le studio ? Écrivez-moi, par Airbnb ou WhatsApp.", airbnbMsg: "Messagerie Airbnb", reglesTitle: "Règles de la maison", reglesVide: "Les règles de la maison figurent dans votre réservation Airbnb.", cguTitle: "Conditions d'Airbnb & partenaires", cguTxt: "Votre séjour est aussi soumis aux conditions de service d'Airbnb et aux liens partenaires.", cgBtn: "Conditions Générales", cgTitle: "Conditions générales", cgLead: "Les conditions de service d'Airbnb s'appliquent à votre séjour. Leur version officielle, toujours à jour, est sur le site d'Airbnb :", cguLink: "Conditions de service d'Airbnb", affTxt: "Certains liens de ce livret peuvent être des liens partenaires sans aucun surcoût pour le voyageur.", back: "Retour", visites: "Visites et activités", visitesNav: "Visites",
       hostTitle: "Me contacter", hostSub: "Un souci dans le studio ? Écrivez-moi.", airbnb: "Ouvrir l'appli Airbnb", airbnbSub: "Puis l'onglet Messages",
       whatsapp: "WhatsApp", nearby: "À proximité", pratique: "Pratique", activites: "Activités",
       close: "Fermer", contactHost: (p) => `Écrire à ${p}`, gotIt: "Compris", qrTitle: "QR code Wi-Fi",
@@ -503,7 +503,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       aideTitle: "Help and emergencies", aideSub: "Free emergency numbers 24/7: 112, 15, 17, 18",
       e112: "Emergency, all services", e112sub: "European number, from any phone",
       e15: "Ambulance, medical emergency", e17: "Police", e18: "Fire brigade",
-      sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "by text, for deaf or hard-of-hearing people", contactTitle: (p) => `Message ${p}`, contactLead: "A question or a problem in the studio? Message me on Airbnb or WhatsApp.", airbnbMsg: "Airbnb messages", reglesTitle: "House rules", reglesVide: "The house rules are in your Airbnb booking.", cguTitle: "Airbnb terms", cguTxt: "Your stay is also subject to Airbnb's Terms of Service.", cguLink: "Airbnb Terms of Service", affTitle: "Partner links", affTxt: "Some links in this guide are partner links: I may earn a small commission, at no extra cost to you.",
+      sos: "SOS Médecins Paris", sosSub: "Doctor home visits", e114: "by text, for deaf or hard-of-hearing people", contactTitle: (p) => `Message ${p}`, contactLead: "A question or a problem in the studio? Message me on Airbnb or WhatsApp.", airbnbMsg: "Airbnb messages", reglesTitle: "House rules", reglesVide: "The house rules are in your Airbnb booking.", cguTitle: "Airbnb & partner terms", cguTxt: "Your stay is also subject to Airbnb's Terms of Service and to partner links.", cgBtn: "Terms and conditions", cgTitle: "Terms and conditions", cgLead: "Airbnb's Terms of Service apply to your stay. The official, always up-to-date version is on Airbnb's website:", cguLink: "Airbnb Terms of Service", affTxt: "Some links in this guide may be partner links, at no extra cost to the guest.", back: "Back", visites: "Tours and activities", visitesNav: "Tours",
       hostTitle: "Contact me", hostSub: "A problem in the studio? Message me.", airbnb: "Open the Airbnb app", airbnbSub: "Then the Messages tab",
       whatsapp: "WhatsApp", nearby: "Nearby", pratique: "Good to know", activites: "Activities",
       close: "Close", contactHost: (p) => `Message ${p}`, gotIt: "Got it", qrTitle: "Wi-Fi QR code",
@@ -638,10 +638,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   function partnerCard(p) {
     if (!p || !p.url) return "";
-    const m = p.mention || (C.partenaires && C.partenaires.mention);
     return `<div class="soft partner"><div class="pt">${svg(p.icone || "star", "ico", 1.6)}<div><b>${esc(t(p.titre))}</b><p>${esc(t(p.texte))}</p></div></div>
-      <a class="btn" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">${esc(t(p.bouton))}${svg("ext", "", 2)}</a>
-      ${m ? `<p class="xs muted">${esc(t(m))}</p>` : ""}</div>`;
+      <a class="btn" href="${esc(p.url)}" target="_blank" rel="sponsored noopener">${esc(t(p.bouton))}${svg("ext", "", 2)}</a></div>`;
   }
   function heure(hhmm) {
     const m = /^(\d{1,2}):(\d{2})$/.exec(String(hhmm || "")); if (!m) return String(hhmm || "");
@@ -808,6 +806,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   function bindFoot() {
     $$("#sheetFoot [data-sheet]").forEach((b) => b.addEventListener("click", () => {
       if (b.dataset.sheet === "contact") { S.openFiche = "contact"; renderContact(); $("#sheetBody").scrollTop = 0; }
+      else if (b.dataset.sheet === "cg") { S.openFiche = "cg"; renderCG(); $("#sheetBody").scrollTop = 0; }
+      else if (b.dataset.sheet === "regles") { S.openFiche = "regles"; renderRegles(); $("#sheetBody").scrollTop = 0; }
       else closeSheet();
     }));
   }
@@ -867,12 +867,23 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#sheetTitle").textContent = u("reglesTitle");
     $("#sheetBody").innerHTML = (liste.length ? `${R.intro ? `<p class="lead">${esc(t(R.intro))}</p>` : ""}<div>${liste.map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b>${x.texte ? `<span>${esc(t(x.texte))}</span>` : ""}</div></div>`).join("")}</div>` : `<p class="lead">${esc(u("reglesVide"))}</p>`) + `
       <div class="fsec sep"><h3>${esc(u("cguTitle"))}</h3><p class="txt">${esc(u("cguTxt"))}</p>
-        <a class="btn btn-block" href="${esc(R.cgu || "https://www.airbnb.fr/help/article/2908")}" target="_blank" rel="noopener">${esc(u("cguLink"))}${svg("ext", "", 2)}</a></div>
-      <div class="fsec sep"><h3>${esc(u("affTitle"))}</h3><p class="txt">${esc(u("affTxt"))}</p></div>`;
+        <button class="btn btn-block" type="button" data-sheet="cg">${esc(u("cgBtn"))}${svg("chev", "", 2)}</button></div>`;
     $("#sheetFoot").innerHTML = `<button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
     bindFoot();
+    $("#sheetBody [data-sheet=cg]").addEventListener("click", () => { S.openFiche = "cg"; renderCG(); $("#sheetBody").scrollTop = 0; });
   }
   function openRegles() { S.openFiche = "regles"; renderRegles(); showSheet(); }
+  function renderCG() {
+    const R = C.regles || {}, texte = (R.cguTexte && (R.cguTexte[LANG] || R.cguTexte.fr)) || [];
+    $("#sheetTitle").textContent = u("cgTitle");
+    $("#sheetBody").innerHTML = (texte.length
+      ? `<div class="fsec">${texte.map((x) => /^#/.test(x) ? `<h3>${esc(x.replace(/^#+\s*/, ""))}</h3>` : `<p class="txt">${esc(x)}</p>`).join("")}</div>`
+      : `<p class="lead">${esc(u("cgLead"))}</p>
+         <a class="btn btn-block" href="${esc(R.cgu || "https://www.airbnb.fr/help/article/2908")}" target="_blank" rel="noopener">${esc(u("cguLink"))}${svg("ext", "", 2)}</a>`) +
+      `<p class="xs muted fsec sep">${esc(u("affTxt"))}</p>`;
+    $("#sheetFoot").innerHTML = `<button class="btn" type="button" data-sheet="regles">${esc(u("back"))}</button><button class="btn btn-primary" type="button" data-sheet="ok">${esc(u("gotIt"))}</button>`;
+    bindFoot();
+  }
   $("#sheetClose").addEventListener("click", () => closeSheet());
   // Fermer en touchant le fond, seulement si le geste a commencé sur le fond
   let appuiFond = false;
@@ -1049,10 +1060,13 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Vue Sorties ───────── */
   function renderSorties() {
     const PA = C.partenaires || {}, act = !!(PA.activites && PA.activites.url);
-    const items = [["s-events", u("events")]]; if (act) items.push(["s-activites", u("activites")]); items.push(["s-voir", u("voir")]);
+    const items = (act ? [["s-activites", u("visitesNav")]] : []).concat([["s-events", u("events")], ["s-voir", u("voir")]]);
     $("#v-sorties").innerHTML = viewHead(u("sortiesTitle"), u("sortiesSub")) + subnav("sorties", items) + `
       <div class="pad">
+        ${act ? `<div class="sec" id="s-activites"><h2 style="margin-bottom:14px">${esc(u("visites"))}</h2>${partnerCard(PA.activites)}</div>` : ""}
+        ${(C.pratique || []).map((x) => `<div class="place" style="margin-top:12px">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
         <div class="sec" id="s-events">
+          <h2 style="margin-bottom:14px">${esc(u("events"))}</h2>
           <div class="filters" role="group" aria-label="${esc(u("events"))}">
             <button type="button" data-f="near">${esc(u("f_near"))}</button><button type="button" data-f="all">${esc(u("f_all"))}</button>
             <button type="button" data-f="today">${esc(u("f_today"))}</button><button type="button" data-f="free">${esc(u("f_free"))}</button><button type="button" data-f="complet">${esc(u("f_complet"))}</button>
@@ -1064,7 +1078,6 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             <p class="xs muted" style="margin:0">${esc(u("evSource"))}</p>
           </div>
         </div>
-        ${act ? `<div class="sec" id="s-activites">${partnerCard(PA.activites)}</div>` : ""}
         <div class="sec" id="s-voir">
           <h2 style="margin-bottom:12px">${esc(u("voirTitle"))}</h2>
           <div class="chips" role="group" aria-label="${esc(u("voirTitle"))}">${C.adresses.map((c, i) => `<button type="button" data-cat="${i}">${esc(t(c.categorie))}</button>`).join("")}</div>
@@ -1230,10 +1243,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
             <a class="erow" href="tel:0147077777"><span><b style="display:block;font-size:16px">${esc(u("sos"))}</b><span class="small muted">${esc(u("sosSub"))}</span></span><strong>01 47 07 77 77</strong></a>
           </div>
         </div>
-        ${(C.pratique && C.pratique.length) || PA.esim ? `<div class="sec" id="s-pratique">
+        ${PA.esim && PA.esim.url ? `<div class="sec" id="s-pratique">
           <h2 style="margin-bottom:6px">${esc(u("pratique"))}</h2>
-          ${(C.pratique || []).map((x) => `<div class="place">${svg(x.icone, "ico", 1.6)}<div class="t"><b>${esc(t(x.titre))}</b><span>${esc(t(x.texte))}</span></div></div>`).join("")}
-          ${PA.esim && PA.esim.url ? `<div style="margin-top:12px">${partnerCard(PA.esim)}</div>` : ""}
+          <div style="margin-top:12px">${partnerCard(PA.esim)}</div>
         </div>` : ""}
         <div class="sec" id="s-proche">
           <h2 style="margin-bottom:6px">${esc(u("nearby"))}</h2>
@@ -1313,6 +1325,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     else if (dlg.open && S.openFiche === "wifi") renderWifi();
     else if (dlg.open && S.openFiche === "contact") renderContact();
     else if (dlg.open && S.openFiche === "regles") renderRegles();
+    else if (dlg.open && S.openFiche === "cg") renderCG();
   }
 
   /* ───────── Démarrage ───────── */
