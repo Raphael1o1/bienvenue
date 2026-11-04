@@ -76,6 +76,45 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .meteo span{display:block;font-size:12px;color:var(--muted);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meteo span span{display:inline}
 @media (max-width:359px){.meteo .mm{display:none}}
+/* Couleurs par rubrique : bandeau en haut des pages, pastilles des raccourcis, onglet actif */
+:root{
+  --b-studio:#1D3F72; --b-transports:#2C6A4D; --b-sorties:#B4380A; --b-aide:#B42318;
+  --c-studio:#1D3F72; --t-studio:#E9EEF7; --c-depart:#9A5B00; --t-depart:#FCF1DF; --c-metro:#2C6A4D; --t-metro:#E3F1E9;
+  --c-velib:#0E7C7F; --t-velib:#DFF2F2; --c-sorties:#C2410C; --t-sorties:#FDEBE1; --c-voir:#7C3AAE; --t-voir:#F1E9F8;
+  --c-sos:#C13515; --t-sos:#FDE9E6; --c-contact:#BE2E4A; --t-contact:#FBE7EC;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --b-studio:#1B3765; --b-transports:#245840; --b-sorties:#9C300A; --b-aide:#9E1F15;
+    --c-studio:#8FB0E6; --t-studio:#1B2638; --c-depart:#F0B35C; --t-depart:#2E2312; --c-metro:#7FCDA4; --t-metro:#15281F;
+    --c-velib:#6BD1D3; --t-velib:#122A2B; --c-sorties:#FF9B6B; --t-sorties:#33201A; --c-voir:#C9A2EE; --t-voir:#271C33;
+    --c-sos:#FF8A7A; --t-sos:#351815; --c-contact:#FF8FA6; --t-contact:#34181F;
+  }
+}
+.bandeau{background:var(--bande);color:#FFFFFF}
+#v-studio{--bande:var(--b-studio)} #v-transports{--bande:var(--b-transports)} #v-sorties{--bande:var(--b-sorties)} #v-aide{--bande:var(--b-aide)}
+.bandeau .vh{padding-bottom:22px}
+.bandeau .vh h1{color:#FFFFFF}
+.bandeau .vh p{color:rgba(255,255,255,.88)}
+.bandeau .lang::before{border-color:rgba(255,255,255,.55)}
+.bandeau .lang button{color:rgba(255,255,255,.9)}
+.bandeau .lang button[aria-pressed="true"] span{background:#FFFFFF;color:#222222}
+.bandeau :focus-visible{outline-color:#FFFFFF}
+.shortcut svg{box-sizing:content-box;padding:9px;border-radius:50%;width:22px;height:22px;background:var(--t-pastille);color:var(--c-pastille)}
+.shortcut[data-sc=guide]{--c-pastille:var(--c-studio);--t-pastille:var(--t-studio)}
+.shortcut[data-sc=depart]{--c-pastille:var(--c-depart);--t-pastille:var(--t-depart)}
+.shortcut[data-sc=metro]{--c-pastille:var(--c-metro);--t-pastille:var(--t-metro)}
+.shortcut[data-sc=velib]{--c-pastille:var(--c-velib);--t-pastille:var(--t-velib)}
+.shortcut[data-sc=sorties]{--c-pastille:var(--c-sorties);--t-pastille:var(--t-sorties)}
+.shortcut[data-sc=voir]{--c-pastille:var(--c-voir);--t-pastille:var(--t-voir)}
+.shortcut[data-sc=urgences]{--c-pastille:var(--c-sos);--t-pastille:var(--t-sos)}
+.shortcut[data-sc=contact]{--c-pastille:var(--c-contact);--t-pastille:var(--t-contact)}
+#v-studio .list-item .ico,#s-infos .ico{color:var(--c-studio)}
+#v-aide .place .ico{color:var(--c-sos)}
+#tabbar [data-tab=studio][aria-current]{color:var(--c-studio)}
+#tabbar [data-tab=transports][aria-current]{color:var(--c-metro)}
+#tabbar [data-tab=sorties][aria-current]{color:var(--c-sorties)}
+#tabbar [data-tab=aide][aria-current]{color:var(--c-sos)}
 /* Accueil : barre du haut (météo à gauche, Wi-Fi et langue à droite) */
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:max(8px, calc(env(safe-area-inset-top,0px) + 4px))}
 .top-actions{display:flex;align-items:center;gap:2px;flex:none}
@@ -398,9 +437,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       velibSource: "Source : Vélib' Métropole, via Paris Data.",
       trajetTitle: "Préparer un trajet", ratp: "Info trafic RATP", citymapper: "Citymapper", bonjour: "Appli Bonjour RATP", fromStudio: "Itinéraire depuis le studio",
       sortiesTitle: "Sorties", sortiesSub: "Cette semaine à Paris", events: "Événements", exp: "Expériences", voir: "Adresses", voirTitle: "Nos bonnes adresses", voirNote: "Sélection faite d'après les avis. Pensez à vérifier les horaires avant de vous déplacer.", walkFoot: (n) => `${n} min à pied`,
-      f_near: "Près d'ici", f_all: "Tout Paris", f_today: "Aujourd'hui", f_free: "Gratuit",
+      f_near: "Près d'ici", f_all: "Tout Paris", f_today: "Aujourd'hui", f_free: "Gratuit", f_complet: "Programme complet",
       evLoading: "Chargement des événements…", evEmpty: "Aucun événement avec ces filtres cette semaine.", evErr: "Les événements ne peuvent pas être chargés pour le moment.",
-      evMore: "Tout le programme sur paris.fr", evSource: "Source : Ville de Paris, « Que faire à Paris ».", free: "Gratuit", now: "En ce moment",
+      evMore: "Tout le programme sur paris.fr", evSource: "Sélection pour les visiteurs (concerts, expos, spectacles, balades…), d'après « Que faire à Paris » de la Ville de Paris. « Programme complet » ajoute ateliers, conférences et activités pour enfants.", free: "Gratuit", now: "En ce moment",
       until: (d) => `Jusqu'au ${d}`, today: "Aujourd'hui", tomorrow: "Demain", save: "Enregistrer cet événement", unsave: "Retirer des favoris", f_saved: (n) => `Enregistrés (${n})`, savedEmpty: "Aucun événement enregistré pour l'instant. Touchez le cœur d'un événement pour le retrouver ici.", evMoreBtn: (n) => `Afficher plus d'événements (${n})`,
       expTitle: "Expériences à réserver", expSub: (p) => `La sélection de ${p}`, map: "Voir sur la carte",
       aideTitle: "Aide et urgences", aideSub: "Urgences gratuites 24 h/24 : 112, 15, 17, 18",
@@ -442,9 +481,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       velibSource: "Source: Vélib' Métropole, via Paris Data.",
       trajetTitle: "Plan a journey", ratp: "RATP traffic info", citymapper: "Citymapper", bonjour: "Bonjour RATP app", fromStudio: "Directions from the studio",
       sortiesTitle: "Going out", sortiesSub: "This week in Paris", events: "Events", exp: "Experiences", voir: "Places", voirTitle: "Our favourite places", voirNote: "Picked from reviews. Please check opening hours before you go.", walkFoot: (n) => `${n} min walk`,
-      f_near: "Nearby", f_all: "All of Paris", f_today: "Today", f_free: "Free",
+      f_near: "Nearby", f_all: "All of Paris", f_today: "Today", f_free: "Free", f_complet: "Full programme",
       evLoading: "Loading events…", evEmpty: "No events match these filters this week.", evErr: "Events can't be loaded right now.",
-      evMore: "Full listings on paris.fr", evSource: "Source: City of Paris, \"Que faire à Paris\".", free: "Free", now: "On now",
+      evMore: "Full listings on paris.fr", evSource: "A selection for visitors (concerts, exhibitions, shows, walks…) from the City of Paris \"Que faire à Paris\" listings. \"Full programme\" adds workshops, talks and children's activities.", free: "Free", now: "On now",
       until: (d) => `Until ${d}`, today: "Today", tomorrow: "Tomorrow", save: "Save this event", unsave: "Remove from saved", f_saved: (n) => `Saved (${n})`, savedEmpty: "No saved events yet. Tap the heart on an event to find it here.", evMoreBtn: (n) => `Show more events (${n})`,
       expTitle: "Experiences to book", expSub: (p) => `${p}'s picks`, map: "Show on map",
       aideTitle: "Help and emergencies", aideSub: "Free emergency numbers 24/7: 112, 15, 17, 18",
@@ -568,7 +607,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       <button type="button" data-lang="en" aria-pressed="${LANG === "en"}"><span>EN</span></button></div>`;
   }
   function viewHead(title, sub) {
-    return `<div class="pad vh"><div style="min-width:0"><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${langToggle()}</div>`;
+    return `<div class="bandeau"><div class="pad vh"><div style="min-width:0"><h1>${esc(title)}</h1><p>${esc(sub)}</p></div>${langToggle()}</div></div>`;
   }
   function subnav(view, items) {
     return `<nav class="subnav" aria-label="Sections"><div class="pad">${items.map((it, i) => `<a href="#${it[0]}" data-sub="${view}" aria-current="${i === 0}">${esc(it[1])}</a>`).join("")}</div></nav>`;
@@ -611,7 +650,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     tab: "accueil", depart: lireDepart(), favoris: (store.get("livret-favoris-v2", []) || []).filter((f) => f && f.r && f.s), evShown: 6, evList: [], sheetHist: false,
     weather: null, traffic: { state: "idle", lines: {}, at: null, sel: null },
     velib: { state: "idle", list: [], at: null },
-    ev: Object.assign({ scope: "near", today: false, free: false }, store.get("livret-filtres", {}), { saved: false }), evCache: {}, ficheTab: 0, openFiche: null,
+    ev: Object.assign({ scope: "near", today: false, free: false, complet: false }, store.get("livret-filtres", {}), { saved: false }), evCache: {}, ficheTab: 0, openFiche: null,
   };
 
   /* ───────── Vue Accueil ───────── */
@@ -964,7 +1003,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         <div class="sec" id="s-events">
           <div class="filters" role="group" aria-label="${esc(u("events"))}">
             <button type="button" data-f="near">${esc(u("f_near"))}</button><button type="button" data-f="all">${esc(u("f_all"))}</button>
-            <button type="button" data-f="today">${esc(u("f_today"))}</button><button type="button" data-f="free">${esc(u("f_free"))}</button>
+            <button type="button" data-f="today">${esc(u("f_today"))}</button><button type="button" data-f="free">${esc(u("f_free"))}</button><button type="button" data-f="complet">${esc(u("f_complet"))}</button>
             <button type="button" data-f="saved" id="f-saved" hidden><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">${P.heart}</svg><span></span></button>
           </div>
           <div id="events" style="margin-top:20px"></div>
@@ -984,8 +1023,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $$("#v-sorties [data-f]").forEach((b) => b.addEventListener("click", () => {
       const f = b.dataset.f;
       if (f === "saved") S.ev.saved = !S.ev.saved;
-      else { S.ev.saved = false; if (f === "today" || f === "free") S.ev[f] = !S.ev[f]; else S.ev.scope = f; }
-      store.set("livret-filtres", { scope: S.ev.scope, today: S.ev.today, free: S.ev.free }); loadEvents();
+      else { S.ev.saved = false; if (f === "today" || f === "free" || f === "complet") S.ev[f] = !S.ev[f]; else S.ev.scope = f; }
+      store.set("livret-filtres", { scope: S.ev.scope, today: S.ev.today, free: S.ev.free, complet: S.ev.complet }); loadEvents();
     }));
     loadEvents();
   }
@@ -995,7 +1034,24 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     return `<div class="place"><div class="t"><b>${esc(l.nom)}</b><span>${esc(t(l.note))}</span>${loc ? `<span class="loc">${esc(loc)}</span>` : ""}</div><a class="iconbtn" href="${mapsQ(l.carte || l.nom)}" target="_blank" rel="noopener" aria-label="${esc(u("map"))} : ${esc(l.nom)}">${svg("pin", "", 1.7)}</a></div>`;
   }
   const EV_BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-faire-a-paris-/records";
-  const EV_SEL = "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type";
+  const EV_SEL = "id,title,date_start,date_end,occurrences,cover_url,address_name,address_zipcode,lat_lon,url,price_type,qfap_tags,audience";
+  // Sélection « visiteurs » : on écarte ce qui vise surtout les habitants (ateliers, conférences, activités pour enfants…)
+  const tagsOf = (r) => String(r.qfap_tags || "").split(";").map((x) => x.trim()).filter(Boolean);
+  const EV_EXCLUS = ["Atelier", "Conférence", "Solidarité", "Santé"];
+  const EV_FORTS = ["Concert", "Expo", "Festival", "Spectacle musical", "Danse", "Cirque", "Balade urbaine", "Nuit", "Art contemporain", "Photo", "Peinture"];
+  function pourVisiteurs(r) {
+    const tg = tagsOf(r), a = String(r.audience || "");
+    if (tg.some((x) => EV_EXCLUS.indexOf(x) !== -1)) return false;
+    if (/tout-petits/.test(a) || (/^Public (enfants|jeunes)/.test(a) && !/adultes/.test(a))) return false;
+    if (tg.indexOf("Enfants") !== -1 && !/adultes|Tout public/.test(a)) return false;
+    if ((tg.indexOf("Littérature") !== -1 || tg.indexOf("Sport") !== -1) && !tg.some((x) => EV_FORTS.indexOf(x) !== -1)) return false;
+    return true;
+  }
+  // Ce qui se comprend sans parler français (musique, expo, danse…) passe avant le théâtre, le cinéma et l'humour
+  function enFrancais(r) {
+    const tg = tagsOf(r);
+    return ["Théâtre", "Ecrans", "Humour", "Littérature"].some((x) => tg.indexOf(x) !== -1) && !tg.some((x) => EV_FORTS.indexOf(x) !== -1);
+  }
   const isoDay = (d) => d.toISOString().slice(0, 10);
     const sansAccent = (x) => String(x || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   // Les affiches de la Ville pèsent souvent plus d'1 Mo : on passe par un service de redimensionnement (≈ 20 Ko).
@@ -1015,7 +1071,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   function trierEvenements(list) {
     const now = Date.now();
-    return list.map((x) => ({ x, r: recurrent(x) ? 1 : 0, d: Math.max(x.s.start, now) })).sort((a, b) => a.r - b.r || a.d - b.d).map((o) => o.x);
+    return list.map((x) => ({ x, r: recurrent(x) ? 2 : enFrancais(x.r) ? 1 : 0, d: Math.max(x.s.start, now) })).sort((a, b) => a.r - b.r || a.d - b.d).map((o) => o.x);
   }
   function dedoublonner(list) {
     const vus = new Set();
@@ -1063,7 +1119,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     const nb = S.favoris.filter((f) => f.s.end >= Date.now()).length;
     $$("#v-sorties [data-f]").forEach((b) => {
       const f = b.dataset.f;
-      b.setAttribute("aria-pressed", String(f === "saved" ? !!S.ev.saved : !S.ev.saved && (f === "today" || f === "free" ? !!S.ev[f] : S.ev.scope === f)));
+      b.setAttribute("aria-pressed", String(f === "saved" ? !!S.ev.saved : !S.ev.saved && (f === "today" || f === "free" || f === "complet" ? !!S.ev[f] : S.ev.scope === f)));
     });
     const sb = $("#f-saved"); if (sb) { sb.hidden = nb === 0 && !S.ev.saved; sb.querySelector("span").textContent = u("f_saved")(nb); }
   }
@@ -1089,6 +1145,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       if (!plus) box.innerHTML = `<p class="state">${esc(u("evLoading"))}</p>`;
       try { list = await fetchEvents(S.ev.scope); } catch (e) { box.innerHTML = `<p class="state">${esc(u("evErr"))}</p>`; return; }
       const auj = jourParis(new Date());
+      if (!S.ev.complet) list = list.filter((x) => pourVisiteurs(x.r));
       if (S.ev.free) list = list.filter((x) => String(x.r.price_type || "").toLowerCase().indexOf("gratuit") === 0);
       if (S.ev.today) list = list.filter((x) => jourParis(new Date(x.s.start)) <= auj && x.s.end >= Date.now());
       if (!list.length) { box.innerHTML = `<p class="state">${esc(u("evEmpty"))}</p>`; return; }
