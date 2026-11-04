@@ -470,7 +470,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       phTitle: "Photos du départ", phLead: "Vous pouvez envoyer des photos du studio à l'équipe de ménage et ajouter un commentaire. C'est facultatif, et cela nous aide beaucoup.",
       phCam: "Appareil photo", phGal: "Galerie", phNote: "Commentaire (facultatif)", phPlace: "Ex. : il n'y a plus de papier toilette ou de shampoing, nous avons dû racheter du gel douche…",
       phSend: "Envoyer", phLater: "Plus tard", phSending: "Envoi…", phThanks: "Merci, c'est envoyé ! Bon voyage.", phErr: "L'envoi n'a pas abouti. Réessayez, ou envoyez les photos par WhatsApp.",
-      phShareHint: "Le menu de partage de votre téléphone va s'ouvrir : choisissez WhatsApp ou Messages, puis Raphaël.", phRemove: "Retirer la photo", phMsg: (d) => `Départ du studio, ${d}`,
+      phShareHint: "Le menu de partage de votre téléphone va s'ouvrir : choisissez WhatsApp ou Messages, puis Raphaël.", phRemove: "Retirer la photo", phSrcCam: "appareil photo", phSrcGal: "galerie", phDateInc: "date inconnue", phGarde: "Vos photos restent sur ce téléphone 24 h, le temps de les envoyer.", phMsg: (d) => `Départ du studio, ${d}`,
       phNoShare: "Votre navigateur ne permet pas d'envoyer les photos directement. Ouvrez WhatsApp avec le bouton ci-dessous, puis joignez les photos depuis votre galerie.", phWa: "Ouvrir WhatsApp",
       transTitle: "Se déplacer", transSub: "Métro et Vélib' en direct", metro: "Métro", velib: "Vélib'", trajet: "Itinéraire",
       stationsNear: "Stations à proximité", aeroTitle: "Rejoindre l'aéroport ou la gare", metroNear: "Métro à proximité", walkMin: (n) => `≈ ${n} min`, traffic: "Info trafic", live: "en direct",
@@ -520,7 +520,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       phTitle: "Check-out photos", phLead: "You can send photos of the studio to the cleaning team and add a comment. It's optional, and it really helps.",
       phCam: "Camera", phGal: "Gallery", phNote: "Comment (optional)", phPlace: "E.g. we ran out of toilet paper or shampoo, we had to buy shower gel…",
       phSend: "Send", phLater: "Later", phSending: "Sending…", phThanks: "Thank you, it's sent! Have a good trip.", phErr: "Sending failed. Please try again, or send the photos via WhatsApp.",
-      phShareHint: "Your phone's share menu will open: choose WhatsApp or Messages, then Raphaël.", phRemove: "Remove photo", phMsg: (d) => `Studio check-out, ${d}`,
+      phShareHint: "Your phone's share menu will open: choose WhatsApp or Messages, then Raphaël.", phRemove: "Remove photo", phSrcCam: "camera", phSrcGal: "gallery", phDateInc: "date unknown", phGarde: "Your photos stay on this phone for 24 hours so you can send them.", phMsg: (d) => `Studio check-out, ${d}`,
       phNoShare: "Your browser can't send the photos directly. Open WhatsApp with the button below, then attach the photos from your gallery.", phWa: "Open WhatsApp",
       transTitle: "Getting around", transSub: "Live metro and Vélib' info", metro: "Metro", velib: "Vélib'", trajet: "Journeys",
       stationsNear: "Nearby stations", aeroTitle: "Getting to the airport or station", metroNear: "Metro nearby", walkMin: (n) => `≈ ${n} min`, traffic: "Live traffic", live: "live",
@@ -927,14 +927,75 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   // Photos du départ : elles restent sur le téléphone jusqu'à l'envoi (partage, ou dépôt Drive si configuré)
   const PH = { items: [], note: "", etat: "" };
-  async function reduire(file) {
+  // Date de prise de vue inscrite dans le fichier JPEG (EXIF DateTimeOriginal), si elle existe
+  async function dateExif(file) {
+    try {
+      const v = new DataView(await file.slice(0, 256 * 1024).arrayBuffer());
+      if (v.getUint16(0) !== 0xFFD8) return null;
+      let o = 2;
+      while (o + 10 < v.byteLength) {
+        const mk = v.getUint16(o), len = v.getUint16(o + 2);
+        if (mk === 0xFFE1 && v.getUint32(o + 4) === 0x45786966) {
+          const t = o + 10, le = v.getUint16(t) === 0x4949;
+          const g16 = (p) => v.getUint16(t + p, le), g32 = (p) => v.getUint32(t + p, le);
+          const tag = (ifd, id) => { const n = g16(ifd); for (let i = 0; i < n; i++) { const e = ifd + 2 + i * 12; if (g16(e) === id) return e; } return null; };
+          const ascii = (e) => { const n = g32(e + 4), off = n > 4 ? g32(e + 8) : e + 8; let x = ""; for (let i = 0; i < n - 1; i++) x += String.fromCharCode(v.getUint8(t + off + i)); return x; };
+          const ifd0 = g32(4), ex = tag(ifd0, 0x8769);
+          let txt = null;
+          if (ex) { const d = tag(g32(ex + 8), 0x9003); if (d) txt = ascii(d); }
+          if (!txt) { const d = tag(ifd0, 0x0132); if (d) txt = ascii(d); }
+          const m = /^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2})/.exec(txt || "");
+          return m ? `${m[3]}/${m[2]}/${m[1]} ${m[4]}:${m[5]}` : null;
+        }
+        if ((mk & 0xFF00) !== 0xFF00) break;
+        o += 2 + len;
+      }
+    } catch (e) {}
+    return null;
+  }
+  const maintenantParis = () => new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date()).replace(",", "").replace(" à ", " ");
+  async function reduire(file, source) {
+    const quand = source === "cam" ? maintenantParis() : await dateExif(file);
+    const mention = `${quand || u("phDateInc")} · ${source === "cam" ? u("phSrcCam") : u("phSrcGal")}`;
     try {
       const img = await createImageBitmap(file), k = Math.min(1, 1600 / Math.max(img.width, img.height));
       const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
-      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      const g = cv.getContext("2d");
+      g.drawImage(img, 0, 0, cv.width, cv.height);
+      const fs = Math.max(14, Math.round(cv.width * 0.028)), h = Math.round(fs * 1.9);
+      g.fillStyle = "rgba(0,0,0,0.55)"; g.fillRect(0, cv.height - h, cv.width, h);
+      g.fillStyle = "#FFFFFF"; g.font = `600 ${fs}px system-ui, -apple-system, sans-serif`; g.textBaseline = "middle";
+      g.fillText(mention, Math.round(fs * 0.7), cv.height - h / 2);
       const blob = await new Promise((ok) => cv.toBlob(ok, "image/jpeg", 0.82));
-      return blob || file;
-    } catch (e) { return file; }
+      return { blob: blob || file, mention };
+    } catch (e) { return { blob: file, mention }; }
+  }
+  // Conservation 24 h sur le téléphone (IndexedDB), le temps d'envoyer
+  const GARDE = 24 * 36e5;
+  function basePhotos() {
+    return new Promise((ok, ko) => {
+      try { const r = indexedDB.open("livret-photos", 1); r.onupgradeneeded = () => r.result.createObjectStore("etat"); r.onsuccess = () => ok(r.result); r.onerror = () => ko(r.error); }
+      catch (e) { ko(e); }
+    });
+  }
+  async function sauverPhotos() {
+    try {
+      const db = await basePhotos(), tx = db.transaction("etat", "readwrite");
+      if (PH.items.length || PH.note.trim()) tx.objectStore("etat").put({ t: Date.now(), note: PH.note, items: PH.items.map((x) => ({ blob: x.blob, mention: x.mention })) }, "brouillon");
+      else tx.objectStore("etat").delete("brouillon");
+    } catch (e) {}
+  }
+  async function chargerPhotos() {
+    try {
+      const db = await basePhotos();
+      const v = await new Promise((ok) => { const r = db.transaction("etat").objectStore("etat").get("brouillon"); r.onsuccess = () => ok(r.result); r.onerror = () => ok(null); });
+      if (!v) return;
+      if (Date.now() - (v.t || 0) > GARDE) { db.transaction("etat", "readwrite").objectStore("etat").delete("brouillon"); return; }
+      if (PH.items.length || PH.note) return;
+      PH.items = (v.items || []).map((x) => ({ blob: x.blob, mention: x.mention, url: URL.createObjectURL(x.blob) }));
+      PH.note = v.note || "";
+      if (S.openFiche === "photos") renderPhotos();
+    } catch (e) {}
   }
   function renderPhotos() {
     $("#sheetTitle").textContent = u("phTitle");
@@ -955,6 +1016,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       <label style="display:flex;flex-direction:column;gap:6px"><span class="small" style="font-weight:600">${esc(u("phNote"))}</span>
         <textarea class="note" id="phNote" placeholder="${esc(u("phPlace"))}">${esc(PH.note)}</textarea></label>
       ${depot ? "" : peutPartager ? `<p class="xs muted">${esc(u("phShareHint"))}</p>` : `<p class="xs muted">${esc(u("phNoShare"))}</p>`}
+      ${PH.items.length ? `<p class="xs muted">${esc(u("phGarde"))}</p>` : ""}
       ${PH.etat === "err" ? `<div class="callout"><p>${esc(u("phErr"))}</p></div>` : ""}`;
     const pret = PH.items.length > 0 || PH.note.trim();
     $("#sheetFoot").innerHTML = depot || peutPartager
@@ -962,20 +1024,21 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       : `<button class="btn" type="button" data-sheet="ok">${esc(u("phLater"))}</button>${wa ? `<a class="btn btn-primary" href="https://wa.me/${wa}?text=${encodeURIComponent(messagePhotos())}" target="_blank" rel="noopener">${esc(u("phWa"))}</a>` : ""}`;
     bindFoot();
     const ajouter = async (e) => {
-      for (const f of Array.from(e.target.files || []).slice(0, 12 - PH.items.length)) { const b = await reduire(f); PH.items.push({ blob: b, url: URL.createObjectURL(b) }); }
-      e.target.value = ""; PH.etat = ""; renderPhotos();
+      const source = e.target.id === "phCam" ? "cam" : "gal";
+      for (const f of Array.from(e.target.files || []).slice(0, 12 - PH.items.length)) { const r = await reduire(f, source); PH.items.push({ blob: r.blob, mention: r.mention, url: URL.createObjectURL(r.blob) }); }
+      e.target.value = ""; PH.etat = ""; sauverPhotos(); renderPhotos();
     };
     $("#phCam").addEventListener("change", ajouter); $("#phGal").addEventListener("change", ajouter);
-    $$("#sheetBody [data-ph]").forEach((b) => b.addEventListener("click", () => { const x = PH.items.splice(+b.dataset.ph, 1)[0]; if (x) URL.revokeObjectURL(x.url); renderPhotos(); }));
+    $$("#sheetBody [data-ph]").forEach((b) => b.addEventListener("click", () => { const x = PH.items.splice(+b.dataset.ph, 1)[0]; if (x) URL.revokeObjectURL(x.url); sauverPhotos(); renderPhotos(); }));
     $("#phNote").addEventListener("input", (e) => {
-      PH.note = e.target.value; const s = $("#phSend"); if (s) s.disabled = !(PH.items.length || PH.note.trim());
+      PH.note = e.target.value; clearTimeout(PH.minuteur); PH.minuteur = setTimeout(sauverPhotos, 600); const s = $("#phSend"); if (s) s.disabled = !(PH.items.length || PH.note.trim());
       const w = $("#sheetFoot a[href^='https://wa.me/']"); if (w) w.href = `https://wa.me/${wa}?text=${encodeURIComponent(messagePhotos())}`;
     });
     const s = $("#phSend"); if (s) s.addEventListener("click", envoyerPhotos);
   }
   function messagePhotos() {
     const d = new Intl.DateTimeFormat(LANG === "fr" ? "fr-FR" : "en-GB", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" }).format(new Date());
-    return u("phMsg")(d) + (PH.note.trim() ? "\n\n" + PH.note.trim() : "");
+    return u("phMsg")(d) + (PH.note.trim() ? "\n\n" + PH.note.trim() : "") + (PH.items.length ? "\n\n" + PH.items.map((x, i) => `${i + 1}. ${x.mention || ""}`).join("\n") : "");
   }
   async function envoyerPhotos() {
     const fichiers = PH.items.map((x, i) => new File([x.blob], `depart-${i + 1}.jpg`, { type: "image/jpeg" }));
@@ -993,7 +1056,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         if (fichiers.length) donnees.files = fichiers;
         await navigator.share(donnees);
       }
-      PH.items.forEach((x) => URL.revokeObjectURL(x.url)); PH.items = []; PH.note = ""; PH.etat = "ok";
+      PH.items.forEach((x) => URL.revokeObjectURL(x.url)); PH.items = []; PH.note = ""; PH.etat = "ok"; sauverPhotos();
     } catch (e) {
       PH.etat = e && e.name === "AbortError" ? "" : "err";       // partage annulé : on revient simplement à la fenêtre
     }
@@ -1515,6 +1578,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#lock").hidden = true; $("#app").hidden = false;
     renderAll();
     loadWeather(); loadVelib(); if (S.tab === "transports") loadTraffic();
+    chargerPhotos();
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
     setInterval(() => { const c = $("#clock"); if (c) c.textContent = hm(new Date()); }, 15000);
     // L'info trafic pèse ~250 Ko : chargée à l'ouverture de l'onglet Transports, puis toutes les 5 min s'il reste affiché
