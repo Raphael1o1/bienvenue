@@ -226,6 +226,12 @@ h1,h2,h3{margin:0;text-wrap:balance}
 /* Check-list */
 .check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .check label{display:flex;align-items:center;gap:14px;min-height:54px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.check .ph-etape{display:flex;align-items:center;gap:14px;width:100%;min-height:54px;padding:10px 14px;border:1.5px dashed var(--line-strong);border-radius:12px;background:var(--bg);color:var(--ink);text-align:left;cursor:pointer}
+.check .ph-etape svg.ico{width:24px;height:24px;color:var(--c-studio);flex:none}
+.check .ph-etape .t{flex:1;min-width:0;font-size:15px;line-height:1.4}
+.check .ph-etape .opt{font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 8px;flex:none}
+.check .ph-etape.fait{border-style:solid;border-color:var(--ok)}
+.check .ph-etape.fait .opt{color:var(--ok);border-color:var(--ok)}
 .check input{appearance:none;-webkit-appearance:none;margin:0;width:24px;height:24px;flex:none;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--bg);display:grid;place-items:center;cursor:pointer}
 .check input:checked{background:var(--on);border-color:var(--on)}
 .check.fini input:checked{background:var(--ok);border-color:var(--ok)}
@@ -472,7 +478,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       studioTitle: "Le studio", studioSub: "Mode d'emploi, infos utiles et départ", guide: "Mode d'emploi", infos: "Infos utiles", depart: "Départ",
       guideHint: "Touchez un équipement pour afficher les étapes.", before: (h) => `Avant ${h}`,
       progress: (n, t) => `${n} sur ${t} fait${n > 1 ? "s" : ""}`, important: "Important",
-      phCtaT: "Un dernier geste ?", phCtaP: "Envoyez quelques photos du studio et vos remarques à l'équipe de ménage. C'est facultatif.", phCtaBtn: "Ajouter des photos",
+      phEtape: "Envoyer des photos du studio à l'équipe de ménage", phOpt: "Facultatif", phFait: "Photos envoyées", phCtaT: "Un dernier geste ?", phCtaP: "Envoyez quelques photos du studio et vos remarques à l'équipe de ménage. C'est facultatif.", phCtaBtn: "Ajouter des photos",
       phTitle: "Photos du départ", phLead: "Vous pouvez envoyer des photos du studio à l'équipe de ménage et ajouter un commentaire. C'est facultatif, et cela nous aide beaucoup.",
       phCam: "Appareil photo", phGal: "Galerie", phNote: "Commentaire (facultatif)", phPlace: "Ex. : il n'y a plus de papier toilette ou de shampoing, nous avons dû racheter du gel douche…",
       phSend: "Envoyer", phLater: "Plus tard", phSending: "Envoi…", phThanks: "Merci, c'est envoyé ! Bon voyage.", phErr: "L'envoi n'a pas abouti. Réessayez, ou envoyez les photos par WhatsApp.",
@@ -522,7 +528,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       studioTitle: "The studio", studioSub: "How things work, useful info and check-out", guide: "How things work", infos: "Useful info", depart: "Check-out",
       guideHint: "Tap an appliance to see the steps.", before: (h) => `Before ${h}`,
       progress: (n, t) => `${n} of ${t} done`, important: "Important",
-      phCtaT: "One last thing?", phCtaP: "Send a few photos of the studio and any remarks to the cleaning team. It's optional.", phCtaBtn: "Add photos",
+      phEtape: "Send photos of the studio to the cleaning team", phOpt: "Optional", phFait: "Photos sent", phCtaT: "One last thing?", phCtaP: "Send a few photos of the studio and any remarks to the cleaning team. It's optional.", phCtaBtn: "Add photos",
       phTitle: "Check-out photos", phLead: "You can send photos of the studio to the cleaning team and add a comment. It's optional, and it really helps.",
       phCam: "Camera", phGal: "Gallery", phNote: "Comment (optional)", phPlace: "E.g. we ran out of toilet paper or shampoo, we had to buy shower gel…",
       phSend: "Send", phLater: "Later", phSending: "Sending…", phThanks: "Thank you, it's sent! Have a good trip.", phErr: "Sending failed. Please try again, or send the photos via WhatsApp.",
@@ -630,6 +636,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     galerie: '<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="m21 15.5-5-5L6 19.5"/>',
     pieton: '<circle cx="13" cy="4.5" r="1.8"/><path d="m10 21 2.2-6.5L15 17v4M9 11.5l1.5-4 3 1.5 2 3 2.5 1M10.5 7.5 8 9l-1 3"/>',
     tel: '<path d="M6.6 3.5h3l1.6 4.2-2 1.4a11 11 0 0 0 5.7 5.7l1.4-2 4.2 1.6v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16.2 9.5"/>',
     voiture: '<path d="M5 16.5V12l2-5.5h10l2 5.5v4.5"/><path d="M3.5 16.5h17v2.5h-17z"/><path d="M7.5 19v1.5M16.5 19v1.5"/><path d="M5 12h14"/>',
   };
   const svg = (n, cls, sw, style) => `<svg${cls ? ` class="${cls}"` : ""}${style ? ` style="${style}"` : ""} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw || 1.7}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n] || P.info}</svg>`;
@@ -795,6 +802,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Vue Studio ───────── */
   function renderStudio() {
     const D = C.depart, PA = C.partenaires || {}, infos = C.infos || [], aInfos = !!(C.wifi || infos.length);
+    // Les photos se prennent avant de sortir : juste avant l'étape « fermer la porte »
+    const iPhotos = D.etapes.findIndex((e) => /porte|door/i.test(typeof e === "string" ? e : e.fr || ""));
     $("#v-studio").innerHTML = viewHead(u("studioTitle"), u("studioSub")) + subnav("studio", [["s-guide", u("guide")]].concat(aInfos ? [["s-infos", u("infos")]] : [], [["s-depart", u("depart")]])) + `
       <div class="pad">
         <div class="sec" id="s-guide">
@@ -813,10 +822,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
           <div class="sec-head"><h2>${esc(u("depart"))}</h2><span class="pill">${esc(u("before")(heure(D.heure)))}</span></div>
           <div class="stack">
             <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.intro))}</p>
-            <ul class="check">${D.etapes.map((e, i) => `<li><label for="dep-${i}"><input type="checkbox" id="dep-${i}" data-i="${i}"${S.depart.indexOf(i) !== -1 ? " checked" : ""}><span>${esc(t(e))}</span></label></li>`).join("")}</ul>
+            <ul class="check">${D.etapes.map((e, i) => (i === iPhotos ? boutonPhotos() : "") + `<li><label for="dep-${i}"><input type="checkbox" id="dep-${i}" data-i="${i}"${S.depart.indexOf(i) !== -1 ? " checked" : ""}><span>${esc(t(e))}</span></label></li>`).join("")}${iPhotos === -1 ? boutonPhotos() : ""}</ul>
             <div class="progress"><div class="bar"><i id="depBar"></i></div><span id="depTxt"></span></div>
-            <div class="soft photo-cta" id="photoCta" hidden><div class="pt">${svg("appareil", "", 1.7)}<div><b>${esc(u("phCtaT"))}</b><p>${esc(u("phCtaP"))}</p></div></div>
-              <button class="btn btn-block" type="button" id="photoCtaBtn">${svg("galerie", "", 1.8)}<span>${esc(u("phCtaBtn"))}</span></button></div>
             <div class="callout">${warnTitle()}<p>${esc(t(D.attention))}</p></div>
             <p style="margin:0;font-size:15px;color:var(--ink2)">${esc(t(D.tardif))}</p>
             ${partnerCard(PA.bagages)}
@@ -832,12 +839,9 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       const fini = tot > 0 && n === tot;
       $("#depTxt").parentNode.classList.toggle("fini", fini);
       $("#v-studio .check").classList.toggle("fini", fini);
-      $("#photoCta").hidden = !fini;
-      if (fini && S.departVientDeFinir && !S.photosProposees) { S.photosProposees = true; setTimeout(openPhotos, 600); }
-      S.departVientDeFinir = false;
     };
-    $$("#v-studio .check input").forEach((x) => x.addEventListener("change", () => { S.departVientDeFinir = true; upd(); }));
-    $("#photoCtaBtn").addEventListener("click", openPhotos);
+    $$("#v-studio .check input").forEach((x) => x.addEventListener("change", upd));
+    $("#photoBtn").addEventListener("click", openPhotos);
     upd();
   }
 
@@ -933,7 +937,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     bindFoot();
   }
   // Photos du départ : elles restent sur le téléphone jusqu'à l'envoi (partage, ou dépôt Drive si configuré)
-  const PH = { items: [], note: "", etat: "" };
+  const PH = { items: [], note: "", etat: "", envoyees: (() => { try { return sessionStorage.getItem("livret-photos-envoyees") === "1"; } catch (e) { return false; } })() };
   // Date de prise de vue inscrite dans le fichier JPEG (EXIF DateTimeOriginal), si elle existe
   async function dateExif(file) {
     try {
@@ -1068,11 +1072,17 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         if (fichiers.length) donnees.files = fichiers;
         await navigator.share(donnees);
       }
-      PH.items.forEach((x) => URL.revokeObjectURL(x.url)); PH.items = []; PH.note = ""; PH.etat = "ok"; sauverPhotos();
+      PH.items.forEach((x) => URL.revokeObjectURL(x.url)); PH.items = []; PH.note = ""; PH.etat = "ok"; PH.envoyees = true; sauverPhotos();
+      try { sessionStorage.setItem("livret-photos-envoyees", "1"); } catch (e) {}
+      const pb = $("#photoBtn"); if (pb) pb.closest("li").outerHTML = boutonPhotos(), $("#photoBtn").addEventListener("click", openPhotos);
     } catch (e) {
       PH.etat = e && e.name === "AbortError" ? "" : "err";       // partage annulé : on revient simplement à la fenêtre
     }
     renderPhotos();
+  }
+  function boutonPhotos() {
+    const fait = !!PH.envoyees;
+    return `<li><button class="ph-etape${fait ? " fait" : ""}" type="button" id="photoBtn">${svg(fait ? "check" : "appareil", "ico", 1.8)}<span class="t">${esc(fait ? u("phFait") : u("phEtape"))}</span><span class="opt">${esc(u("phOpt"))}</span></button></li>`;
   }
   function openPhotos() { if (PH.etat === "ok") PH.etat = ""; S.openFiche = "photos"; renderPhotos(); showSheet(); }
   function openContact() { S.openFiche = "contact"; renderContact(); showSheet(); }
