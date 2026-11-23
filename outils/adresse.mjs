@@ -2,15 +2,18 @@
 //
 // Ordre de priorité :
 //   1. la variable LIVRET_URL (ex. LIVRET_URL=bienvenue-exemple.fr node outils/construire.mjs) ;
-//   2. le fichier CNAME à la racine du dépôt, que GitHub crée quand on enregistre un domaine
+//   2. le champ « adresse » de site.json (hébergement gratuit du type nom.pages.dev ou nom.netlify.app) ;
+//   3. le fichier CNAME à la racine du dépôt, que GitHub crée quand on enregistre un domaine
 //      personnalisé dans Settings → Pages (il faut ensuite faire « git pull ») ;
-//   3. sinon l'adresse GitHub par défaut.
+//   4. sinon l'adresse GitHub par défaut.
 
 import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 export const ADRESSE_PAR_DEFAUT = 'https://raphael1o1.github.io/bienvenue/';
+/** Adresse d'origine du livret, celle des premiers QR codes imprimés. */
+export const ANCIENNE_ADRESSE = ADRESSE_PAR_DEFAUT;
 
 /**
  * « domaine.fr », « https://domaine.fr » ou « https://domaine.fr/dossier » → « https://domaine.fr/… » avec
@@ -32,9 +35,19 @@ export function normaliserAdresse(valeur) {
   return `https://${u.host}${u.pathname.replace(/\/*$/, '/')}`;
 }
 
-/** @returns {Promise<{ adresse: string, source: 'LIVRET_URL' | 'CNAME' | 'défaut' }>} */
+/** @returns {Promise<{ adresse: string, source: 'LIVRET_URL' | 'site.json' | 'CNAME' | 'défaut' }>} */
 export async function resoudreAdresse(racine, env = process.env) {
   if (env.LIVRET_URL && env.LIVRET_URL.trim()) return { adresse: normaliserAdresse(env.LIVRET_URL), source: 'LIVRET_URL' };
+  const config = path.join(racine, 'site.json');
+  if (existsSync(config)) {
+    let valeur = '';
+    try {
+      valeur = String(JSON.parse(await readFile(config, 'utf8')).adresse ?? '').trim();
+    } catch {
+      throw new Error('site.json illisible : vérifier la syntaxe JSON.');
+    }
+    if (valeur) return { adresse: normaliserAdresse(valeur), source: 'site.json' };
+  }
   const fichier = path.join(racine, 'CNAME');
   if (existsSync(fichier)) {
     const domaine = (await readFile(fichier, 'utf8')).split(/\r?\n/).map((l) => l.trim()).find(Boolean);

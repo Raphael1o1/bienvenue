@@ -1,0 +1,4 @@
+{
+  "_aide": "Adresse actuelle du livret. Vide : aucune redirection depuis l'ancienne adresse GitHub Pages. Renseignée (ex. https://nom.pages.dev/) : l'ancienne adresse y envoie les visiteurs en emportant la clé ; construire.mjs et verifier-domaine.mjs l'utilisent aussi.",
+  "adresse": ""
+}

@@ -8,6 +8,25 @@
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
 <title>Bienvenue</title>
+<script>
+// Ancienne adresse (GitHub Pages) : si site.json indique une nouvelle adresse, on y suit le livret en emportant la clé,
+// qu'elle soit dans le lien (#…) ou déjà mémorisée sur cet appareil. Ailleurs, ou sans nouvelle adresse, rien ne change.
+window.suivreAdresse = (async () => {
+  if (!/\.github\.io$/.test(location.hostname)) return false;
+  try {
+    const r = await fetch("site.json", { cache: "no-store" });
+    const cible = new URL((await r.json()).adresse || "");
+    if (cible.protocol !== "https:" || cible.hostname === location.hostname) return false;
+    let cle = location.hash.slice(1);
+    if (!/^[A-Za-z0-9_-]{16,64}$/.test(cle)) {
+      cle = "";
+      try { const m = JSON.parse(localStorage.getItem("livret-cle")); const k = typeof m === "string" ? m : m && m.k; if (/^[A-Za-z0-9_-]{16,64}$/.test(k || "")) cle = k; } catch (e) {}
+    }
+    location.replace(cible.origin + cible.pathname + location.search + (cle ? "#" + cle : ""));
+    return true;
+  } catch (e) { return false; }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Barlow+Condensed:wght@600;700&display=swap">
@@ -1597,6 +1616,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   }
   const CLE_JOURS = 30; // un ancien voyageur perd l'accès un mois après son dernier scan
   async function demarrer() {
+    if (await window.suivreAdresse) return; // le livret change d'adresse : on n'affiche ni ne signale rien ici
     let secret = null;
     const h = location.hash.slice(1);
     const neuf = /^[A-Za-z0-9_-]{16,64}$/.test(h);

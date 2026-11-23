@@ -9,27 +9,50 @@ Page d'accueil des voyageurs, ouverte par le QR code du présentoir.
 
 Le dossier `prive/` (texte en clair, clé, lien complet, QR codes) n'est jamais publié.
 
-## Adresse personnalisée (domaine)
+## Changer l'adresse du livret
 
-Le livret est servi par GitHub Pages, gratuitement. Pour une adresse plus professionnelle que `raphael1o1.github.io/bienvenue`, on y associe un nom de domaine à soi (environ 8 à 12 € par an). L'hébergement reste le même.
+Le livret est servi par GitHub Pages (`raphael1o1.github.io/bienvenue`). Deux façons d'avoir une adresse plus soignée, au choix. Le site n'a rien à modifier : tous ses fichiers sont chargés par chemins relatifs, il fonctionne tel quel à la racine d'une autre adresse. Seul le lien des QR codes change.
 
-Le site n'a rien à modifier : tous ses fichiers sont chargés par des chemins relatifs, il fonctionne tel quel à la racine d'un domaine. Seul le **lien des QR codes** change.
+### A. Hébergement gratuit avec un nom choisi (nom.pages.dev ou nom.netlify.app)
+
+Le même dépôt est publié sur une plateforme gratuite ; GitHub Pages reste en place et sert d'**ancienne adresse** (voir plus bas). Aucun domaine à acheter. Évitez `workers.dev` : l'adresse contient le nom du compte Cloudflare.
+
+**Cloudflare Pages** (conseillé : trafic statique illimité et gratuit, le site n'est jamais suspendu) :
+1. Tableau de bord Cloudflare → *Workers & Pages* → *Create* → onglet *Pages* → *Import an existing Git repository* → dépôt `bienvenue` (autoriser son accès si demandé).
+2. *Project name* : le nom choisi. Il devient `https://<nom>.pages.dev` et se change difficilement ensuite.
+3. *Production branch* : `main`. *Build command* : vide. *Build output directory* : `/`. *Save and Deploy*.
+
+**Netlify** : *Add new site* → *Import an existing project* → GitHub → `bienvenue`, *Build command* vide, *Publish directory* `.`, puis *Site configuration* → *Change site name*. Attention : l'offre gratuite fonctionne par crédits (300 par mois, partagés par tous les sites du compte) et un site qui les dépasse est suspendu jusqu'à la fin du mois.
+
+Ensuite :
+4. **Renseigner la nouvelle adresse** dans `site.json` (champ `adresse`, par exemple `"https://nom.pages.dev/"`), puis commit et push. Dès le déploiement de GitHub Pages, l'ancienne adresse envoie les visiteurs vers la nouvelle.
+5. **Contrôler** : `node outils/verifier-domaine.mjs` (lit `site.json`) vérifie la page, le contenu chiffré, les en-têtes et le comportement de l'ancienne adresse.
+6. **Régénérer le lien et les QR codes** : `node outils/construire.mjs` utilise l'adresse de `site.json`. Le contenu et la clé ne changent pas. Imprimer le nouveau QR du dossier `prive/` et remplacer celui du présentoir quand c'est pratique.
+7. **Tester** : scanner le nouveau QR avec un téléphone, ouvrir chaque onglet et envoyer une photo de test (le dépôt de photos et le signal d'ouverture passent par un script extérieur).
+
+**Ce que devient l'ancienne adresse.** Tant que GitHub Pages reste actif, `raphael1o1.github.io/bienvenue` sert la même page, qui lit `site.json` et envoie aussitôt le visiteur vers la nouvelle adresse, en emportant la clé : celle du lien (`#…`), ou, pour un voyageur qui revient sans le lien, celle déjà mémorisée sur son téléphone. Les anciens QR codes continuent donc de marcher. Si `site.json` est vide ou introuvable, ou hors connexion, le livret s'affiche normalement sur l'ancienne adresse. Si GitHub Pages est un jour désactivé, les anciens QR s'arrêteront.
+
+Le fichier `_headers` ajoute des en-têtes de sécurité simples (Cloudflare Pages et Netlify le lisent ; GitHub Pages l'ignore).
+
+### B. Domaine personnalisé payant (environ 8 à 12 € par an)
 
 À faire dans cet ordre (GitHub avant le DNS : l'inverse peut laisser quelqu'un d'autre publier sur votre sous-domaine) :
 
-1. **Acheter le domaine** chez un registrar de votre choix. Rien d'autre à y configurer que les enregistrements de l'étape 4.
+1. **Acheter le domaine** chez un registrar. Rien d'autre à y configurer que les enregistrements de l'étape 4.
 2. **Vérifier le domaine auprès de GitHub** (recommandé contre la prise de contrôle) : compte GitHub → *Settings* → *Pages* → *Add a domain*. GitHub indique l'enregistrement **TXT** à créer chez le registrar.
-3. **Dépôt → *Settings* → *Pages* → *Custom domain*** : saisir le domaine, *Save*. GitHub ajoute alors un fichier `CNAME` à la racine de la branche `main` : le récupérer avec `git pull`. Ne pas créer ce fichier à la main avant que les enregistrements DNS soient en place.
+3. **Dépôt → *Settings* → *Pages* → *Custom domain*** : saisir le domaine, *Save*. GitHub ajoute alors un fichier `CNAME` à la racine de la branche `main` : le récupérer avec `git pull`. Ne pas créer ce fichier à la main avant que les enregistrements DNS soient en place, au risque de rendre le livret inaccessible.
 4. **Créer les enregistrements DNS** chez le registrar :
    - *domaine seul* (ex. `bienvenue-exemple.fr`) : 4 enregistrements **A** vers `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (et, facultatif, 4 **AAAA** vers `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`) ;
    - *sous-domaine* (ex. `livret.exemple.fr`) : un seul enregistrement **CNAME** vers `raphael1o1.github.io` (sans le nom du dépôt) ;
    - pas d'enregistrement générique (`*.exemple.fr`) ; supprimer les enregistrements par défaut du registrar.
 5. **Attendre la propagation** (jusqu'à 24 h), puis cocher ***Enforce HTTPS*** dans *Settings* → *Pages* (le certificat peut prendre jusqu'à 24 h).
 6. **Contrôler** : `node outils/verifier-domaine.mjs` (lit le fichier `CNAME`) vérifie le DNS, le HTTPS, le livret, la redirection http → https et le comportement de l'ancienne adresse.
-7. **Régénérer le lien et les QR codes** : `node outils/construire.mjs` utilise le domaine du fichier `CNAME` (ou la variable `LIVRET_URL`). Le contenu et la clé ne changent pas. Imprimer le nouveau QR du dossier `prive/` et remplacer celui du présentoir.
-8. **Tester** : scanner le nouveau QR avec un téléphone, ouvrir chaque onglet et envoyer une photo de test (le dépôt de photos et le signal d'ouverture passent par un script extérieur : à confirmer depuis le nouveau domaine).
+7. **Régénérer le lien et les QR codes** : `node outils/construire.mjs` (domaine du fichier `CNAME`, ou variable `LIVRET_URL`).
+8. **Tester** comme à l'étape 7 du A.
 
-L'ancienne adresse ne peut pas rester servie en même temps que le domaine. GitHub ne précise pas dans sa documentation si elle redirige vers le nouveau : l'étape 6 le contrôle. Le plus sûr est de faire la bascule entre deux séjours et de remplacer le QR le jour même.
+L'ancienne adresse ne peut pas rester servie en même temps que le domaine, et GitHub ne précise pas dans sa documentation si elle redirige vers lui : l'étape 6 le contrôle. Le plus sûr est de faire la bascule entre deux séjours et de remplacer le QR le jour même.
+
+L'adresse est cherchée dans cet ordre : variable `LIVRET_URL`, champ `adresse` de `site.json`, fichier `CNAME`, adresse GitHub d'origine.
 
 ## Modifier le contenu
 
