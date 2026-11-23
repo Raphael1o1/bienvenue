@@ -1,0 +1,8 @@
+# Site statique : aucun build, tout le dépôt est publié tel quel (Netlify).
+[build]
+  publish = "."
+  # Chaque publication coûte 15 crédits sur l'offre gratuite (300 par mois pour tous les sites du compte) :
+  # on ne republie que si le livret lui-même change, pas pour un simple changement du README ou des outils.
+  # Code de sortie 0 = rien à publier ; autre code = publier. Sans publication précédente (premier
+  # déploiement), la variable est vide et on publie toujours.
+  ignore = '[ -n "$CACHED_COMMIT_REF" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- index.html sw.js site.json contenu.enc conditions.enc img _headers netlify.toml'
