@@ -1581,7 +1581,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     $("#lockMsg").textContent = LOCK[k][0]; $("#lockMsgEn").textContent = LOCK[k][1];
   }
   // Signal anonyme d'ouverture (heure, type d'appareil, langue) vers le script Google, une fois par appareil et par période de 6 h.
-  // « ?sanssuivi » dans l'adresse (ex. …/bienvenue/?sanssuivi#clé) désactive le signal sur cet appareil : pour le propriétaire.
+  // « ?sanssuivi » dans l'adresse (ex. https://votre-adresse/?sanssuivi#clé) désactive le signal sur cet appareil : pour le propriétaire.
   function signalerOuverture() {
     try {
       const depot = C.photos && C.photos.depotUrl;

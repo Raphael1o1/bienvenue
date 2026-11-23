@@ -15,10 +15,11 @@ import { fileURLToPath } from 'node:url';
 import QRCode from 'qrcode';
 import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
+import { resoudreAdresse } from './adresse.mjs';
 
 const RACINE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PRIVE = path.join(RACINE, 'prive');
-const URL_SITE = 'https://raphael1o1.github.io/bienvenue/';
+// Adresse du livret : variable LIVRET_URL, sinon fichier CNAME (domaine personnalisé), sinon adresse GitHub.
 
 const b64url = (buf) => Buffer.from(buf).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 const deB64url = (s) => Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
@@ -77,7 +78,9 @@ async function chiffrer() {
   const retour = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, cle, chiffre)));
 
   // Lien et QR du livret (à imprimer)
-  const lien = URL_SITE + '#' + secret;
+  const { adresse, source } = await resoudreAdresse(RACINE);
+  const lien = adresse + '#' + secret;
+  console.log('Adresse du livret :', adresse, `(source : ${source})`);
   const opts = { errorCorrectionLevel: 'M', margin: 4 };
   await writeFile(path.join(PRIVE, 'lien.txt'), lien + '\n');
   await writeFile(path.join(PRIVE, 'qr-livret.svg'), await QRCode.toString(lien, { ...opts, type: 'svg' }));
