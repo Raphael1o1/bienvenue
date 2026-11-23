@@ -440,6 +440,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
 .lock{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:28px;padding-top:40px;padding-bottom:40px}
 .lock p{margin:0;text-align:center;font-size:17px;line-height:1.5}
 .lock p + p{color:var(--muted);font-size:15px}
+.codeform{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px;margin:0 auto}
+.codeform[hidden]{display:none}
+.codeform label{text-align:center;font-weight:600;font-size:15px}
+.codeform input{height:56px;border-radius:12px;border:1.5px solid var(--line-strong);background:var(--bg);color:var(--ink);font:600 28px/1 var(--font);text-align:center;letter-spacing:.35em;padding:0 0 0 .35em;min-width:0}
+.codeform input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.codeform .err{color:var(--crit);font-size:15px;min-height:1.5em}
 .bye{text-align:center;padding-top:36px;font-family:var(--plaque);font-weight:700;font-size:26px;letter-spacing:.06em;text-transform:uppercase}
 </style>
 </head>
@@ -457,6 +463,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   </div>
   <p id="lockMsg">Ce livret s'ouvre avec le QR code du présentoir, dans le studio.</p>
   <p id="lockMsgEn">This guide opens with the QR code on the stand, inside the studio.</p>
+  <form id="codeForm" class="codeform" hidden autocomplete="off" novalidate>
+    <label for="codeInput">Code d'accès · Access code</label>
+    <input id="codeInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go">
+    <button class="btn btn-primary" type="submit" id="codeBtn">Ouvrir · Open</button>
+    <p id="codeErr" class="err" role="alert"></p>
+  </form>
 </div>
 
 <div id="app" hidden>
@@ -590,6 +602,12 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     none: ["Ce livret s'ouvre avec le QR code du présentoir, dans le studio.", "This guide opens with the QR code on the stand, inside the studio."],
     bad: ["Le lien semble incomplet ou expiré. Scannez de nouveau le QR code du présentoir.", "The link looks incomplete or out of date. Please scan the QR code on the stand again."],
     net: ["Connexion impossible pour le moment. Vérifiez le Wi-Fi, puis rechargez la page.", "Can't connect right now. Check the Wi-Fi, then reload the page."],
+    code: ["Saisissez le code d'accès reçu pour ouvrir le livret.", "Enter the access code you received to open the guide."],
+  };
+  const CODE_ERR = {
+    bad: "Code incorrect. Vérifiez le message reçu. · Incorrect code. Check the message you received.",
+    net: "Connexion impossible. Vérifiez le Wi-Fi. · Can't connect. Check the Wi-Fi.",
+    wait: (s) => `Trop d'essais. Réessayez dans ${s} s. · Too many tries. Try again in ${s} s.`,
   };
 
   /* ───────── Icônes ───────── */
@@ -731,10 +749,11 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   /* ───────── Déchiffrement du contenu ───────── */
   const b64 = (s) => { s = s.replace(/-/g, "+").replace(/_/g, "/"); while (s.length % 4) s += "="; const bin = atob(s); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
   let SECRET = null;
+  let AES = null; // clé AES de l'accès par code (null quand le livret est ouvert par le QR du studio)
   // Fichier chiffré secondaire (compressé en gzip), ouvert à la demande avec la même clé
   async function ouvrirFichier(nom) {
-    const enc = await getJSON(nom, { cache: "no-cache" }, 20000);
-    const cle = await crypto.subtle.importKey("raw", await crypto.subtle.digest("SHA-256", b64(SECRET)), "AES-GCM", false, ["decrypt"]);
+    const enc = await getJSON(AES ? nom.replace(/\.enc$/, "-acces.enc") : nom, { cache: "no-cache" }, 20000);
+    const cle = AES || await crypto.subtle.importKey("raw", await crypto.subtle.digest("SHA-256", b64(SECRET)), "AES-GCM", false, ["decrypt"]);
     const brut = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, cle, b64(enc.data));
     if (!enc.gz) return JSON.parse(new TextDecoder().decode(brut));
     const flux = new Blob([brut]).stream().pipeThrough(new DecompressionStream("gzip"));
@@ -748,6 +767,20 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     try { clair = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, cle, b64(enc.data)); }
     catch (e) { const err = new Error("cle"); err.cle = true; throw err; }
     return JSON.parse(new TextDecoder().decode(clair));
+  }
+
+  // Accès par code (avant l'arrivée) : acces.enc est chiffré avec une clé dérivée du code (PBKDF2-SHA256).
+  const b64u = (u8) => btoa(String.fromCharCode.apply(null, u8)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  async function cleDuCode(code, enc) {
+    const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(code), "PBKDF2", false, ["deriveBits"]);
+    return new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: b64(enc.salt), iterations: enc.iter }, base, 256));
+  }
+  async function ouvrirParCle(brut, enc) {
+    const cle = await crypto.subtle.importKey("raw", brut, "AES-GCM", false, ["decrypt"]);
+    let clair;
+    try { clair = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(enc.iv) }, cle, b64(enc.data)); }
+    catch (e) { const err = new Error("cle"); err.cle = true; throw err; }
+    return { cle, contenu: JSON.parse(new TextDecoder().decode(clair)) };
   }
 
   let C = null;
@@ -783,7 +816,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
     chargerSignature(p);
     $("#v-accueil").innerHTML = `
       <div class="pad topbar">${meteoHtml()}<div class="top-actions">
-        <button class="icon-btn" type="button" id="wifiBtn" aria-label="${esc(u("wifiBtn"))}" title="Wi-Fi"><span>${svg("wifi", "", 1.8)}</span></button>${langToggle()}</div></div>
+        ${C.wifi ? `<button class="icon-btn" type="button" id="wifiBtn" aria-label="${esc(u("wifiBtn"))}" title="Wi-Fi"><span>${svg("wifi", "", 1.8)}</span></button>` : ""}${langToggle()}</div></div>
       <div class="pad">
         <div class="plaque-zone mini"><div class="plaque"><div class="plaque-tab">${tab}</div>
           <div class="plaque-in"><span class="plaque-kicker">${esc(L.nomPlaque || u("kicker"))}</span><h1>${esc(u("welcome"))}</h1></div></div></div>
@@ -795,7 +828,7 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
         </div>
         <p class="bye">${esc(u("bye"))}</p>
       </div>`;
-    $("#wifiBtn").addEventListener("click", openWifi);
+    if ($("#wifiBtn")) $("#wifiBtn").addEventListener("click", openWifi);
     $("#contactBtn").addEventListener("click", openContact);
   }
   // Signature manuscrite : police chargée seulement pour les lettres du prénom (quelques Ko)
@@ -1598,6 +1631,8 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
   function verrou(k) {
     $("#app").hidden = true; $("#lock").hidden = false;
     $("#lockMsg").textContent = LOCK[k][0]; $("#lockMsgEn").textContent = LOCK[k][1];
+    $("#codeForm").hidden = k !== "code";
+    if (k === "code") { try { $("#codeInput").focus(); } catch (e) {} }
   }
   // Signal anonyme d'ouverture (heure, type d'appareil, langue) vers le script Google, une fois par appareil et par période de 6 h.
   // « ?sanssuivi » dans l'adresse (ex. https://votre-adresse/?sanssuivi#clé) désactive le signal sur cet appareil : pour le propriétaire.
@@ -1626,12 +1661,50 @@ dialog.sheet::backdrop{background:rgba(0,0,0,.5)}
       if (o && o.k && Date.now() - (o.t || 0) < CLE_JOURS * 864e5) secret = o.k; else store.del("livret-cle");
     }
     try { history.replaceState({ tab: "accueil" }, "", location.pathname + location.search); } catch (e) {}
-    if (!secret) return verrou("none");
+    if (!secret) return demarrerParCode();
     try { C = await ouvrir(secret); SECRET = secret; }
     catch (e) {
       if (e && e.cle) { store.del("livret-cle"); return verrou(neuf ? "bad" : "none"); }
       return verrou("net");
     }
+    lancer();
+  }
+  // Sans clé dans le lien : si l'accès par code existe (acces.enc), on mémorise la clé 30 jours ou on demande le code.
+  async function demarrerParCode() {
+    let enc;
+    try { enc = await getJSON("acces.enc", { cache: "no-cache" }, 15000); } catch (e) { return verrou("none"); }
+    const m = store.get("livret-acces", null);
+    if (m && m.k && Date.now() - (m.t || 0) < CLE_JOURS * 864e5) {
+      let r = null;
+      try { r = await ouvrirParCle(b64(m.k), enc); }
+      catch (e) { store.del("livret-acces"); } // code changé depuis : on redemande
+      if (r) { AES = r.cle; C = r.contenu; return lancer(); }
+    }
+    verrou("code");
+    let essais = 0, bloque = 0;
+    $("#codeForm").addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const err = $("#codeErr"), btn = $("#codeBtn"), code = $("#codeInput").value.replace(/\s+/g, "");
+      if (!code) return;
+      const attente = Math.ceil((bloque - Date.now()) / 1000);
+      if (attente > 0) { err.textContent = CODE_ERR.wait(attente); return; }
+      btn.disabled = true; err.textContent = "";
+      let r;
+      try {
+        const brut = await cleDuCode(code, enc);
+        r = await ouvrirParCle(brut, enc);
+        store.set("livret-acces", { k: b64u(brut), t: Date.now() });
+      } catch (e) {
+        essais++;
+        err.textContent = e && e.cle ? CODE_ERR.bad : CODE_ERR.net;
+        if (e && e.cle && essais >= 3) bloque = Date.now() + Math.min(30, Math.pow(2, essais - 3)) * 1000; // freine un peu les essais à la chaîne
+        $("#codeInput").select();
+        return;
+      } finally { btn.disabled = false; }
+      AES = r.cle; C = r.contenu; lancer();
+    });
+  }
+  function lancer() {
     $("#lock").hidden = true; $("#app").hidden = false;
     renderAll();
     loadWeather(); loadVelib(); if (S.tab === "transports") loadTraffic();

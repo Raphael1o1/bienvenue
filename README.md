@@ -55,6 +55,33 @@ L'ancienne adresse ne peut pas rester servie en même temps que le domaine, et G
 
 L'adresse est cherchée dans cet ordre : variable `LIVRET_URL`, champ `adresse` de `site.json`, fichier `CNAME`, adresse GitHub d'origine.
 
+## Accès par code (avant l'arrivée)
+
+Pour envoyer le livret aux voyageurs **avant leur arrivée** sans leur donner la clé du QR : le lien **sans clé** (`https://…/`) demande alors un **code à chiffres**. Le QR du présentoir ne change pas et ouvre toujours le livret complet. Cette fonction est facultative : sans `prive/acces.json`, rien ne change.
+
+**Ce que protège un code court.** Le contenu est chiffré dans le navigateur, mais le fichier chiffré est public. Un code à 4 chiffres ne représente que 10 000 possibilités : avec une dérivation de clé volontairement lente (environ 0,1 s par essai), quelqu'un qui sait programmer retrouve le code en une vingtaine de minutes avec un seul ordinateur ; avec 6 chiffres, environ 30 heures. C'est assez pour qu'un ancien voyageur ordinaire ne puisse plus rouvrir le livret après un changement de code, pas pour protéger un vrai secret. C'est pourquoi cette version est **allégée** : sans Wi-Fi ni dépôt de photos par défaut, et on peut retirer d'autres fiches (code d'entrée, boîte à clés…).
+
+**Mise en place** (sur l'ordinateur, dans le dossier `prive/`, jamais publié) :
+1. `node outils/construire.mjs --sections` liste les sections et les fiches.
+2. Créer `prive/acces.json` :
+   ```json
+   {
+     "code": "3578",
+     "sansWifi": true,
+     "sansPhotos": true,
+     "fichesRetirees": ["Boîte à clés"]
+   }
+   ```
+   `fichesRetirees` : titres français ou numéros de fiches. Une faute de frappe arrête la construction avant d'écrire quoi que ce soit.
+3. `node outils/construire.mjs` crée `acces.enc` et `conditions-acces.enc` (à publier avec le reste : commit et push) et écrit dans `prive/message-voyageur.txt` un message prêt à envoyer, avec le lien sans clé et le code, en français et en anglais.
+4. Envoyer ce message aux voyageurs.
+
+**Changer le code** (par exemple chaque mois, ou après quelques locations) : `node outils/construire.mjs --nouveau-code` tire un nouveau code au hasard (`--nouveau-code 6` pour 6 chiffres), reconstruit et met le message à jour ; puis commit et push. Dès la publication, l'ancien code est refusé, et les téléphones qui avaient mémorisé l'ancien (pendant 30 jours) redemandent le code. Chaque publication coûte 15 crédits Netlify.
+
+**Désactiver** : `node outils/construire.mjs --sans-code`, puis commit et push.
+
+Détails : PBKDF2-SHA256 à 600 000 itérations, AES-GCM. Après 3 mauvais essais la page impose une courte attente : c'est un simple frein, le fichier chiffré pouvant être testé hors de la page.
+
 ## Modifier le contenu
 
 ```bash
